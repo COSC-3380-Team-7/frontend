@@ -12,6 +12,7 @@ import EmployeeLogin from "./routes/EmployeeLogin.jsx";
 import Employee from "./routes/Employee.jsx";
 import ManagerLogin from "./routes/ManagerLogin.jsx";
 import Manager from "./routes/Manager.jsx";
+import { Toaster } from "sonner";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -46,5 +47,6 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<RouterProvider router={router} />
+		<Toaster richColors position="top-right" />
 	</StrictMode>
 );
