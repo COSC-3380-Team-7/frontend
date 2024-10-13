@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function ManagerLogin() {
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -14,7 +16,7 @@ export default function ManagerLogin() {
 		console.log(password);
 
 		toast.success("Login successful");
-
+		navigate("/manager");
 		// try {
 		// 	const response = await fetch("http://localhost:4000/api/auth/login", {
 		// 		method: "POST",
@@ -35,9 +37,9 @@ export default function ManagerLogin() {
 		<div className="flex items-center justify-center py-60">
 			<div className="w-full max-w-96">
 				<div className="mb-7">
-					<p className="text-2xl font-semibold mb-2">Welcome back</p>
+					<p className="text-2xl font-semibold mb-2">Employee Portal</p>
 					<p className="text-base font-semibold text-gray-800">
-						Sign in to your employee account
+						Sign in to your account
 					</p>
 				</div>
 
@@ -54,7 +56,7 @@ export default function ManagerLogin() {
 								type="email"
 								name="email"
 								id="email"
-								className="block w-full bg-white rounded-md py-1.5 px-3 border border-gray-700  placeholder:text-gray-800 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
+								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
 								placeholder="person@gmail.com"
 								required
 							/>
@@ -73,7 +75,7 @@ export default function ManagerLogin() {
 								type="password"
 								name="password"
 								id="password"
-								className="block w-full bg-white rounded-md py-1.5 px-3 border border-gray-700  placeholder:text-gray-800 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
+								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
 								placeholder="••••••••••"
 								required
 							/>

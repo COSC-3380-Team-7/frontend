@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-export default function EmployeeLogin() {
+export default function MemberLogin() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -16,7 +16,6 @@ export default function EmployeeLogin() {
 		console.log(password);
 
 		toast.success("Login successful");
-		navigate("/employee");
 
 		// try {
 		// 	const response = await fetch("http://localhost:4000/api/auth/login", {
@@ -38,7 +37,7 @@ export default function EmployeeLogin() {
 		<div className="flex items-center justify-center py-60">
 			<div className="w-full max-w-96">
 				<div className="mb-7">
-					<p className="text-2xl font-semibold mb-2">Employee Portal</p>
+					<p className="text-2xl font-semibold mb-2">Welcome back</p>
 					<p className="text-base font-semibold text-gray-800">
 						Sign in to your account
 					</p>
@@ -76,7 +75,7 @@ export default function EmployeeLogin() {
 								type="password"
 								name="password"
 								id="password"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-800 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
+								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
 								placeholder="••••••••••"
 								required
 							/>

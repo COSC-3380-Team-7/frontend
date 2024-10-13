@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-export default function EmployeeLogin() {
+export default function AdminLogin() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -16,8 +16,7 @@ export default function EmployeeLogin() {
 		console.log(password);
 
 		toast.success("Login successful");
-		navigate("/employee");
-
+		navigate("/manager");
 		// try {
 		// 	const response = await fetch("http://localhost:4000/api/auth/login", {
 		// 		method: "POST",
@@ -76,7 +75,7 @@ export default function EmployeeLogin() {
 								type="password"
 								name="password"
 								id="password"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-800 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
+								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
 								placeholder="••••••••••"
 								required
 							/>

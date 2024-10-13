@@ -9,10 +9,12 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import EmployeeLogin from "./routes/EmployeeLogin.jsx";
-import Employee from "./routes/Employee.jsx";
+import EmployeeValidation from "./routes/EmployeeValidation.jsx";
 import ManagerLogin from "./routes/ManagerLogin.jsx";
-import Manager from "./routes/Manager.jsx";
+import ManagerValidation from "./routes/ManagerValidation.jsx";
 import { Toaster } from "sonner";
+import MemberLogin from "./routes/MemberLogin.jsx";
+import AdminLogin from "./routes/AdminLogin.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -20,26 +22,29 @@ const router = createBrowserRouter(
 			<Route path="/" element={<App />} errorElement={<div>404 Not Found</div>}>
 				<Route path="events" element={<p>events</p>}></Route>
 			</Route>
+			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
-			<Route path="/employee" element={<Employee />}>
+			<Route path="/employee" element={<EmployeeValidation />}>
 				<Route path="vet" element={<p>vet</p>}></Route>
 			</Route>
-			<Route path="/employee" element={<Employee />}>
+			<Route path="/employee" element={<EmployeeValidation />}>
 				<Route path="maintenance" element={<p>maintenance</p>}></Route>
 			</Route>
-			<Route path="/employee" element={<Employee />}>
+			<Route path="/employee" element={<EmployeeValidation />}>
 				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
 			</Route>
 			<Route path="/manager/login" element={<ManagerLogin />}></Route>
-			<Route path="/manager" element={<Manager />}>
+			<Route path="/manager" element={<ManagerValidation />}>
 				<Route path="vet" element={<p>vet</p>}></Route>
 			</Route>
-			<Route path="/manager" element={<Manager />}>
+			<Route path="/manager" element={<ManagerValidation />}>
 				<Route path="maintenance" element={<p>maintenance</p>}></Route>
 			</Route>
-			<Route path="/manager" element={<Manager />}>
+			<Route path="/manager" element={<ManagerValidation />}>
 				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
 			</Route>
+			<Route path="/admin/login" element={<AdminLogin />}></Route>
+			<Route path="/admin" element={<ManagerLogin />}></Route>
 		</>
 	)
 );
