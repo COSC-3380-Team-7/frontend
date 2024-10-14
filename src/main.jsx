@@ -8,13 +8,16 @@ import {
 	Route,
 } from "react-router-dom";
 import "./index.css";
-import EmployeeLogin from "./routes/EmployeeLogin.jsx";
-import EmployeeValidation from "./routes/EmployeeValidation.jsx";
-import ManagerLogin from "./routes/ManagerLogin.jsx";
-import ManagerValidation from "./routes/ManagerValidation.jsx";
+import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
+import EmployeeValidation from "./routes/employee/EmployeeValidation.jsx";
+import ManagerLogin from "./routes/manager/ManagerLogin.jsx";
+import ManagerValidation from "./routes/manager/ManagerValidation.jsx";
 import { Toaster } from "sonner";
-import MemberLogin from "./routes/MemberLogin.jsx";
-import AdminLogin from "./routes/AdminLogin.jsx";
+import MemberLogin from "./routes/member/MemberLogin.jsx";
+import AdminLogin from "./routes/admin/AdminLogin.jsx";
+import Admin from "./routes/admin/Admin.jsx";
+import EmployeeAdminView from "./routes/admin/EmployeeAdminView.jsx";
+import CreateEmployee from "./routes/admin/CreateEmployee.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -44,7 +47,11 @@ const router = createBrowserRouter(
 				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
 			</Route>
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
-			<Route path="/admin" element={<ManagerLogin />}></Route>
+			<Route path="/admin" element={<Admin />}>
+				<Route path="employee" element={<EmployeeAdminView />}></Route>
+				<Route path="employee/create" element={<CreateEmployee />}></Route>
+				<Route path="vet" element={<p>vet</p>}></Route>
+			</Route>
 		</>
 	)
 );

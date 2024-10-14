@@ -4,14 +4,19 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
+			minHeight: {
+				custom: "calc(100vh - 4rem)",
+			},
 			borderRadius: {
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
 			},
 			colors: {
-				primaryBg: "#598532",
+				primaryBg: "#003e29",
 				primaryBorder: "#77B143",
+				buttonBg: "#598532",
+				secondaryBg: "#467061",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
 				card: {
