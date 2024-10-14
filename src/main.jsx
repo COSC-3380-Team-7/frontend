@@ -18,6 +18,7 @@ import AdminLogin from "./routes/admin/AdminLogin.jsx";
 import Admin from "./routes/admin/Admin.jsx";
 import EmployeeAdminView from "./routes/admin/EmployeeAdminView.jsx";
 import CreateEmployee from "./routes/admin/CreateEmployee.jsx";
+import EmployeeInfo from "./routes/admin/EmployeeInfo.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -49,8 +50,9 @@ const router = createBrowserRouter(
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
 			<Route path="/admin" element={<Admin />}>
 				<Route path="employee" element={<EmployeeAdminView />}></Route>
+				<Route path="employee/:id" element={<EmployeeInfo />}></Route>
 				<Route path="employee/create" element={<CreateEmployee />}></Route>
-				<Route path="vet" element={<p>vet</p>}></Route>
+				<Route path="maintenance" element={<p>vet</p>}></Route>
 			</Route>
 		</>
 	)
