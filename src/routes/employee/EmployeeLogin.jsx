@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function EmployeeLogin() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -46,46 +48,32 @@ export default function EmployeeLogin() {
 
 				<form onSubmit={handleSubmit}>
 					<div className="mt-4">
-						<label
-							htmlFor="email"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Email
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
+						<div className="mt-4">
+							<Label htmlFor="email">Email</Label>
+							<Input
 								type="email"
 								name="email"
 								id="email"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="person@gmail.com"
+								placeholder="user@gmail.com"
 								required
 							/>
 						</div>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="password"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Password
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="password"
-								name="password"
-								id="password"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-800 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="••••••••••"
-								required
-							/>
-						</div>
+						<Label htmlFor="password">Password</Label>
+						<Input
+							type="password"
+							name="password"
+							id="password"
+							placeholder="••••••••••"
+							required
+						/>
 					</div>
 
 					<Button
 						disabled={isLoading}
-						className="w-full bg-primaryBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
+						className="w-full bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
 						 transition-colorstext-white text-base font-medium disabled:cursor-not-allowed"
 					>
 						Sign in

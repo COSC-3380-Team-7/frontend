@@ -1,10 +1,38 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import {
+	Select,
+	SelectValue,
+	SelectTrigger,
+	SelectItem,
+	SelectContent,
+	SelectGroup,
+	SelectLabel,
+} from "@/components/ui/select";
 
 export default function CreateEmployee() {
 	const [isLoading, setIsLoading] = useState(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		/*
+			Form Data {
+				first_name: "John",
+				middle_initial: "D",
+				last_name: "Doe",
+				phone_number: "123456789",
+				address: "1234 Main St",
+				email: "email",
+				salary: "50000",
+				password: """
+			}
+		*/
+		const formData = new FormData(e.target);
+		const data = Object.fromEntries(formData.entries());
+		console.log(data);
+		toast.success("Employee created successfully.");
 	};
 	return (
 		<div className="p-12">
@@ -13,163 +41,118 @@ export default function CreateEmployee() {
 			<form onSubmit={handleSubmit}>
 				<div className="max-w-2xl">
 					<div className="mt-4">
-						<label
-							htmlFor="first_name"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							First Name
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="first_name"
-								id="first_name"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="John"
-								required
-							/>
-						</div>
+						<Label htmlFor="first_name">First Name</Label>
+						<Input
+							type="text"
+							name="first_name"
+							id="first_name"
+							placeholder="John"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="middle_initial"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Middle Initial
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="middle_initial"
-								id="middle_initial"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="D"
-								required
-							/>
-						</div>
+						<Label htmlFor="middle_initial">Middle Initial</Label>
+						<Input
+							type="text"
+							name="middle_initial"
+							id="middle_initial"
+							placeholder="D"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="last_name"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Last Name
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="last_name"
-								id="last_name"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="Doe"
-								required
-							/>
-						</div>
+						<Label htmlFor="last_name">Last Name</Label>
+						<Input
+							type="text"
+							name="last_name"
+							id="last_name"
+							placeholder="Doe"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="phone_number"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Phone Number
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="phone_number"
-								id="phone_number"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="person@gmail.com"
-								required
-							/>
-						</div>
+						<Label htmlFor="phone_number">Phone Number</Label>
+						<Input
+							type="text"
+							name="phone_number"
+							id="phone_number"
+							placeholder="123456789"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="address"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Address
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="address"
-								id="address"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="1234 Fake St"
-								required
-							/>
-						</div>
+						<Label htmlFor="address">Address</Label>
+						<Input
+							type="text"
+							name="address"
+							id="address"
+							placeholder="1234 Main St"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="email"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Email
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="email"
-								name="email"
-								id="email"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="person@gmail.com"
-								required
-							/>
-						</div>
+						<Label htmlFor="email">Email</Label>
+						<Input
+							type="email"
+							name="email"
+							id="email"
+							placeholder="user@gmail.com"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="salary"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Salary
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="text"
-								name="salary"
-								id="salary"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="50000"
-								required
-							/>
-						</div>
+						<Label htmlFor="salary">Salary</Label>
+						<Input
+							type="text"
+							name="salary"
+							id="salary"
+							placeholder="50000"
+							required
+						/>
 					</div>
 
 					<div className="mt-4">
-						<label
-							htmlFor="password"
-							className="block text-sm font-semibold leading-6 text-gray-800"
-						>
-							Password
-						</label>
-						<div className="relative mt-2 rounded-md shadow-sm">
-							<input
-								type="password"
-								name="password"
-								id="password"
-								className="block w-full bg-white rounded-md text-gray-900 py-1.5 px-3 border border-gray-700  placeholder:text-gray-700 focus:ring-2 focus:outline-none focus:ring-inputHover sm:text-sm sm:leading-6 transition-colors"
-								placeholder="••••••••••"
-								required
-							/>
-						</div>
+						<Label htmlFor="department">Department</Label>
+						<Select name="department" id="department" required>
+							<SelectTrigger className="w-[180px] border-gray-500">
+								<SelectValue placeholder="Select a fruit" />
+							</SelectTrigger>
+							<SelectContent side="right">
+								<SelectGroup>
+									<SelectLabel>Fruits</SelectLabel>
+									<SelectItem value="apple">Apple</SelectItem>
+									<SelectItem value="banana">Banana</SelectItem>
+									<SelectItem value="blueberry">Blueberry</SelectItem>
+									<SelectItem value="grapes">Grapes</SelectItem>
+									<SelectItem value="pineapple">Pineapple</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
+
+					<div className="mt-4">
+						<Label htmlFor="password">Password</Label>
+						<Input
+							type="password"
+							name="password"
+							id="password"
+							placeholder="••••••••••"
+							required
+						/>
 					</div>
 				</div>
 
 				<div className="flex w-full justify-end max-w-2xl">
 					<Button
 						disabled={isLoading}
-						className="w-32 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
-						 transition-colorstext-white text-base font-medium disabled:cursor-not-allowed"
+						className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
+						 transition-colorstext-white font-bold disabled:cursor-not-allowed"
 					>
 						Create
 					</Button>
