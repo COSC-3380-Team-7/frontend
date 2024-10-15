@@ -23,8 +23,10 @@ import {
 import DatePicker from "@/components/DatePicker";
 
 export default function CreateEmployee() {
-	const [date, setDate] = useState("");
-	console.log(date);
+	const [hireDate, setHireDate] = useState("");
+	const [dob, setDOB] = useState("");
+
+	console.log(hireDate);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -171,7 +173,7 @@ export default function CreateEmployee() {
 
 					<div className="mt-4 flex flex-col gap-1">
 						<Label>Hire Date</Label>
-						<DatePicker date={date} setDate={setDate} />
+						<DatePicker date={hireDate} setDate={setHireDate} />
 					</div>
 				</div>
 
