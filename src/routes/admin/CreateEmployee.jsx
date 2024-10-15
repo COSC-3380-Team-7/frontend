@@ -14,8 +14,17 @@ import {
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import DatePicker from "@/components/DatePicker";
 
 export default function CreateEmployee() {
+	const [date, setDate] = useState("");
+	console.log(date);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -158,6 +167,11 @@ export default function CreateEmployee() {
 							placeholder="••••••••••"
 							required
 						/>
+					</div>
+
+					<div className="mt-4 flex flex-col gap-1">
+						<Label>Hire Date</Label>
+						<DatePicker date={date} setDate={setDate} />
 					</div>
 				</div>
 
