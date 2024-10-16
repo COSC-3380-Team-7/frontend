@@ -58,7 +58,13 @@ const router = createBrowserRouter(
 				<Route path="exhibit/:id" element={<AdminExhibit />}></Route>
 				<Route path="exhibit/create" element={<AdminExhibit />}></Route>
 
-				<Route path="maintenance" element={<p>vet</p>}></Route>
+				<Route path="vet" element={<AdminExhibit />}></Route>
+				<Route path="vet/:id" element={<AdminExhibit />}></Route>
+				<Route path="vet/create" element={<AdminExhibit />}></Route>
+
+				<Route path="maintenance" element={<AdminExhibit />}></Route>
+				<Route path="maintenance/:id" element={<AdminExhibit />}></Route>
+				<Route path="maintenance/create" element={<AdminExhibit />}></Route>
 			</Route>
 		</>
 	)
