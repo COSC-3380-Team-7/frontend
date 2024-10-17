@@ -13,9 +13,10 @@ export default {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			colors: {
-				primaryBg: "#003e29",
+				primaryBg: "#005236",
 				primaryBorder: "#77B143",
 				buttonBg: "#598532",
+				buttonHoverBg: "#6DA33E",
 				secondaryBg: "#467061",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",

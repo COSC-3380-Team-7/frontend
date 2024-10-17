@@ -1,5 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { HomeIcon, UserIcon } from "lucide-react";
+import {
+	BuildingIcon,
+	ChartColumnIncreasing,
+	HammerIcon,
+	HeartPulseIcon,
+	HomeIcon,
+	TicketsIcon,
+	UserIcon,
+} from "lucide-react";
 
 export default function SideBar() {
 	const location = useLocation();
@@ -25,6 +33,31 @@ export default function SideBar() {
 			icon: <UserIcon className="h-6 w-6 mr-1" />,
 			name: "Employees",
 		},
+		{
+			href: "/admin/exhibit",
+			icon: <BuildingIcon className="h-6 w-6 mr-1" />,
+			name: "Exhibits",
+		},
+		{
+			href: "/admin/vet",
+			icon: <HeartPulseIcon className="h-6 w-6 mr-1" />,
+			name: "Veterinarian Reports",
+		},
+		{
+			href: "/admin/maintenance",
+			icon: <HammerIcon className="h-6 w-6 mr-1" />,
+			name: "Maintenance Reports",
+		},
+		{
+			href: "/admin/finance",
+			icon: <ChartColumnIncreasing className="h-6 w-6 mr-1" />,
+			name: "Finances",
+		},
+		{
+			href: "/admin/ticket",
+			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
+			name: "Tickets",
+		},
 	];
 
 	return (
@@ -38,9 +71,9 @@ export default function SideBar() {
 									to={link.href}
 									className={` ${
 										isActiveLink(link.href, location.pathname, "/admin")
-											? "border-l-4 border-l-primaryBg text-gray-900 rounded-l-none"
+											? "border-l-4 border-l-primaryBorder text-gray-900 rounded-l-none"
 											: "border-l-4 border-l-transparent text-gray-700"
-									} flex gap-2 items-center hover:text-gray-900 pl-6 p-2 rounded-md`}
+									} flex gap-2 items-center hover:text-gray-900 hover:bg-gray-100 pl-6 p-2 rounded-md`}
 								>
 									{link.icon}
 									<p className="font-semibold text-sm">{link.name}</p>

@@ -6,6 +6,7 @@ import {
 	RouterProvider,
 	createRoutesFromElements,
 	Route,
+	Outlet,
 } from "react-router-dom";
 import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
@@ -19,12 +20,20 @@ import Admin from "./routes/admin/Admin.jsx";
 import EmployeeAdminView from "./routes/admin/EmployeeAdminView.jsx";
 import CreateEmployee from "./routes/admin/CreateEmployee.jsx";
 import EmployeeInfo from "./routes/admin/EmployeeInfo.jsx";
-import AdminExhibit from "./routes/admin/Exhibit.jsx";
+import ExhibitAdminView from "./routes/admin/ExhibitAdminView.jsx";
+import ExhibitInfo from "./routes/admin/ExhibitInfo.jsx";
+import CreateExhibit from "./routes/admin/CreateExhibit.jsx";
+import HabitatInfo from "./routes/admin/HabitatInfo.jsx";
+import CreateHabitat from "./routes/admin/CreateHabitat.jsx";
+import AnimalInfo from "./routes/admin/AnimalInfo.jsx";
+import CreateAnimal from "./routes/admin/CreateAnimal.jsx";
+import NotFound from "./routes/NotFound.jsx";
+import OutletWrapper from "./components/OutletWrapper.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/" element={<App />} errorElement={<div>404 Not Found</div>}>
+			<Route path="/" element={<App />} errorElement={<NotFound />}>
 				<Route path="events" element={<p>events</p>}></Route>
 			</Route>
 			<Route path="/member/login" element={<MemberLogin />}></Route>
@@ -49,22 +58,35 @@ const router = createBrowserRouter(
 				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
 			</Route>
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
+
 			<Route path="/admin" element={<Admin />}>
-				<Route path="employee" element={<EmployeeAdminView />}></Route>
-				<Route path="employee/:id" element={<EmployeeInfo />}></Route>
-				<Route path="employee/create" element={<CreateEmployee />}></Route>
+				<Route path="employee" element={<OutletWrapper />}>
+					<Route index element={<EmployeeAdminView />}></Route>
+					<Route path="create" element={<CreateEmployee />}></Route>
+					<Route path=":employee_id" element={<EmployeeInfo />}></Route>
+				</Route>
 
-				<Route path="exhibit" element={<AdminExhibit />}></Route>
-				<Route path="exhibit/:id" element={<AdminExhibit />}></Route>
-				<Route path="exhibit/create" element={<AdminExhibit />}></Route>
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<ExhibitAdminView />}></Route>
+					<Route path="create" element={<CreateExhibit />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<ExhibitInfo />}></Route>
+						<Route path="habitat/create" element={<CreateHabitat />}></Route>
+						<Route path="habitat/:habitat_id" element={<Outlet />}>
+							<Route index element={<HabitatInfo />}></Route>
+							<Route path="animal/:animal_id" element={<AnimalInfo />}></Route>
+							<Route path="animal/create" element={<CreateAnimal />}></Route>
+						</Route>
+					</Route>
+				</Route>
 
-				<Route path="vet" element={<AdminExhibit />}></Route>
-				<Route path="vet/:id" element={<AdminExhibit />}></Route>
-				<Route path="vet/create" element={<AdminExhibit />}></Route>
+				<Route path="vet" element={<OutletWrapper />}></Route>
+				<Route path="vet/:id" element={<OutletWrapper />}></Route>
+				<Route path="vet/create" element={<OutletWrapper />}></Route>
 
-				<Route path="maintenance" element={<AdminExhibit />}></Route>
-				<Route path="maintenance/:id" element={<AdminExhibit />}></Route>
-				<Route path="maintenance/create" element={<AdminExhibit />}></Route>
+				<Route path="maintenance" element={<OutletWrapper />}></Route>
+				<Route path="maintenance/:id" element={<OutletWrapper />}></Route>
+				<Route path="maintenance/create" element={<OutletWrapper />}></Route>
 			</Route>
 		</>
 	)

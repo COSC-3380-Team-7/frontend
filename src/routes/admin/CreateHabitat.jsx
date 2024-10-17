@@ -12,23 +12,13 @@ import {
 	SelectGroup,
 	SelectLabel,
 } from "@/components/ui/select";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon, ChevronLeft } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import DatePicker from "@/components/DatePicker";
+import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeftIcon } from "lucide-react";
 
-export default function CreateEmployee() {
-	const [hireDate, setHireDate] = useState("");
-	const [dob, setDOB] = useState("");
-
-	console.log(hireDate);
+export default function CreateHabitat() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
+	const { exhibit_id } = useParams();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -55,13 +45,11 @@ export default function CreateEmployee() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/admin/employee")}
+					onClick={() => navigate(`/admin/exhibit/${exhibit_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
-				<h1 className="text-3xl font-semibold text-gray-800">
-					Create Employee
-				</h1>
+				<h1 className="text-3xl font-semibold text-gray-800">Create Habitat</h1>
 			</div>
 
 			<form onSubmit={handleSubmit}>
@@ -73,72 +61,6 @@ export default function CreateEmployee() {
 							name="first_name"
 							id="first_name"
 							placeholder="John"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="middle_initial">Middle Initial</Label>
-						<Input
-							type="text"
-							name="middle_initial"
-							id="middle_initial"
-							placeholder="D"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="last_name">Last Name</Label>
-						<Input
-							type="text"
-							name="last_name"
-							id="last_name"
-							placeholder="Doe"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="phone_number">Phone Number</Label>
-						<Input
-							type="text"
-							name="phone_number"
-							id="phone_number"
-							placeholder="123456789"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="address">Address</Label>
-						<Input
-							type="text"
-							name="address"
-							id="address"
-							placeholder="1234 Main St"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="email">Email</Label>
-						<Input
-							type="email"
-							name="email"
-							id="email"
-							placeholder="user@gmail.com"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="salary">Salary</Label>
-						<Input
-							type="text"
-							name="salary"
-							id="salary"
-							placeholder="50000"
 							required
 						/>
 					</div>
@@ -160,22 +82,6 @@ export default function CreateEmployee() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="password">Password</Label>
-						<Input
-							type="password"
-							name="password"
-							id="password"
-							placeholder="••••••••••"
-							required
-						/>
-					</div>
-
-					<div className="mt-4 flex flex-col gap-1">
-						<Label>Hire Date</Label>
-						<DatePicker date={hireDate} setDate={setHireDate} />
 					</div>
 				</div>
 
