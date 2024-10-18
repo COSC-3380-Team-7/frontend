@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
-export default function EmployeeAdminView() {
+export default function ExhibitAdminView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -20,23 +20,22 @@ export default function EmployeeAdminView() {
 	const navigate = useNavigate();
 	const data = [
 		{
-			vet_in_charge_of_record:"john Dow",
-			vet_record_id:'123456',
-			animal:"chicken",
-			animalID:"654321",
-
+			exhibit_id: "ExINV001",
+			name: "Savannah",
+			location: "A23",
+			department: "Department 1",
 		},
 	];
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Vet Records</h1>
+				<h1 className="text-3xl font-semibold text-gray-800">Finances</h1>
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
 				>
-					<Link to="/admin/employee/create">
-						<PlusIcon className="h-5 w-5" /> Create Employee
+					<Link to="/admin/exhibit/create">
+						<PlusIcon className="h-5 w-5" /> Create Exhibit
 					</Link>
 				</Button>
 			</div>
@@ -44,35 +43,27 @@ export default function EmployeeAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						{/* <TableHead className="w-[120px]">Vet Record ID</TableHead> */}
-						<TableHead >Vet Record ID</TableHead>
-						<TableHead>Vet in charge of Record</TableHead>
-						<TableHead>Animal</TableHead>
-						<TableHead>Animals ID</TableHead>
-						{/* <TableHead className="text-right">Salary</TableHead> */}
+						<TableHead className="w-[120px]">Exhibit Id</TableHead>
+						<TableHead>Name</TableHead>
+						<TableHead>Location</TableHead>
+						<TableHead>Department</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.slice(leftIndex, rightIndex).map((item, index) => {
-						return (
-							<TableRow
-								key={index}
-								// key={item.employee_id}
-								onClick={() => {
-									navigate(`/admin/employee/${item.employee_id}`);
-								}}
-								className="cursor-pointer"
-							>
-								<TableCell className="font-medium">
-									{item.vet_record_id}
-								</TableCell>
-								<TableCell>{item.vet_in_charge_of_record}</TableCell>
-								<TableCell>{item.animal}</TableCell>
-								<TableCell>{item.animalID}</TableCell>
-								{/* <TableCell className="text-right">{item.salary}</TableCell> */}
-							</TableRow>
-						);
-					})}
+					{data.map((el) => (
+						<TableRow
+							key={el.exhibit_id}
+							onClick={() => {
+								navigate(`${el.exhibit_id}`);
+							}}
+							className="cursor-pointer"
+						>
+							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
+							<TableCell>{el.name}</TableCell>
+							<TableCell>{el.location}</TableCell>
+							<TableCell>{el.department}</TableCell>
+						</TableRow>
+					))}
 				</TableBody>
 			</Table>
 
