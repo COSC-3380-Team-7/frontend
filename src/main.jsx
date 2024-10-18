@@ -29,6 +29,7 @@ import AnimalInfo from "./routes/admin/AnimalInfo.jsx";
 import CreateAnimal from "./routes/admin/CreateAnimal.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import OutletWrapper from "./components/OutletWrapper.jsx";
+import VetRecordsView from './routes/admin/VetRecordsView.jsx'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -66,6 +67,12 @@ const router = createBrowserRouter(
 					<Route path=":employee_id" element={<EmployeeInfo />}></Route>
 				</Route>
 
+				<Route path="vet" element={<OutletWrapper />}>
+					<Route index element={<VetRecordsView />}></Route>
+					{/* <Route path="create" element={<CreateEmployee />}></Route>
+					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
+				</Route>
+
 				<Route path="exhibit" element={<OutletWrapper />}>
 					<Route index element={<ExhibitAdminView />}></Route>
 					<Route path="create" element={<CreateExhibit />}></Route>
@@ -79,6 +86,7 @@ const router = createBrowserRouter(
 						</Route>
 					</Route>
 				</Route>
+				
 
 				<Route path="vet" element={<OutletWrapper />}></Route>
 				<Route path="vet/:id" element={<OutletWrapper />}></Route>
