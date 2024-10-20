@@ -26,6 +26,7 @@ export default function ExhibitAdminView() {
 			department: "Department 1",
 		},
 	];
+
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">

@@ -5,6 +5,7 @@ import {
 	HammerIcon,
 	HeartPulseIcon,
 	HomeIcon,
+	PawPrint,
 	TicketsIcon,
 	UserIcon,
 } from "lucide-react";
@@ -29,13 +30,18 @@ export default function SideBar() {
 			name: "Home",
 		},
 		{
+			href: "/admin/department",
+			icon: <BuildingIcon className="h-6 w-6 mr-1" />,
+			name: "Departments",
+		},
+		{
 			href: "/admin/employee",
 			icon: <UserIcon className="h-6 w-6 mr-1" />,
 			name: "Employees",
 		},
 		{
 			href: "/admin/exhibit",
-			icon: <BuildingIcon className="h-6 w-6 mr-1" />,
+			icon: <PawPrint className="h-6 w-6 mr-1" />,
 			name: "Exhibits",
 		},
 		{
@@ -49,14 +55,14 @@ export default function SideBar() {
 			name: "Maintenance Reports",
 		},
 		{
+			href: "/admin/ticket_pricing",
+			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
+			name: "Ticket Pricing",
+		},
+		{
 			href: "/admin/finance",
 			icon: <ChartColumnIncreasing className="h-6 w-6 mr-1" />,
 			name: "Finances",
-		},
-		{
-			href: "/admin/ticket",
-			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
-			name: "Tickets",
 		},
 	];
 

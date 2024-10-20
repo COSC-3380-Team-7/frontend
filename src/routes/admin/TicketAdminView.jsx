@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
-export default function ExhibitAdminView() {
+export default function TicketAdminView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);

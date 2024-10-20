@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -10,28 +10,34 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function HabitatInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const { exhibit_id, habitat_id } = useParams();
 	console.log("exhibit_id", exhibit_id, "habitat_id", habitat_id);
 
-	const data = [
+	const [data, setData] = useState([
 		{
 			animal_id: "An001",
 			name: "Tiger",
 			location: "A23",
 			department: "Department 1",
 		},
-	];
+	]);
+
+	if (isLoading) {
+		return <Loading text="Initializing..." />;
+	}
 
 	return (
 		<>
-			<div className="flex items-center w-full justify-between mb-10">
+			<div className="flex items-center w-full justify-between mb-4">
 				<div className="flex items-center gap-2 w-full">
 					<Button
 						size="icon"
@@ -41,7 +47,7 @@ export default function HabitatInfo() {
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						Habitat {habitat_id} Animals
+						Habitat {habitat_id}
 					</h1>
 				</div>
 
@@ -54,6 +60,22 @@ export default function HabitatInfo() {
 					</Link>
 				</Button>
 			</div>
+
+			<div className="mb-6">
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500 w-40"
+				>
+					<Link to="edit">
+						<PencilIcon className="w-4 h-4" /> Edit Information
+					</Link>
+				</Button>
+			</div>
+
+			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
+				Animals
+			</h1>
 
 			<Table>
 				<TableHeader>

@@ -127,7 +127,7 @@ export default function EmployeeAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Employee ID</TableHead>
+						<TableHead className="w-[120px]">Employee Id</TableHead>
 						<TableHead>First Name</TableHead>
 						<TableHead>Last Name</TableHead>
 						<TableHead className="text-right">Salary</TableHead>

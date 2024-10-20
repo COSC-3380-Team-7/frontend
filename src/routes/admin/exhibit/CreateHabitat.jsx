@@ -3,19 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import {
-	Select,
-	SelectValue,
-	SelectTrigger,
-	SelectItem,
-	SelectContent,
-	SelectGroup,
-	SelectLabel,
-} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 
 export default function CreateHabitat() {
+	const [habitatInfo, setHabitatInfo] = useState({
+		name: "",
+		description: "",
+	});
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const { exhibit_id } = useParams();
@@ -55,33 +51,33 @@ export default function CreateHabitat() {
 			<form onSubmit={handleSubmit}>
 				<div className="max-w-2xl">
 					<div className="mt-4">
-						<Label htmlFor="first_name">First Name</Label>
+						<Label htmlFor="name">Name</Label>
 						<Input
+							value={habitatInfo.name}
+							onChange={(e) =>
+								setHabitatInfo({ ...habitatInfo, name: e.target.value })
+							}
 							type="text"
-							name="first_name"
-							id="first_name"
-							placeholder="John"
+							name="name"
+							id="name"
+							placeholder="Tiger Habitat"
 							required
 						/>
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="department">Department</Label>
-						<Select name="department" id="department" required>
-							<SelectTrigger className="w-[180px] border-gray-500">
-								<SelectValue placeholder="Select a fruit" />
-							</SelectTrigger>
-							<SelectContent side="right">
-								<SelectGroup>
-									<SelectLabel>Fruits</SelectLabel>
-									<SelectItem value="apple">Apple</SelectItem>
-									<SelectItem value="banana">Banana</SelectItem>
-									<SelectItem value="blueberry">Blueberry</SelectItem>
-									<SelectItem value="grapes">Grapes</SelectItem>
-									<SelectItem value="pineapple">Pineapple</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
+						<Label htmlFor="description">Description</Label>
+						<Textarea
+							value={habitatInfo.description}
+							onChange={(e) =>
+								setHabitatInfo({ ...habitatInfo, description: e.target.value })
+							}
+							type="text"
+							name="description"
+							id="description"
+							placeholder="This is a habitat for tigers."
+							required
+						></Textarea>
 					</div>
 				</div>
 
