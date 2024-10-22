@@ -10,10 +10,25 @@ import {
 	DialogClose,
 } from "@/components/ui/dialog";
 import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function EmployeeInfo() {
 	const { department_id, employee_id } = useParams();
+	const [employeeInfo, setEmployeeInfo] = useState({
+		employment_status: "",
+		first_name: "",
+		middle_initial: "",
+		last_name: "",
+		phone_number: "",
+		address: "",
+		email: "",
+		salary: "",
+		password: "",
+		department: "",
+		occupation: "",
+		manager: "",
+	});
 	const navigate = useNavigate();
 
 	return (
@@ -74,41 +89,53 @@ export default function EmployeeInfo() {
 						<h3 className="text-lg text-gray-700 font-semibold">
 							Employment Status
 						</h3>
-						<p className="text-gray-800 font-medium">Employed</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.employment_status}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">First Name</h3>
-						<p className="text-gray-800 font-medium">John</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.first_name}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Last Name</h3>
-						<p className="text-gray-800 font-medium">Doe</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.last_name}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Email</h3>
-						<p className="text-gray-800 font-medium">email</p>
+						<p className="text-gray-800 font-medium">{employeeInfo.email}</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">
 							Phone Number
 						</h3>
-						<p className="text-gray-800 font-medium">123456789</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.phone_number}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Address</h3>
-						<p className="text-gray-800 font-medium">1234 Main St</p>
+						<p className="text-gray-800 font-medium">{employeeInfo.address}</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Hire Date</h3>
-						<p className="text-gray-800 font-medium">2021-10-10</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.hire_date}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Occupation</h3>
-						<p className="text-gray-800 font-medium">Zoo Keeper</p>
+						<p className="text-gray-800 font-medium">
+							{employeeInfo.occupation}
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Salary</h3>
-						<p className="text-gray-800 font-medium">$50000</p>
+						<p className="text-gray-800 font-medium">${employeeInfo.salary}</p>
 					</div>
 				</div>
 			</div>

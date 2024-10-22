@@ -51,8 +51,10 @@ import EventInfo from "./routes/admin/event/EventInfo.jsx";
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/" element={<App />} errorElement={<NotFound />}>
+			<Route path="/" element={<Outlet />} errorElement={<NotFound />}>
+				<Route index element={<App />}></Route>
 				<Route path="events" element={<p>events</p>}></Route>
+				<Route path="exhibits" element={<p>exhibits</p>}></Route>
 			</Route>
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>

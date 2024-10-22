@@ -17,10 +17,21 @@ import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 export default function CreateEmployee() {
-	const navigate = useNavigate();
 	const { department_id } = useParams();
-	const [isLoading, setIsLoading] = useState(false);
-	const [department, setDepartment] = useState("");
+	const [employeeInfo, setEmployeeInfo] = useState({
+		first_name: "",
+		middle_initial: "",
+		last_name: "",
+		phone_number: "",
+		address: "",
+		email: "",
+		salary: "",
+		password: "",
+		department: "",
+		occupation: "",
+		manager: "",
+	});
+
 	const [hireDate, setHireDate] = useState({
 		startDate: null,
 		endDate: null,
@@ -29,6 +40,10 @@ export default function CreateEmployee() {
 		startDate: null,
 		endDate: null,
 	});
+
+	console.log(dateOfBirth);
+	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -49,6 +64,7 @@ export default function CreateEmployee() {
 		console.log(data);
 		toast.success("Employee created successfully.");
 	};
+
 	return (
 		<>
 			<div className="flex items-center gap-2 w-full mb-6">
@@ -66,13 +82,20 @@ export default function CreateEmployee() {
 
 			<form onSubmit={handleSubmit}>
 				<div className="max-w-2xl">
-					<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
+					<h1 className="text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
 						Personal Information
 					</h1>
 
 					<div className="mt-4">
 						<Label htmlFor="first_name">First Name</Label>
 						<Input
+							value={employeeInfo.first_name}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({
+									...prev,
+									first_name: e.target.value,
+								}))
+							}
 							type="text"
 							name="first_name"
 							id="first_name"
@@ -84,6 +107,13 @@ export default function CreateEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="middle_initial">Middle Initial</Label>
 						<Input
+							value={employeeInfo.middle_initial}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({
+									...prev,
+									middle_initial: e.target.value,
+								}))
+							}
 							type="text"
 							name="middle_initial"
 							id="middle_initial"
@@ -94,6 +124,13 @@ export default function CreateEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="last_name">Last Name</Label>
 						<Input
+							value={employeeInfo.last_name}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({
+									...prev,
+									last_name: e.target.value,
+								}))
+							}
 							type="text"
 							name="last_name"
 							id="last_name"
@@ -118,6 +155,13 @@ export default function CreateEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="address">Address</Label>
 						<Input
+							value={employeeInfo.address}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({
+									...prev,
+									address: e.target.value,
+								}))
+							}
 							type="text"
 							name="address"
 							id="address"
@@ -129,6 +173,10 @@ export default function CreateEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="email">Email</Label>
 						<Input
+							value={employeeInfo.email}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({ ...prev, email: e.target.value }))
+							}
 							type="email"
 							name="email"
 							id="email"
@@ -140,15 +188,23 @@ export default function CreateEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="phone_number">Phone Number</Label>
 						<Input
-							type="text"
+							value={employeeInfo.phone_number}
+							onChange={(e) =>
+								setEmployeeInfo((prev) => ({
+									...prev,
+									phone_number: e.target.value,
+								}))
+							}
+							type="tel"
 							name="phone_number"
 							id="phone_number"
-							placeholder="123456789"
+							placeholder="123-456-7899"
+							pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 							required
 						/>
 					</div>
 
-					<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2 mt-8">
+					<h1 className="text-xl font-semibold w-full border-b border-b-gray-400 pb-2 mt-8">
 						Employment Information
 					</h1>
 
@@ -158,8 +214,10 @@ export default function CreateEmployee() {
 						<Select
 							name="department"
 							id="department"
-							value={department}
-							onValueChange={(value) => setDepartment(value)}
+							value={employeeInfo.department}
+							onValueChange={(value) =>
+								setEmployeeInfo((prev) => ({ ...prev, department: value }))
+							}
 							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
@@ -167,44 +225,35 @@ export default function CreateEmployee() {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="Houston Zookeepers">
-										Houston Zookeepers
-									</SelectItem>
+									<SelectItem value="Wildlife">Wildlife</SelectItem>
+									<SelectItem value="Houston Vets">Houston Vets</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
 					</div>
 
-					{department && (
+					{employeeInfo.department !== "" && (
 						<>
 							<div className="mt-4">
 								<Label htmlFor="occupation">Occupation</Label>
 
-								<Select name="occupation" id="occupation" required>
+								<Select
+									value={employeeInfo.occupation}
+									onValueChange={(value) =>
+										setEmployeeInfo((prev) => ({ ...prev, occupation: value }))
+									}
+									name="occupation"
+									id="occupation"
+									required
+								>
 									<SelectTrigger className="max-w-52 border-gray-500">
 										<SelectValue placeholder="Select Occupation" />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup>
-											<SelectLabel>North America</SelectLabel>
-											<SelectItem value="est">
-												Eastern Standard Time (EST)
-											</SelectItem>
-											<SelectItem value="cst">
-												Central Standard Time (CST)
-											</SelectItem>
-											<SelectItem value="mst">
-												Mountain Standard Time (MST)
-											</SelectItem>
-											<SelectItem value="pst">
-												Pacific Standard Time (PST)
-											</SelectItem>
-											<SelectItem value="akst">
-												Alaska Standard Time (AKST)
-											</SelectItem>
-											<SelectItem value="hst">
-												Hawaii Standard Time (HST)
-											</SelectItem>
+											<SelectLabel>Occupation</SelectLabel>
+											<SelectItem value="Zookeeper">Zookeeper</SelectItem>
+											<SelectItem value="Veterinarian">Veterinarian</SelectItem>
 										</SelectGroup>
 									</SelectContent>
 								</Select>
@@ -213,6 +262,13 @@ export default function CreateEmployee() {
 							<div className="mt-4">
 								<Label htmlFor="salary">Salary</Label>
 								<Input
+									value={employeeInfo.salary}
+									onChange={(e) =>
+										setEmployeeInfo((prev) => ({
+											...prev,
+											salary: e.target.value,
+										}))
+									}
 									type="text"
 									name="salary"
 									id="salary"

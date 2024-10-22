@@ -18,7 +18,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 
 export default function EditEmployee() {
 	const { department_id, employee_id } = useParams();
-	const [employee, setEmployee] = useState({
+	const [employeeInfo, setEmployeeInfo] = useState({
 		first_name: "John",
 		middle_initial: "D",
 		last_name: "Doe",
@@ -27,7 +27,7 @@ export default function EditEmployee() {
 		email: "email@gmail.com",
 		salary: "50000",
 		password: "password",
-		department: "Houston Zookeepers",
+		department: "Wildlife",
 		occupation: "Veterinarian",
 		manager: "manager",
 	});
@@ -91,9 +91,12 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="first_name">First Name</Label>
 						<Input
-							value={employee.first_name}
+							value={employeeInfo.first_name}
 							onChange={(e) =>
-								setEmployee({ ...employee, first_name: e.target.value })
+								setEmployeeInfo((prev) => ({
+									...prev,
+									first_name: e.target.value,
+								}))
 							}
 							type="text"
 							name="first_name"
@@ -106,9 +109,12 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="middle_initial">Middle Initial</Label>
 						<Input
-							value={employee.middle_initial}
+							value={employeeInfo.middle_initial}
 							onChange={(e) =>
-								setEmployee({ ...employee, middle_initial: e.target.value })
+								setEmployeeInfo((prev) => ({
+									...prev,
+									middle_initial: e.target.value,
+								}))
 							}
 							type="text"
 							name="middle_initial"
@@ -120,9 +126,12 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="last_name">Last Name</Label>
 						<Input
-							value={employee.last_name}
+							value={employeeInfo.last_name}
 							onChange={(e) =>
-								setEmployee({ ...employee, last_name: e.target.value })
+								setEmployeeInfo((prev) => ({
+									...prev,
+									last_name: e.target.value,
+								}))
 							}
 							type="text"
 							name="last_name"
@@ -148,9 +157,12 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="address">Address</Label>
 						<Input
-							value={employee.address}
+							value={employeeInfo.address}
 							onChange={(e) =>
-								setEmployee({ ...employee, address: e.target.value })
+								setEmployeeInfo((prev) => ({
+									...prev,
+									address: e.target.value,
+								}))
 							}
 							type="text"
 							name="address"
@@ -163,9 +175,9 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="email">Email</Label>
 						<Input
-							value={employee.email}
+							value={employeeInfo.email}
 							onChange={(e) =>
-								setEmployee({ ...employee, email: e.target.value })
+								setEmployeeInfo((prev) => ({ ...prev, email: e.target.value }))
 							}
 							type="email"
 							name="email"
@@ -178,9 +190,12 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="phone_number">Phone Number</Label>
 						<Input
-							value={employee.phone_number}
+							value={employeeInfo.phone_number}
 							onChange={(e) =>
-								setEmployee({ ...employee, phone_number: e.target.value })
+								setEmployeeInfo((prev) => ({
+									...prev,
+									phone_number: e.target.value,
+								}))
 							}
 							type="tel"
 							name="phone_number"
@@ -201,9 +216,9 @@ export default function EditEmployee() {
 						<Select
 							name="department"
 							id="department"
-							value={employee.department}
+							value={employeeInfo.department}
 							onValueChange={(value) =>
-								setEmployee((prev) => ({ ...prev, department: value }))
+								setEmployeeInfo((prev) => ({ ...prev, department: value }))
 							}
 							required
 						>
@@ -212,24 +227,22 @@ export default function EditEmployee() {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="Houston Zookeepers">
-										Houston Zookeepers
-									</SelectItem>
+									<SelectItem value="Wildlife">Wildlife</SelectItem>
 									<SelectItem value="Houston Vets">Houston Vets</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
 					</div>
 
-					{employee.department !== "" && (
+					{employeeInfo.department !== "" && (
 						<>
 							<div className="mt-4">
 								<Label htmlFor="occupation">Occupation</Label>
 
 								<Select
-									value={employee.occupation}
+									value={employeeInfo.occupation}
 									onValueChange={(value) =>
-										setEmployee((prev) => ({ ...prev, occupation: value }))
+										setEmployeeInfo((prev) => ({ ...prev, occupation: value }))
 									}
 									name="occupation"
 									id="occupation"
@@ -251,9 +264,12 @@ export default function EditEmployee() {
 							<div className="mt-4">
 								<Label htmlFor="salary">Salary</Label>
 								<Input
-									value={employee.salary}
+									value={employeeInfo.salary}
 									onChange={(e) =>
-										setEmployee({ ...employee, salary: e.target.value })
+										setEmployeeInfo((prev) => ({
+											...prev,
+											salary: e.target.value,
+										}))
 									}
 									type="text"
 									name="salary"

@@ -24,6 +24,20 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function AnimalInfo() {
 	const [open, setOpen] = useState(false);
+	const [animalInfo, setAnimalInfo] = useState({
+		name: "",
+		age: "",
+		weight: "",
+		height: "",
+		animal_fact: "",
+		species: "",
+		conservation_status: "",
+		availability_status: "",
+		gender: "",
+		origin: "",
+		scientific_name: "",
+		geographic_range: "",
+	});
 	const [availabilityInfo, setAvailabilityInfo] = useState({
 		availability_status: "",
 		removal_details: "",
@@ -147,46 +161,16 @@ export default function AnimalInfo() {
 
 			<div className="mt-5">
 				<div className="flex flex-col gap-3">
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">
-							Employement Status
-						</h3>
-						<p className="text-gray-800 font-medium">Employed</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">First Name</h3>
-						<p className="text-gray-800 font-medium">John</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Last Name</h3>
-						<p className="text-gray-800 font-medium">Doe</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Email</h3>
-						<p className="text-gray-800 font-medium">email</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">
-							Phone Number
-						</h3>
-						<p className="text-gray-800 font-medium">123456789</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Address</h3>
-						<p className="text-gray-800 font-medium">1234 Main St</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Hire Date</h3>
-						<p className="text-gray-800 font-medium">2021-10-10</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Occupation</h3>
-						<p className="text-gray-800 font-medium">Zoo Keeper</p>
-					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Salary</h3>
-						<p className="text-gray-800 font-medium">$50000</p>
-					</div>
+					{Object.keys(animalInfo).map((key) => (
+						<div className="mb-2" key={key}>
+							<h3 className="text-lg text-gray-700 font-semibold">
+								{key
+									.replace(/_/g, " ")
+									.replace(/\b\w/g, (char) => char.toUpperCase())}
+							</h3>
+							<p className="text-gray-800 font-medium">{animalInfo[key]}</p>
+						</div>
+					))}
 				</div>
 			</div>
 		</>
