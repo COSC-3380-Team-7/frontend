@@ -17,7 +17,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function CreateAnimal() {
+export default function EditAnimal() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
@@ -33,6 +33,7 @@ export default function CreateAnimal() {
 		scientific_name: "",
 		geographic_range: "",
 	});
+	console.log(animalInfo);
 	const [arrivalDate, setArrivalDate] = useState({
 		startDate: null,
 		endDate: null,
@@ -42,7 +43,7 @@ export default function CreateAnimal() {
 		endDate: null,
 	});
 	const [image, setImage] = useState(null);
-	const { exhibit_id, habitat_id } = useParams();
+	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
 
 	const handleImageChange = (e) => {
@@ -58,12 +59,23 @@ export default function CreateAnimal() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		/*
+			Form Data {
+				first_name: "John",
+				middle_initial: "D",
+				last_name: "Doe",
+				phone_number: "123456789",
+				address: "1234 Main St",
+				email: "email",
+				salary: "50000",
+				password: """
+			}
+		*/
 		const formData = new FormData(e.target);
 		const data = Object.fromEntries(formData.entries());
 		console.log(data);
-		toast.success("Animal created successfully.");
+		toast.success("Employee created successfully.");
 	};
-
 	return (
 		<>
 			<div className="flex items-center gap-2 w-full mb-6">
@@ -71,12 +83,14 @@ export default function CreateAnimal() {
 					size="icon"
 					variant="outline"
 					onClick={() =>
-						navigate(`/admin/exhibit/${exhibit_id}/habitat/${habitat_id}`)
+						navigate(
+							`/admin/exhibit/${exhibit_id}/habitat/${habitat_id}/animal/${animal_id}`
+						)
 					}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
-				<h1 className="text-3xl font-semibold text-gray-800">Add Animal</h1>
+				<h1 className="text-3xl font-semibold text-gray-800">Edit Animal</h1>
 			</div>
 
 			<form onSubmit={handleSubmit}>
@@ -226,7 +240,6 @@ export default function CreateAnimal() {
 									conservation_status: value,
 								}))
 							}
-							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
 								<SelectValue placeholder="Select conservation status" />
@@ -318,7 +331,7 @@ export default function CreateAnimal() {
 					<Button
 						disabled={isLoading}
 						className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
-                         transition-colorstext-white font-bold disabled:cursor-not-allowed"
+						 transition-colorstext-white font-bold disabled:cursor-not-allowed"
 					>
 						Create
 					</Button>

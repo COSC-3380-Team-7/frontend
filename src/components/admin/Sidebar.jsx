@@ -1,13 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import {
 	BuildingIcon,
+	CalendarDays,
 	ChartColumnIncreasing,
 	HammerIcon,
 	HeartPulseIcon,
 	HomeIcon,
 	PawPrint,
 	TicketsIcon,
-	UserIcon,
 } from "lucide-react";
 
 export default function SideBar() {
@@ -35,11 +35,6 @@ export default function SideBar() {
 			name: "Departments",
 		},
 		{
-			href: "/admin/employee",
-			icon: <UserIcon className="h-6 w-6 mr-1" />,
-			name: "Employees",
-		},
-		{
 			href: "/admin/exhibit",
 			icon: <PawPrint className="h-6 w-6 mr-1" />,
 			name: "Exhibits",
@@ -55,7 +50,7 @@ export default function SideBar() {
 			name: "Maintenance Reports",
 		},
 		{
-			href: "/admin/ticket_pricing",
+			href: "/admin/ticket",
 			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
 			name: "Ticket Pricing",
 		},
@@ -63,6 +58,11 @@ export default function SideBar() {
 			href: "/admin/finance",
 			icon: <ChartColumnIncreasing className="h-6 w-6 mr-1" />,
 			name: "Finances",
+		},
+		{
+			href: "/admin/event",
+			icon: <CalendarDays className="h-6 w-6 mr-1" />,
+			name: "Events",
 		},
 	];
 

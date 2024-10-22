@@ -12,31 +12,45 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
-export default function ExhibitAdminView() {
+export default function TicketAdminView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const data = [
+	const [data, setData] = useState([
 		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			department: "Department 1",
+			ticket_type_id: 0,
+			category: "Veteran",
+			price: "5.00",
 		},
-	];
+		{
+			ticket_type_id: 1,
+			category: "Senior",
+			price: "5.00",
+		},
+		{
+			ticket_type_id: 2,
+			category: "Adult",
+			price: "7.50",
+		},
+		{
+			ticket_type_id: 3,
+			category: "Child",
+			price: "3.50",
+		},
+	]);
 
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Exhibits</h1>
+				<h1 className="text-3xl font-semibold text-gray-800">Ticket Pricing</h1>
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
 				>
 					<Link to="create">
-						<PlusIcon className="h-5 w-5" /> Create Exhibit
+						<PlusIcon className="h-5 w-5" /> Create Pricing
 					</Link>
 				</Button>
 			</div>
@@ -44,25 +58,21 @@ export default function ExhibitAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Exhibit Id</TableHead>
-						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Department</TableHead>
+						<TableHead>Category</TableHead>
+						<TableHead>Price</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{data.map((el) => (
 						<TableRow
-							key={el.exhibit_id}
+							key={el.ticket_type_id}
 							onClick={() => {
-								navigate(`${el.exhibit_id}`);
+								navigate(`${el.ticket_type_id}/edit`);
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell>{el.category}</TableCell>
+							<TableCell>${el.price}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

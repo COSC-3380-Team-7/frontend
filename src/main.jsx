@@ -17,9 +17,8 @@ import { Toaster } from "sonner";
 import MemberLogin from "./routes/member/MemberLogin.jsx";
 import AdminLogin from "./routes/admin/AdminLogin.jsx";
 import Admin from "./routes/admin/Admin.jsx";
-import EmployeeAdminView from "./routes/admin/employee/EmployeeAdminView.jsx";
-import CreateEmployee from "./routes/admin/employee/CreateEmployee.jsx";
-import EmployeeInfo from "./routes/admin/employee/EmployeeInfo.jsx";
+import CreateEmployee from "./routes/admin/department/CreateEmployee.jsx";
+import EmployeeInfo from "./routes/admin/department/EmployeeInfo.jsx";
 import ExhibitAdminView from "./routes/admin/exhibit/ExhibitAdminView.jsx";
 import ExhibitInfo from "./routes/admin/exhibit/ExhibitInfo.jsx";
 import CreateExhibit from "./routes/admin/exhibit/CreateExhibit.jsx";
@@ -32,10 +31,21 @@ import OutletWrapper from "./components/OutletWrapper.jsx";
 import VetRecordsView from "./routes/admin/VetRecordsView.jsx";
 import MaintenanceAdminView from "./routes/admin/MaintenanceAdminView.jsx";
 import FinanceAdminView from "./routes/admin/FinanceAdminView.jsx";
-import TicketAdminView from "./routes/admin/TicketAdminView.jsx";
-import EditEmployee from "./routes/admin/employee/EditEmployee.jsx";
+import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
+import EditEmployee from "./routes/admin/department/EditEmployee.jsx";
 import EditExhibit from "./routes/admin/exhibit/EditExhibit.jsx";
 import EditHabitat from "./routes/admin/exhibit/EditHabitat.jsx";
+import EditAnimal from "./routes/admin/exhibit/EditAnimal.jsx";
+import DepartmentAdminView from "./routes/admin/department/DepartmentAdminView.jsx";
+import CreateDepartment from "./routes/admin/department/CreateDepartment.jsx";
+import DepartmentInfo from "./routes/admin/department/DepartmentInfo.jsx";
+import EditDepartment from "./routes/admin/department/EditDepartment.jsx";
+import EditPricing from "./routes/admin/ticket_pricing/EditPricing.jsx";
+import CreatePricing from "./routes/admin/ticket_pricing/CreatePricing.jsx";
+import EventAdminView from "./routes/admin/event/EventAdminView.jsx";
+import CreateEvent from "./routes/admin/event/CreateEvent.jsx";
+import EditEvent from "./routes/admin/event/EditEvent.jsx";
+import EventInfo from "./routes/admin/event/EventInfo.jsx";
 // FinanceAdminView.jsx
 
 const router = createBrowserRouter(
@@ -68,12 +78,19 @@ const router = createBrowserRouter(
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
 
 			<Route path="/admin" element={<Admin />}>
-				<Route path="employee" element={<OutletWrapper />}>
-					<Route index element={<EmployeeAdminView />}></Route>
-					<Route path="create" element={<CreateEmployee />}></Route>
-					<Route path=":employee_id" element={<Outlet />}>
-						<Route index element={<EmployeeInfo />}></Route>
-						<Route path="edit" element={<EditEmployee />}></Route>
+				<Route path="department" element={<OutletWrapper />}>
+					<Route index element={<DepartmentAdminView />}></Route>
+					<Route path="create" element={<CreateDepartment />}></Route>
+					<Route path=":department_id" element={<Outlet />}>
+						<Route index element={<DepartmentInfo />}></Route>
+						<Route path="edit" element={<EditDepartment />}></Route>
+						<Route path="employee" element={<Outlet />}>
+							<Route path="create" element={<CreateEmployee />}></Route>
+							<Route path=":employee_id" element={<Outlet />}>
+								<Route index element={<EmployeeInfo />}></Route>
+								<Route path="edit" element={<EditEmployee />}></Route>
+							</Route>
+						</Route>
 					</Route>
 				</Route>
 
@@ -92,10 +109,13 @@ const router = createBrowserRouter(
 					{/* <Route path="create" element={<CreateEmployee />}></Route>
 					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
 				</Route>
-				<Route path="ticket_pricing" element={<OutletWrapper />}>
+
+				<Route path="ticket" element={<OutletWrapper />}>
 					<Route index element={<TicketAdminView />}></Route>
-					{/* <Route path="create" element={<CreateEmployee />}></Route>
-					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
+					<Route path="create" element={<CreatePricing />}></Route>
+					<Route path=":ticket_id" element={<Outlet />}>
+						<Route path="edit" element={<EditPricing />}></Route>
+					</Route>
 				</Route>
 
 				<Route path="exhibit" element={<OutletWrapper />}>
@@ -108,9 +128,20 @@ const router = createBrowserRouter(
 						<Route path="habitat/:habitat_id" element={<Outlet />}>
 							<Route index element={<HabitatInfo />}></Route>
 							<Route path="edit" element={<EditHabitat />}></Route>
-							<Route path="animal/:animal_id" element={<AnimalInfo />}></Route>
+							<Route path="animal/:animal_id" element={<Outlet />}>
+								<Route index element={<AnimalInfo />}></Route>
+								<Route path="edit" element={<EditAnimal />}></Route>
+							</Route>
 							<Route path="animal/create" element={<CreateAnimal />}></Route>
 						</Route>
+					</Route>
+				</Route>
+
+				<Route path="event" element={<OutletWrapper />}>
+					<Route index element={<EventAdminView />}></Route>
+					<Route path="create" element={<CreateEvent />}></Route>
+					<Route path=":event_id" element={<Outlet />}>
+						<Route path="edit" element={<EditEvent />}></Route>
 					</Route>
 				</Route>
 
