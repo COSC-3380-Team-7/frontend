@@ -13,7 +13,7 @@ import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function EmployeeInfo() {
-	const { employee_id } = useParams();
+	const { department_id, employee_id } = useParams();
 	const navigate = useNavigate();
 
 	return (
@@ -22,7 +22,7 @@ export default function EmployeeInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/admin/employee")}
+					onClick={() => navigate(`/admin/department/${department_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
@@ -72,7 +72,7 @@ export default function EmployeeInfo() {
 				<div className="flex flex-col gap-3">
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">
-							Employement Status
+							Employment Status
 						</h3>
 						<p className="text-gray-800 font-medium">Employed</p>
 					</div>

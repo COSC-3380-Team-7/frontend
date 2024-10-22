@@ -17,21 +17,21 @@ import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 export default function EditEmployee() {
-	const { employee_id } = useParams();
+	const { department_id, employee_id } = useParams();
 	const [employee, setEmployee] = useState({
 		first_name: "John",
 		middle_initial: "D",
 		last_name: "Doe",
-		phone_number: "123456789",
+		phone_number: "123-456-7890",
 		address: "1234 Main St",
-		email: "email",
+		email: "email@gmail.com",
 		salary: "50000",
 		password: "password",
 		department: "Houston Zookeepers",
-		occupation: "occupation",
+		occupation: "Veterinarian",
 		manager: "manager",
 	});
-	const [department, setDepartment] = useState("Houston Zookeepers");
+
 	const [hireDate, setHireDate] = useState({
 		startDate: null,
 		endDate: null,
@@ -71,7 +71,11 @@ export default function EditEmployee() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/admin/employee")}
+					onClick={() =>
+						navigate(
+							`/admin/department/${department_id}/employee/${employee_id}`
+						)
+					}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
@@ -87,6 +91,10 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="first_name">First Name</Label>
 						<Input
+							value={employee.first_name}
+							onChange={(e) =>
+								setEmployee({ ...employee, first_name: e.target.value })
+							}
 							type="text"
 							name="first_name"
 							id="first_name"
@@ -98,6 +106,10 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="middle_initial">Middle Initial</Label>
 						<Input
+							value={employee.middle_initial}
+							onChange={(e) =>
+								setEmployee({ ...employee, middle_initial: e.target.value })
+							}
 							type="text"
 							name="middle_initial"
 							id="middle_initial"
@@ -108,6 +120,10 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="last_name">Last Name</Label>
 						<Input
+							value={employee.last_name}
+							onChange={(e) =>
+								setEmployee({ ...employee, last_name: e.target.value })
+							}
 							type="text"
 							name="last_name"
 							id="last_name"
@@ -132,6 +148,10 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="address">Address</Label>
 						<Input
+							value={employee.address}
+							onChange={(e) =>
+								setEmployee({ ...employee, address: e.target.value })
+							}
 							type="text"
 							name="address"
 							id="address"
@@ -143,6 +163,10 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="email">Email</Label>
 						<Input
+							value={employee.email}
+							onChange={(e) =>
+								setEmployee({ ...employee, email: e.target.value })
+							}
 							type="email"
 							name="email"
 							id="email"
@@ -154,10 +178,15 @@ export default function EditEmployee() {
 					<div className="mt-4">
 						<Label htmlFor="phone_number">Phone Number</Label>
 						<Input
-							type="text"
+							value={employee.phone_number}
+							onChange={(e) =>
+								setEmployee({ ...employee, phone_number: e.target.value })
+							}
+							type="tel"
 							name="phone_number"
 							id="phone_number"
-							placeholder="123456789"
+							placeholder="123-456-7899"
+							pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 							required
 						/>
 					</div>
@@ -172,8 +201,10 @@ export default function EditEmployee() {
 						<Select
 							name="department"
 							id="department"
-							value={department}
-							onValueChange={(value) => setDepartment(value)}
+							value={employee.department}
+							onValueChange={(value) =>
+								setEmployee((prev) => ({ ...prev, department: value }))
+							}
 							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
@@ -184,41 +215,34 @@ export default function EditEmployee() {
 									<SelectItem value="Houston Zookeepers">
 										Houston Zookeepers
 									</SelectItem>
+									<SelectItem value="Houston Vets">Houston Vets</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
 					</div>
 
-					{department && (
+					{employee.department !== "" && (
 						<>
 							<div className="mt-4">
 								<Label htmlFor="occupation">Occupation</Label>
 
-								<Select name="occupation" id="occupation" required>
+								<Select
+									value={employee.occupation}
+									onValueChange={(value) =>
+										setEmployee((prev) => ({ ...prev, occupation: value }))
+									}
+									name="occupation"
+									id="occupation"
+									required
+								>
 									<SelectTrigger className="max-w-52 border-gray-500">
 										<SelectValue placeholder="Select Occupation" />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup>
-											<SelectLabel>North America</SelectLabel>
-											<SelectItem value="est">
-												Eastern Standard Time (EST)
-											</SelectItem>
-											<SelectItem value="cst">
-												Central Standard Time (CST)
-											</SelectItem>
-											<SelectItem value="mst">
-												Mountain Standard Time (MST)
-											</SelectItem>
-											<SelectItem value="pst">
-												Pacific Standard Time (PST)
-											</SelectItem>
-											<SelectItem value="akst">
-												Alaska Standard Time (AKST)
-											</SelectItem>
-											<SelectItem value="hst">
-												Hawaii Standard Time (HST)
-											</SelectItem>
+											<SelectLabel>Occupation</SelectLabel>
+											<SelectItem value="Zookeeper">Zookeeper</SelectItem>
+											<SelectItem value="Veterinarian">Veterinarian</SelectItem>
 										</SelectGroup>
 									</SelectContent>
 								</Select>
@@ -227,6 +251,10 @@ export default function EditEmployee() {
 							<div className="mt-4">
 								<Label htmlFor="salary">Salary</Label>
 								<Input
+									value={employee.salary}
+									onChange={(e) =>
+										setEmployee({ ...employee, salary: e.target.value })
+									}
 									type="text"
 									name="salary"
 									id="salary"

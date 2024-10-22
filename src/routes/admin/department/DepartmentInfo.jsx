@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
 	Table,
@@ -10,14 +10,15 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function EmployeeAdminView() {
+export default function DepartmentInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
+	const { department_id } = useParams();
 	const [data, setData] = useState([
 		{
 			first_name: "James",
@@ -112,17 +113,45 @@ export default function EmployeeAdminView() {
 	]);
 	return (
 		<>
-			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Employees</h1>
+			<div className="flex items-center w-full justify-between mb-4">
+				<div className="flex items-center gap-2 w-full">
+					<Button
+						size="icon"
+						variant="outline"
+						onClick={() => navigate("/admin/department")}
+					>
+						<ArrowLeftIcon className="h-5 w-5" />
+					</Button>
+					<h1 className="text-3xl font-semibold text-gray-800">
+						Department {department_id}
+					</h1>
+				</div>
+
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
 				>
-					<Link to="/admin/employee/create">
+					<Link to="employee/create">
 						<PlusIcon className="h-5 w-5" /> Create Employee
 					</Link>
 				</Button>
 			</div>
+
+			<div className="mb-6">
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500 w-40"
+				>
+					<Link to="edit">
+						<PencilIcon className="w-4 h-4" /> Edit Information
+					</Link>
+				</Button>
+			</div>
+
+			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
+				Employees
+			</h1>
 
 			<Table>
 				<TableHeader>
@@ -140,7 +169,7 @@ export default function EmployeeAdminView() {
 								key={index}
 								// key={item.employee_id}
 								onClick={() => {
-									navigate(`/admin/employee/${item.employee_id}`);
+									navigate(`employee/${item.employee_id}`);
 								}}
 								className="cursor-pointer"
 							>

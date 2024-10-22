@@ -12,11 +12,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 export default function CreateEmployee() {
+	const navigate = useNavigate();
+	const { department_id } = useParams();
 	const [isLoading, setIsLoading] = useState(false);
 	const [department, setDepartment] = useState("");
 	const [hireDate, setHireDate] = useState({
@@ -27,10 +29,6 @@ export default function CreateEmployee() {
 		startDate: null,
 		endDate: null,
 	});
-
-	console.log(dateOfBirth);
-	console.log("department", department);
-	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -57,7 +55,7 @@ export default function CreateEmployee() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/admin/employee")}
+					onClick={() => navigate(`/admin/department/${department_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
