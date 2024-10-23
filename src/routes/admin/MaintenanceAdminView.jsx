@@ -20,10 +20,15 @@ export default function ExhibitAdminView() {
 	const navigate = useNavigate();
 	const data = [
 		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			department: "Department 1",
+			mnt_report_id: "ExINV001",
+			title: "ExINV001",
+			details: "Savannah",
+			employee_id: "A23",
+			habitat_id:'',
+			status_id:' ',
+			created_At:" ",
+			updated_At:" ",
+			completed_At: "Department 1",
 		},
 	];
 	return (
