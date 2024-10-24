@@ -62,6 +62,21 @@ export default function CreateAnimal() {
 		const data = Object.fromEntries(formData.entries());
 		console.log(data);
 		toast.success("Animal created successfully.");
+		console.log(image);
+		// cldServerSide.uploader.upload(
+		// 	image,
+		// 	{
+		// 		upload_preset: "animal_upload",
+		// 		public_id: data.name,
+		// 	},
+		// 	(error, result) => {
+		// 		if (error) {
+		// 			console.error(error);
+		// 		} else {
+		// 			console.log(result);
+		// 		}
+		// 	}
+		// );
 	};
 
 	return (

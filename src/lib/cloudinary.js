@@ -1,6 +1,6 @@
 import { Cloudinary } from "@cloudinary/url-gen";
 
-export const cld = new Cloudinary({
+export const cldClientSide = new Cloudinary({
 	cloud: {
 		cloudName: "douqbebwk",
 	},
