@@ -20,10 +20,9 @@ export default function ExhibitAdminView() {
 	const navigate = useNavigate();
 	const data = [
 		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			department: "Department 1",
+			ticket_type_id: "ExINV001",
+			category: "Savannah",
+			price: "25$", 
 		},
 	];
 	return (
@@ -43,10 +42,10 @@ export default function ExhibitAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Exhibit Id</TableHead>
-						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Department</TableHead>
+						<TableHead className="w-[120px]">Ticket type</TableHead>
+						<TableHead>Category</TableHead>
+						<TableHead>Price</TableHead> 
+						
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -58,10 +57,9 @@ export default function ExhibitAdminView() {
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell className="font-medium">{el.ticket_type_id}</TableCell>
+							<TableCell>{el.category}</TableCell>
+							<TableCell>{el.price}</TableCell> 
 						</TableRow>
 					))}
 				</TableBody>
