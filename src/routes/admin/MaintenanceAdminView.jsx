@@ -20,10 +20,15 @@ export default function ExhibitAdminView() {
 	const navigate = useNavigate();
 	const data = [
 		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			department: "Department 1",
+			mnt_report_id: "23456789",
+			title: "idk dont ask me ",
+			details: "idk",
+			employee_id: "234567890",
+			habitat_id:'0987654',
+			status_id:'i have no idea what this is supposed to be',
+			created_At:"10/24/2024",
+			updated_At:"10/24/2024",
+			completed_At: "is this supposed to be a date?",
 		},
 	];
 	return (
@@ -43,10 +48,18 @@ export default function ExhibitAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Exhibit Id</TableHead>
-						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
+						<TableHead className="w-[120px]">maintenance report Id</TableHead>
+						<TableHead>title</TableHead>
+						<TableHead>details</TableHead>
+						<TableHead>location</TableHead>
+						<TableHead>employee id</TableHead>
+						<TableHead>habitat id</TableHead>
+						<TableHead>status id</TableHead>
+						<TableHead>created At</TableHead>
+						<TableHead>updated At</TableHead>
+						<TableHead>completed At</TableHead>
 						<TableHead>Department</TableHead>
+
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -58,10 +71,16 @@ export default function ExhibitAdminView() {
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
+							<TableCell className="font-medium">{el.mnt_report_id}</TableCell>
+							<TableCell>{el.title}</TableCell>
 							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell>{el.details}</TableCell>
+							<TableCell>{el.employee_id}</TableCell>
+							<TableCell>{el.habitat_id}</TableCell>
+							<TableCell>{el.status_id}</TableCell>
+							<TableCell>{el.created_At}</TableCell>
+							<TableCell>{el.updated_At}</TableCell>
+							<TableCell>{el.completed_At}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

@@ -23,7 +23,8 @@ export default function ExhibitAdminView() {
 			exhibit_id: "ExINV001",
 			name: "Savannah",
 			location: "A23",
-			department: "Department 1",
+			description:'idk dont ask me , im just in charge of making sure this code works im not getting paid enough to do this',
+			department_id: "234567890",
 		},
 	];
 
@@ -62,7 +63,8 @@ export default function ExhibitAdminView() {
 							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
 							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell>{el.description}</TableCell>
+							<TableCell>{el.department_id}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
