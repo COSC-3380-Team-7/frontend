@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: ["class"],
-	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+		"./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}",
+	],
 	theme: {
 		extend: {
 			minHeight: {
@@ -13,7 +17,7 @@ export default {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			colors: {
-				primaryBg: "#005236",
+				primaryBg: "#006747",
 				primaryBorder: "#77B143",
 				buttonBg: "#598532",
 				buttonHoverBg: "#6DA33E",

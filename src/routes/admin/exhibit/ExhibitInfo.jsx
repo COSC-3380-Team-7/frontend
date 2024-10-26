@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -12,24 +12,24 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function ExhibitInfo() {
+	const navigate = useNavigate();
+	const { exhibit_id } = useParams();
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const navigate = useNavigate();
-	const { exhibit_id } = useParams();
-
-	const data = [
+	const [data, setData] = useState([
 		{
 			habitat_id: "HabINV001",
 			name: "Savannah",
 			location: "A23",
 			department: "Department 1",
 		},
-	];
+	]);
+
 	return (
 		<>
-			<div className="flex items-center w-full justify-between mb-10">
+			<div className="flex items-center w-full justify-between mb-4">
 				<div className="flex items-center gap-2 w-full">
 					<Button
 						size="icon"
@@ -39,7 +39,7 @@ export default function ExhibitInfo() {
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						Exhibit {exhibit_id} Habitats
+						Exhibit {exhibit_id}
 					</h1>
 				</div>
 
@@ -52,6 +52,22 @@ export default function ExhibitInfo() {
 					</Link>
 				</Button>
 			</div>
+
+			<div className="mb-6">
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500 w-40"
+				>
+					<Link to="edit">
+						<PencilIcon className="w-4 h-4" /> Edit Information
+					</Link>
+				</Button>
+			</div>
+
+			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
+				Habitats
+			</h1>
 
 			<Table>
 				<TableHeader>

@@ -20,7 +20,7 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
 
 Input.propTypes = {
 	className: PropTypes.string,
-	type: PropTypes.string,
+	type: PropTypes.string.isRequired,
 };
 
 Input.displayName = "Input";
