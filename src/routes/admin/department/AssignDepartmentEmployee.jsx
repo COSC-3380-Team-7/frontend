@@ -13,8 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export default function AssignEmployee() {
-	const { exhibit_id } = useParams();
+export default function AssignDepartmentEmployee() {
+	const { department_id } = useParams();
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -25,6 +25,7 @@ export default function AssignEmployee() {
 			first_name: "James4",
 			last_name: "Doe",
 			employee_id: "INV001",
+			assigned_department: "Wildlife",
 		},
 	]);
 
@@ -49,7 +50,7 @@ export default function AssignEmployee() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/admin/exhibit/${exhibit_id}`)}
+					onClick={() => navigate(`/admin/department/${department_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
@@ -111,20 +112,19 @@ export default function AssignEmployee() {
 							<TableHead>Employee Id</TableHead>
 							<TableHead>First Name</TableHead>
 							<TableHead>Last Name</TableHead>
+							<TableHead>Assigned Department</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{data.slice(leftIndex, rightIndex).map((item, index) => {
+						{data.slice(leftIndex, rightIndex).map((el) => {
 							return (
-								<TableRow
-									key={index}
-									// key={item.employee_id}
-								>
+								<TableRow key={el.employee_id}>
 									<TableCell className="font-medium">
-										{item.employee_id}
+										{el.employee_id}
 									</TableCell>
-									<TableCell>{item.first_name}</TableCell>
-									<TableCell>{item.last_name}</TableCell>
+									<TableCell>{el.first_name}</TableCell>
+									<TableCell>{el.last_name}</TableCell>
+									<TableCell>{el.assigned_department}</TableCell>
 								</TableRow>
 							);
 						})}

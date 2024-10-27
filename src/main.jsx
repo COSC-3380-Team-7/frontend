@@ -51,9 +51,10 @@ import Habitat from "./routes/homepage/Habitat.jsx";
 import TicketSales from "./routes/admin/finance/TicketSales.jsx";
 import MerchandiseSales from "./routes/admin/finance/MerchandiseSales.jsx";
 import AnimalFoodPurchases from "./routes/admin/finance/AnimalFoodPurchases.jsx";
-import AssignEmployee from "./routes/admin/exhibit/AssignEmployee.jsx";
+import AssignExhibitEmployee from "./routes/admin/exhibit/AssignExhibitEmployee.jsx";
 import VetReportInfo from "./routes/admin/vet_reports/VetReportInfo.jsx";
 import MaintenanceReportInfo from "./routes/admin/maintenance/MaintenanceReportInfo.jsx";
+import AssignDepartmentEmployee from "./routes/admin/department/AssignDepartmentEmployee.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -75,6 +76,7 @@ const router = createBrowserRouter(
 					</Route>
 				</Route>
 			</Route>
+
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
 			<Route path="/employee" element={<EmployeeValidation />}>
@@ -105,6 +107,10 @@ const router = createBrowserRouter(
 					<Route path=":department_id" element={<Outlet />}>
 						<Route index element={<DepartmentInfo />}></Route>
 						<Route path="edit" element={<EditDepartment />}></Route>
+						<Route
+							path="assignment"
+							element={<AssignDepartmentEmployee />}
+						></Route>
 						<Route path="employee" element={<Outlet />}>
 							<Route path="create" element={<CreateEmployee />}></Route>
 							<Route path=":employee_id" element={<Outlet />}>
@@ -156,7 +162,10 @@ const router = createBrowserRouter(
 					<Route path=":exhibit_id" element={<Outlet />}>
 						<Route index element={<ExhibitInfo />}></Route>
 						<Route path="edit" element={<EditExhibit />}></Route>
-						<Route path="assignment" element={<AssignEmployee />}></Route>
+						<Route
+							path="assignment"
+							element={<AssignExhibitEmployee />}
+						></Route>
 						<Route path="habitat/create" element={<CreateHabitat />}></Route>
 						<Route path="habitat/:habitat_id" element={<Outlet />}>
 							<Route index element={<HabitatInfo />}></Route>
