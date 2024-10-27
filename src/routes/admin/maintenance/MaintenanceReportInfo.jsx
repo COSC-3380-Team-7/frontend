@@ -11,7 +11,7 @@ export default function MaintenanceReportInfo() {
 		title: "Damage to Tiger Habitat",
 		maintenance_cause: "Tiger damaged the habitat",
 		details: "Tiger broke the glass",
-		working_status: "Pending",
+		working_status: "Pending", // 'Pending', 'Completed', 'In Progress'
 		habitat_id: "56789",
 		habitat_name: "Tiger Habitat",
 		employee_id: "456789",

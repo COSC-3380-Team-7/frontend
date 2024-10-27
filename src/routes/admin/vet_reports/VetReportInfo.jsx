@@ -10,7 +10,7 @@ export default function VetReportInfo() {
 		vet_report_id: "12345678",
 		title: "Tiger Weekly Health Checkup",
 		animal_id: "56789",
-		health_status: "Healthy",
+		health_status: "Healthy", // 'Healthy', 'Sick', 'Injured'
 		symptoms: "fever",
 		animal: "Tiger",
 		employee_id: "456789", // Veterinarian's employee ID
