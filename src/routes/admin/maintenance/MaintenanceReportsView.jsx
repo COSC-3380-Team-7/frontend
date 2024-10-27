@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -12,56 +11,65 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
-export default function TicketAdminView() {
+export default function MaintenanceReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const data = [
+	const [data, setData] = useState([
 		{
-			ticket_type_id: "ExINV001",
-			category: "Savannah",
-			price: "25$", 
+			mnt_report_id: "12345678",
+			title: "Damage to Tiger Habitat",
+			maintenance_cause: "Tiger damaged the habitat",
+			details: "Tiger broke the glass",
+			working_status: "Pending",
+			habitat_id: "56789",
+			habitat_name: "Tiger Habitat",
+			employee_id: "456789", // Veterinarian's employee ID
+			employee_name: "John Doe",
+			created_at: "10/22/2024",
+			updated_at: "10/22/2024",
 		},
-	];
+	]);
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Tickets</h1>
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="/admin/exhibit/create">
-						<PlusIcon className="h-5 w-5" /> Create Exhibit
-					</Link>
-				</Button>
+				<h1 className="text-3xl font-semibold text-gray-800">
+					Maintenance Reports
+				</h1>
 			</div>
 
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Ticket type</TableHead>
-						<TableHead>Category</TableHead>
-						<TableHead>Price</TableHead> 
-						
+						<TableHead>Report Id</TableHead>
+						<TableHead>Habitat</TableHead>
+						<TableHead>Working Status</TableHead>
+						<TableHead>Created By</TableHead>
+						<TableHead>Created At</TableHead>
+						<TableHead>Updated At</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
-						<TableRow
-							key={el.exhibit_id}
-							onClick={() => {
-								navigate(`${el.exhibit_id}`);
-							}}
-							className="cursor-pointer"
-						>
-							<TableCell className="font-medium">{el.ticket_type_id}</TableCell>
-							<TableCell>{el.category}</TableCell>
-							<TableCell>{el.price}</TableCell> 
-						</TableRow>
-					))}
+					{data.slice(leftIndex, rightIndex).map((el) => {
+						return (
+							<TableRow
+								key={el.mnt_report_id}
+								onClick={() => {
+									navigate(`${el.mnt_report_id}`);
+								}}
+								className="cursor-pointer"
+							>
+								<TableCell>{el.mnt_report_id}</TableCell>
+								<TableCell>{el.habitat_name}</TableCell>
+								<TableCell>{el.working_status}</TableCell>
+								<TableCell>{el.employee_name}</TableCell>
+								<TableCell>{el.created_at}</TableCell>
+								<TableCell>{el.updated_at}</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 

@@ -1,18 +1,27 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import Loading from "@/components/Loading";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 export default function CreateExhibit() {
 	const [exhibitInfo, setExhibitInfo] = useState({
 		name: "",
 		location: "",
 		description: "",
+		department: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
@@ -20,20 +29,8 @@ export default function CreateExhibit() {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
-			}
-		*/
 		console.log(exhibitInfo);
-		toast.success("Employee created successfully.");
+		// toast.success("Employee created successfully.");
 	}
 
 	if (isLoading) {
@@ -99,6 +96,27 @@ export default function CreateExhibit() {
 							className="border-gray-500"
 							required
 						/>
+					</div>
+
+					<div className="mt-4">
+						<Label htmlFor="gender">Department</Label>
+						<Select
+							value={exhibitInfo.department}
+							onValueChange={(value) =>
+								setExhibitInfo((prev) => ({ ...prev, department: value }))
+							}
+							required
+						>
+							<SelectTrigger className="max-w-52 border-gray-500">
+								<SelectValue placeholder="Select department" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectLabel>Department</SelectLabel>
+									<SelectItem value="WildLife">WildLife</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
 					</div>
 				</div>
 
