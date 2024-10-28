@@ -33,7 +33,23 @@ import VetRecordsView from './routes/admin/VetRecordsView.jsx';
 import MaintenanceAdminView from './routes/admin/MaintenanceAdminView.jsx';
 import FinanceAdminView from './routes/admin/FinanceAdminView.jsx';
 import TicketAdminView from './routes/admin/TicketAdminView.jsx';
+import Page1 from "./routes/homePages/page1.jsx";
+import Page2 from "./routes/homePages/page2.jsx";
+import Page3 from "./routes/homePages/page3.jsx";
+import LoginPage from "./routes/homePages/login_or_signup/login.jsx";
+import SignInPage from "./routes/homePages/login_or_signup/singUp.jsx";
+import MembershipPage from "./routes/homePages/memberships/memberships.jsx";
+import Hours from "./routes/homePages/planyourvisit/hours.jsx";
+import Ticket from "./routes/homePages/planyourvisit/tickets.jsx";
+import Map from "./routes/homePages/planyourvisit/map.jsx";
+import Parking from "./routes/homePages/planyourvisit/parking.jsx";
+import Events from "./routes/homePages/planyourvisit/events.jsx";
+import Attractions from "./routes/homePages/planyourvisit/attractions.jsx";
+import Exhibits from "./routes/homePages/planyourvisit/exhibits.jsx";
+import UserProfile from "./routes/homePages/userProfile/UserProfile.jsx";
+
 // FinanceAdminView.jsx
+
 
 
 const router = createBrowserRouter(
@@ -42,6 +58,69 @@ const router = createBrowserRouter(
 			<Route path="/" element={<App />} errorElement={<NotFound />}>
 				<Route path="events" element={<p>events</p>}></Route>
 			</Route>
+
+			
+			<Route path="/dolphin-show" element={<OutletWrapper />}>
+				<Route index element={<Page1 />}></Route>
+			</Route> 
+	
+			<Route path="/halloween-sales" element={<OutletWrapper />}>
+				<Route index element={<Page2 />}></Route>
+			</Route>
+
+			<Route path="/year-end-sale" element={<OutletWrapper />}>
+				<Route index element={<Page3 />}></Route>
+			</Route>
+
+			<Route path="/login" element={<OutletWrapper />}>
+				<Route index element={<LoginPage />}></Route>
+			</Route>
+
+			<Route path="/signup" element={<OutletWrapper />}>
+				<Route index element={<SignInPage />}></Route>
+			</Route>
+
+			<Route path="/memberships" element={<OutletWrapper />}>
+				<Route index element={<MembershipPage />}></Route>
+			</Route>
+
+			<Route path="/hours" element={<OutletWrapper />}>
+				<Route index element={<Hours />}></Route>
+			</Route> 
+	
+			<Route path="/tickets" element={<OutletWrapper />}>
+				<Route index element={<Ticket />}></Route>
+			</Route>
+
+			<Route path="/map" element={<OutletWrapper />}>
+				<Route index element={<Map />}></Route>
+			</Route>
+
+			<Route path="/parking" element={<OutletWrapper />}>
+				<Route index element={<Parking />}></Route>
+			</Route>
+
+			<Route path="/events" element={<OutletWrapper />}>
+				<Route index element={<Events />}></Route>
+			</Route>
+
+			<Route path="/attractions" element={<OutletWrapper />}>
+				<Route index element={<Attractions />}></Route>
+			</Route>
+
+			<Route path="/exhibits" element={<OutletWrapper />}>
+				<Route index element={<Exhibits />}></Route>
+			</Route>
+
+			<Route path="/profile" element={<OutletWrapper />}>
+				<Route index element={<UserProfile />}></Route>
+			</Route>
+
+
+
+
+
+
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
 			<Route path="/employee" element={<EmployeeValidation />}>
