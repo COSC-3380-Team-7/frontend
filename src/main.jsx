@@ -70,7 +70,6 @@ import EventAdminView from "./routes/admin/event/EventAdminView.jsx";
 import CreateEvent from "./routes/admin/event/CreateEvent.jsx";
 import EditEvent from "./routes/admin/event/EditEvent.jsx";
 
-import HomepageWrapper from "./components/HomepageWrapper.jsx";
 import Habitat from "./routes/homepage/Habitat.jsx";
 import TicketSales from "./routes/admin/finance/TicketSales.jsx";
 import MerchandiseSales from "./routes/admin/finance/MerchandiseSales.jsx";
@@ -83,7 +82,7 @@ import AssignDepartmentEmployee from "./routes/admin/department/AssignDepartment
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/" element={<HomepageWrapper />} errorElement={<NotFound />}>
+			<Route path="/" element={<Outlet />} errorElement={<NotFound />}>
 				<Route index element={<App />}></Route>
 				<Route path="events" element={<p>events</p>}></Route>
 				<Route path="exhibit" element={<Outlet />}>
