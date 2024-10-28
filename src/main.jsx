@@ -46,13 +46,11 @@ import UserProfile from "./routes/homePages/userProfile/UserProfile.jsx";
 
 // FinanceAdminView.jsx
 
-
-
 // import VetRecordsView from "./routes/admin/VetRecordsView.jsx";
 // import MaintenanceAdminView from "./routes/admin/MaintenanceAdminView.jsx";
 // import FinanceAdminView from "./routes/admin/FinanceAdminView.jsx";
 // import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
-=======
+
 import VetReportsView from "./routes/admin/vet_reports/VetReportsView.jsx";
 import MaintenanceReportsView from "./routes/admin/maintenance/MaintenanceReportsView.jsx";
 import FinanceAdminView from "./routes/admin/finance/FinanceAdminView.jsx";
@@ -72,7 +70,6 @@ import EventAdminView from "./routes/admin/event/EventAdminView.jsx";
 import CreateEvent from "./routes/admin/event/CreateEvent.jsx";
 import EditEvent from "./routes/admin/event/EditEvent.jsx";
 
-import Exhibits from "./routes/homepage/Exhibits.jsx";
 import HomepageWrapper from "./components/HomepageWrapper.jsx";
 import Habitat from "./routes/homepage/Habitat.jsx";
 import TicketSales from "./routes/admin/finance/TicketSales.jsx";
@@ -104,11 +101,10 @@ const router = createBrowserRouter(
 				</Route>
 			</Route>
 
-			
 			<Route path="/dolphin-show" element={<OutletWrapper />}>
 				<Route index element={<Page1 />}></Route>
-			</Route> 
-	
+			</Route>
+
 			<Route path="/halloween-sales" element={<OutletWrapper />}>
 				<Route index element={<Page2 />}></Route>
 			</Route>
@@ -131,8 +127,8 @@ const router = createBrowserRouter(
 
 			<Route path="/hours" element={<OutletWrapper />}>
 				<Route index element={<Hours />}></Route>
-			</Route> 
-	
+			</Route>
+
 			<Route path="/tickets" element={<OutletWrapper />}>
 				<Route index element={<Ticket />}></Route>
 			</Route>
@@ -160,12 +156,6 @@ const router = createBrowserRouter(
 			<Route path="/profile" element={<OutletWrapper />}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
-
-
-
-
-
-
 
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
