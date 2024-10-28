@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
+import {
+	ArrowLeftIcon,
+	ArrowRight,
+	PencilIcon,
+	PlusIcon,
+	User,
+	UserIcon,
+} from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -53,7 +60,7 @@ export default function ExhibitInfo() {
 				</Button>
 			</div>
 
-			<div className="mb-6">
+			<div className="flex items-center gap-4 mb-6">
 				<Button
 					asChild
 					variant="outline"
@@ -61,6 +68,16 @@ export default function ExhibitInfo() {
 				>
 					<Link to="edit">
 						<PencilIcon className="w-4 h-4" /> Edit Information
+					</Link>
+				</Button>
+
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500 w-42"
+				>
+					<Link to="assignment">
+						<UserIcon className="w-4 h-4" /> Assign Employees
 					</Link>
 				</Button>
 			</div>

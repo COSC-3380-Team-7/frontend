@@ -32,7 +32,7 @@ export default function EditDepartment() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/admin/department")}
+					onClick={() => navigate(`/admin/department/${department_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

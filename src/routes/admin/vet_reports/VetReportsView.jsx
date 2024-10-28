@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
-export default function ExhibitAdminView() {
+export default function VetReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -20,53 +19,58 @@ export default function ExhibitAdminView() {
 	const navigate = useNavigate();
 	const [data, setData] = useState([
 		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			description:
-				"idk dont ask me , im just in charge of making sure this code works im not getting paid enough to do this",
-			department_id: "234567890",
+			vet_report_id: "12345678",
+			title: "8976543",
+			animal_id: "56789",
+			health_status: "Healthy",
+			symptoms: "fever",
+			animal: "Tiger",
+			employee_id: "456789", // Veterinarian's employee ID
+			veterinarian_name: "Dr. John Doe",
+			diagnosis: "chicken pox",
+			measured_weight: "23",
+			created_at: "10/22/2024",
+			updated_at: "10/22/2024",
 		},
 	]);
-
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Exhibits</h1>
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="create">
-						<PlusIcon className="h-5 w-5" /> Create Exhibit
-					</Link>
-				</Button>
+				<h1 className="text-3xl font-semibold text-gray-800">
+					Veterinarian Reports
+				</h1>
 			</div>
 
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Exhibit Id</TableHead>
-						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Department</TableHead>
+						<TableHead>Report Id</TableHead>
+						<TableHead>Animal</TableHead>
+						<TableHead>Health Status</TableHead>
+						<TableHead>Created By</TableHead>
+						<TableHead>Created At</TableHead>
+						<TableHead>Updated At</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
-						<TableRow
-							key={el.exhibit_id}
-							onClick={() => {
-								navigate(`${el.exhibit_id}`);
-							}}
-							className="cursor-pointer"
-						>
-							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department_id}</TableCell>
-						</TableRow>
-					))}
+					{data.slice(leftIndex, rightIndex).map((el) => {
+						return (
+							<TableRow
+								key={el.vet_report_id}
+								onClick={() => {
+									navigate(`${el.vet_report_id}`);
+								}}
+								className="cursor-pointer"
+							>
+								<TableCell>{el.vet_report_id}</TableCell>
+								<TableCell>{el.animal}</TableCell>
+								<TableCell>{el.health_status}</TableCell>
+								<TableCell>{el.veterinarian_name}</TableCell>
+								<TableCell>{el.created_at}</TableCell>
+								<TableCell>{el.updated_at}</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 

@@ -5,7 +5,6 @@ import {
 	ChartColumnIncreasing,
 	HammerIcon,
 	HeartPulseIcon,
-	HomeIcon,
 	PawPrint,
 	TicketsIcon,
 } from "lucide-react";
@@ -25,11 +24,6 @@ export default function SideBar() {
 
 	const navLinks = [
 		{
-			href: "/admin",
-			icon: <HomeIcon className="h-6 w-6 mr-1" />,
-			name: "Home",
-		},
-		{
 			href: "/admin/department",
 			icon: <BuildingIcon className="h-6 w-6 mr-1" />,
 			name: "Departments",
@@ -40,19 +34,19 @@ export default function SideBar() {
 			name: "Exhibits",
 		},
 		{
-			href: "/admin/vet",
+			href: "/admin/event",
+			icon: <CalendarDays className="h-6 w-6 mr-1" />,
+			name: "Events",
+		},
+		{
+			href: "/admin/vet_report",
 			icon: <HeartPulseIcon className="h-6 w-6 mr-1" />,
 			name: "Veterinarian Reports",
 		},
 		{
-			href: "/admin/maintenance",
+			href: "/admin/maintenance_report",
 			icon: <HammerIcon className="h-6 w-6 mr-1" />,
 			name: "Maintenance Reports",
-		},
-		{
-			href: "/admin/ticket",
-			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
-			name: "Ticket Pricing",
 		},
 		{
 			href: "/admin/finance",
@@ -60,9 +54,9 @@ export default function SideBar() {
 			name: "Finances",
 		},
 		{
-			href: "/admin/event",
-			icon: <CalendarDays className="h-6 w-6 mr-1" />,
-			name: "Events",
+			href: "/admin/ticket",
+			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
+			name: "Ticket Pricing",
 		},
 	];
 

@@ -31,8 +31,8 @@ export default function AnimalInfo() {
 		height: "",
 		animal_fact: "",
 		species: "",
-		conservation_status: "",
-		availability_status: "",
+		conservation_status: "", // 'Stable', 'Threatened', 'Endangered'
+		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		gender: "",
 		origin: "",
 		scientific_name: "",

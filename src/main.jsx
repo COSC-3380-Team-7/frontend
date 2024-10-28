@@ -28,10 +28,7 @@ import AnimalInfo from "./routes/admin/exhibit/AnimalInfo.jsx";
 import CreateAnimal from "./routes/admin/exhibit/CreateAnimal.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import OutletWrapper from "./components/OutletWrapper.jsx";
-import VetRecordsView from './routes/admin/VetRecordsView.jsx';
-import MaintenanceAdminView from './routes/admin/MaintenanceAdminView.jsx';
-import FinanceAdminView from './routes/admin/FinanceAdminView.jsx';
-import TicketAdminView from './routes/admin/TicketAdminView.jsx';
+
 import Page1 from "./routes/homePages/page1.jsx";
 import Page2 from "./routes/homePages/page2.jsx";
 import Page3 from "./routes/homePages/page3.jsx";
@@ -55,6 +52,12 @@ import UserProfile from "./routes/homePages/userProfile/UserProfile.jsx";
 // import MaintenanceAdminView from "./routes/admin/MaintenanceAdminView.jsx";
 // import FinanceAdminView from "./routes/admin/FinanceAdminView.jsx";
 // import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
+=======
+import VetReportsView from "./routes/admin/vet_reports/VetReportsView.jsx";
+import MaintenanceReportsView from "./routes/admin/maintenance/MaintenanceReportsView.jsx";
+import FinanceAdminView from "./routes/admin/finance/FinanceAdminView.jsx";
+import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
+
 import EditEmployee from "./routes/admin/department/EditEmployee.jsx";
 import EditExhibit from "./routes/admin/exhibit/EditExhibit.jsx";
 import EditHabitat from "./routes/admin/exhibit/EditHabitat.jsx";
@@ -68,11 +71,17 @@ import CreatePricing from "./routes/admin/ticket_pricing/CreatePricing.jsx";
 import EventAdminView from "./routes/admin/event/EventAdminView.jsx";
 import CreateEvent from "./routes/admin/event/CreateEvent.jsx";
 import EditEvent from "./routes/admin/event/EditEvent.jsx";
-// import EventInfo from "./routes/admin/event/EventInfo.jsx";
-// import Exhibits from "./routes/homepage/Exhibits.jsx";
+
+import Exhibits from "./routes/homepage/Exhibits.jsx";
 import HomepageWrapper from "./components/HomepageWrapper.jsx";
 import Habitat from "./routes/homepage/Habitat.jsx";
-// FinanceAdminView.jsx
+import TicketSales from "./routes/admin/finance/TicketSales.jsx";
+import MerchandiseSales from "./routes/admin/finance/MerchandiseSales.jsx";
+import AnimalFoodPurchases from "./routes/admin/finance/AnimalFoodPurchases.jsx";
+import AssignExhibitEmployee from "./routes/admin/exhibit/AssignExhibitEmployee.jsx";
+import VetReportInfo from "./routes/admin/vet_reports/VetReportInfo.jsx";
+import MaintenanceReportInfo from "./routes/admin/maintenance/MaintenanceReportInfo.jsx";
+import AssignDepartmentEmployee from "./routes/admin/department/AssignDepartmentEmployee.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -157,6 +166,7 @@ const router = createBrowserRouter(
 
 
 
+
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
 			<Route path="/employee" element={<EmployeeValidation />}>
@@ -187,6 +197,10 @@ const router = createBrowserRouter(
 					<Route path=":department_id" element={<Outlet />}>
 						<Route index element={<DepartmentInfo />}></Route>
 						<Route path="edit" element={<EditDepartment />}></Route>
+						<Route
+							path="assignment"
+							element={<AssignDepartmentEmployee />}
+						></Route>
 						<Route path="employee" element={<Outlet />}>
 							<Route path="create" element={<CreateEmployee />}></Route>
 							<Route path=":employee_id" element={<Outlet />}>
@@ -197,20 +211,31 @@ const router = createBrowserRouter(
 					</Route>
 				</Route>
 
-				<Route path="vet" element={<OutletWrapper />}>
-					<Route index element={<VetRecordsView />}></Route>
-					{/* <Route path="create" element={<CreateEmployee />}></Route>
-					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
+				<Route path="vet_report" element={<OutletWrapper />}>
+					<Route index element={<VetReportsView />}></Route>
+					<Route path=":vet_report_id" element={<Outlet />}>
+						<Route index element={<VetReportInfo />}></Route>
+					</Route>
 				</Route>
-				<Route path="maintenance" element={<OutletWrapper />}>
-					<Route index element={<MaintenanceAdminView />}></Route>
-					{/* <Route path="create" element={<CreateEmployee />}></Route>
-					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
+
+				<Route path="maintenance_report" element={<OutletWrapper />}>
+					<Route index element={<MaintenanceReportsView />}></Route>
+					<Route path=":maintenance_report_id" element={<Outlet />}>
+						<Route index element={<MaintenanceReportInfo />}></Route>
+					</Route>
 				</Route>
+
 				<Route path="finance" element={<OutletWrapper />}>
 					<Route index element={<FinanceAdminView />}></Route>
-					{/* <Route path="create" element={<CreateEmployee />}></Route>
-					<Route path=":employee_id" element={<EmployeeInfo />}></Route> */}
+					<Route path="ticket_sales" element={<Outlet />}>
+						<Route index element={<TicketSales />}></Route>
+					</Route>
+					<Route path="merchandise_sales" element={<Outlet />}>
+						<Route index element={<MerchandiseSales />}></Route>
+					</Route>
+					<Route path="animal_food_purchases" element={<Outlet />}>
+						<Route index element={<AnimalFoodPurchases />}></Route>
+					</Route>
 				</Route>
 
 				<Route path="ticket" element={<OutletWrapper />}>
@@ -227,6 +252,10 @@ const router = createBrowserRouter(
 					<Route path=":exhibit_id" element={<Outlet />}>
 						<Route index element={<ExhibitInfo />}></Route>
 						<Route path="edit" element={<EditExhibit />}></Route>
+						<Route
+							path="assignment"
+							element={<AssignExhibitEmployee />}
+						></Route>
 						<Route path="habitat/create" element={<CreateHabitat />}></Route>
 						<Route path="habitat/:habitat_id" element={<Outlet />}>
 							<Route index element={<HabitatInfo />}></Route>
@@ -247,16 +276,6 @@ const router = createBrowserRouter(
 						<Route path="edit" element={<EditEvent />}></Route>
 					</Route>
 				</Route>
-
-				<Route path="vet" element={<OutletWrapper />}></Route>
-				<Route path="vet/:id" element={<OutletWrapper />}></Route>
-				<Route path="vet/create" element={<OutletWrapper />}></Route>
-
-				<Route path="finance" element={<OutletWrapper />}></Route>
-
-				<Route path="maintenance" element={<OutletWrapper />}></Route>
-				<Route path="maintenance/:id" element={<OutletWrapper />}></Route>
-				<Route path="maintenance/create" element={<OutletWrapper />}></Route>
 			</Route>
 		</>
 	)
