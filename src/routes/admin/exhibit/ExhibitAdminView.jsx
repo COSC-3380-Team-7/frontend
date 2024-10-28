@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
 	Table,
 	TableBody,
@@ -9,48 +10,34 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function HabitatInfo() {
+export default function ExhibitAdminView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const { exhibit_id, habitat_id } = useParams();
-	console.log("exhibit_id", exhibit_id, "habitat_id", habitat_id);
-
 	const data = [
 		{
-			animal_id: "An001",
-			name: "Tiger",
+			exhibit_id: "ExINV001",
+			name: "Savannah",
 			location: "A23",
-			department: "Department 1",
+			description:'idk dont ask me , im just in charge of making sure this code works im not getting paid enough to do this',
+			department_id: "234567890",
 		},
 	];
 
 	return (
 		<>
-			<div className="flex items-center w-full justify-between mb-10">
-				<div className="flex items-center gap-2 w-full">
-					<Button
-						size="icon"
-						variant="outline"
-						onClick={() => navigate(`/admin/exhibit/${exhibit_id}`)}
-					>
-						<ArrowLeftIcon className="h-5 w-5" />
-					</Button>
-					<h1 className="text-3xl font-semibold text-gray-800">
-						Habitat {habitat_id} Animals
-					</h1>
-				</div>
-
+			<div className="flex items-center justify-between w-full mb-10">
+				<h1 className="text-3xl font-semibold text-gray-800">Exhibits</h1>
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
 				>
-					<Link to="animal/create">
-						<PlusIcon className="h-5 w-5" /> Add Animal
+					<Link to="create">
+						<PlusIcon className="h-5 w-5" /> Create Exhibit
 					</Link>
 				</Button>
 			</div>
@@ -58,7 +45,7 @@ export default function HabitatInfo() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Animal Id</TableHead>
+						<TableHead className="w-[120px]">Exhibit Id</TableHead>
 						<TableHead>Name</TableHead>
 						<TableHead>Location</TableHead>
 						<TableHead>Department</TableHead>
@@ -67,16 +54,17 @@ export default function HabitatInfo() {
 				<TableBody>
 					{data.map((el) => (
 						<TableRow
-							key={el.animal_id}
+							key={el.exhibit_id}
 							onClick={() => {
-								navigate(`animal/${el.animal_id}`);
+								navigate(`${el.exhibit_id}`);
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.animal_id}</TableCell>
+							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
 							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell>{el.description}</TableCell>
+							<TableCell>{el.department_id}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
