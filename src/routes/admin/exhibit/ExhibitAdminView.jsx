@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -18,16 +18,23 @@ export default function ExhibitAdminView() {
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [data, setData] = useState([
-		{
-			exhibit_id: "ExINV001",
-			name: "Savannah",
-			location: "A23",
-			description:
-				"idk dont ask me , im just in charge of making sure this code works im not getting paid enough to do this",
-			department_id: "234567890",
-		},
-	]);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/exhibits`
+				);
+				const data = await response.json();
+				console.log(data.data);
+				setData(data.data);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, []);
 
 	return (
 		<>
@@ -46,10 +53,10 @@ export default function ExhibitAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Exhibit Id</TableHead>
+						<TableHead>Exhibit Id</TableHead>
 						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
 						<TableHead>Department</TableHead>
+						<TableHead>Description</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -61,10 +68,12 @@ export default function ExhibitAdminView() {
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.exhibit_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department_id}</TableCell>
+							<TableCell>{el.exhibit_id}</TableCell>
+							<TableCell>{el.exhibit_name}</TableCell>
+							<TableCell>{el.department_name}</TableCell>
+							<TableCell className="max-w-xs text-ellipsis">
+								{el.description}
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

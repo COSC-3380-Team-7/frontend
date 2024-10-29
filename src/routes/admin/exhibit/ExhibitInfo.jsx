@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	ArrowLeftIcon,
 	ArrowRight,
 	PencilIcon,
 	PlusIcon,
-	User,
 	UserIcon,
 } from "lucide-react";
 import {
@@ -25,14 +24,25 @@ export default function ExhibitInfo() {
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [data, setData] = useState([
-		{
-			habitat_id: "HabINV001",
-			name: "Savannah",
-			location: "A23",
-			department: "Department 1",
-		},
-	]);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const response = await fetch(
+					`${
+						import.meta.env.VITE_API_URL
+					}/admin/exhibit_habitats/:${exhibit_id}`
+				);
+				const data = await response.json();
+				console.log(data.data);
+				setData(data.data);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, [exhibit_id]);
 
 	return (
 		<>
@@ -89,10 +99,9 @@ export default function ExhibitInfo() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Habitat Id</TableHead>
+						<TableHead>Habitat Id</TableHead>
 						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Department</TableHead>
+						<TableHead>Description</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -106,8 +115,9 @@ export default function ExhibitInfo() {
 						>
 							<TableCell className="font-medium">{el.habitat_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell className="max-w-xs text-ellipsis">
+								{el.description}
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

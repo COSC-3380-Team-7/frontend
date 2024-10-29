@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
 import {
@@ -11,25 +11,34 @@ import {
 } from "@/components/ui/table";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
+import { calculateAge } from "@/utils/ageCalc";
 
 export default function HabitatInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading] = useState(false);
 	const navigate = useNavigate();
 	const { exhibit_id, habitat_id } = useParams();
-	console.log("exhibit_id", exhibit_id, "habitat_id", habitat_id);
 
-	const [data, setData] = useState([
-		{
-			animal_id: "An001",
-			name: "Tiger",
-			location: "A23",
-			department: "Department 1",
-		},
-	]);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/habitat_animals/:${habitat_id}`
+				);
+				const data = await response.json();
+				console.log(data.data);
+				setData(data.data);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, [habitat_id]);
 
 	if (isLoading) {
 		return <Loading text="Initializing..." />;
@@ -80,10 +89,12 @@ export default function HabitatInfo() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Animal Id</TableHead>
+						<TableHead>Animal Id</TableHead>
 						<TableHead>Name</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Department</TableHead>
+						<TableHead>Scientific Name</TableHead>
+						<TableHead>Conservation Status</TableHead>
+						<TableHead>Gender</TableHead>
+						<TableHead>Age</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -95,10 +106,12 @@ export default function HabitatInfo() {
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.animal_id}</TableCell>
+							<TableCell>{el.animal_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.location}</TableCell>
-							<TableCell>{el.department}</TableCell>
+							<TableCell>{el.scientific_name}</TableCell>
+							<TableCell>{el.conservation_status}</TableCell>
+							<TableCell>{el.gender}</TableCell>
+							<TableCell>{calculateAge(el.date_of_birth)}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
