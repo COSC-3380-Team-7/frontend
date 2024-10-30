@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	ArrowLeftIcon,
@@ -17,6 +17,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function DepartmentInfo() {
 	const paginationSize = 10;
@@ -25,98 +26,39 @@ export default function DepartmentInfo() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 	const { department_id } = useParams();
-	const [data, setData] = useState([
-		{
-			first_name: "James",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James2",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James3",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James4",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James5",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James2",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James3",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James4",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James5",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James2",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James3",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James4",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-		{
-			first_name: "James5",
-			last_name: "Doe",
-			employee_id: "INV001",
-			salary: "$250.00",
-		},
-	]);
+	const [employeeData, setEmployeeData] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const empResponse = await fetch(
+					`${
+						import.meta.env.VITE_API_URL
+					}/admin/department_employee/:${department_id}`
+				);
+				if (!empResponse.ok) {
+					console.error("Error fetching data: ", empResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const empData = await empResponse.json();
+				console.log(empData.data);
+				setEmployeeData(empData.data);
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, [department_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<div className="flex items-center w-full justify-between mb-4">
@@ -179,7 +121,7 @@ export default function DepartmentInfo() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.slice(leftIndex, rightIndex).map((item, index) => {
+					{employeeData.slice(leftIndex, rightIndex).map((item, index) => {
 						return (
 							<TableRow
 								key={index}
@@ -220,7 +162,7 @@ export default function DepartmentInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex >= employeeData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

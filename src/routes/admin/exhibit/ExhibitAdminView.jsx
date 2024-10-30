@@ -11,6 +11,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function ExhibitAdminView() {
 	const paginationSize = 10;
@@ -19,22 +20,35 @@ export default function ExhibitAdminView() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
+				setIsLoading(true);
 				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/admin/exhibits`
+					`${import.meta.env.VITE_API_URL}/admin/exhibit`
 				);
+				if (!response.ok) {
+					console.error("Error fetching data: ", response);
+					setIsLoading(false);
+					return;
+				}
+
 				const data = await response.json();
 				console.log(data.data);
 				setData(data.data);
+				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching data: ", error);
 			}
 		}
 		fetchData();
 	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>

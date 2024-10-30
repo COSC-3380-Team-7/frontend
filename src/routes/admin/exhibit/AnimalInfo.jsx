@@ -19,24 +19,31 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AdvancedImage } from "@cloudinary/react";
+import { cldClientSide } from "@/lib/cloudinary";
+import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import { formatDate, calculateAge } from "@/utils/dateCalcs";
+import Loading from "@/components/Loading";
 
 export default function AnimalInfo() {
 	const [open, setOpen] = useState(false);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
+		scientific_name: "",
 		age: "",
-		weight: "",
 		height: "",
-		animal_fact: "",
-		species: "",
+		weight: "",
+		arrival_date: "",
+		date_of_birth: "",
+		gender: "",
 		conservation_status: "", // 'Stable', 'Threatened', 'Endangered'
 		availability_status: "", // 'Present', 'Transferred', 'Deceased'
-		gender: "",
 		origin: "",
-		scientific_name: "",
 		geographic_range: "",
+		animal_fact: "",
+		image_cloud_link: "",
 	});
 	const [availabilityInfo, setAvailabilityInfo] = useState({
 		availability_status: "",
@@ -44,6 +51,51 @@ export default function AnimalInfo() {
 	});
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const animalResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
+				);
+
+				if (!animalResponse.ok) {
+					console.error("Error fetching animalData: ", animalResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const ad = await animalResponse.json();
+
+				console.log(ad.data);
+				setAnimalInfo({
+					name: ad.data.name,
+					age: calculateAge(ad.data.date_of_birth),
+					weight: ad.data.weight,
+					height: ad.data.height,
+					animal_fact: ad.data.animal_fact,
+					conservation_status: ad.data.conservation_status,
+					availability_status: ad.data.availability_status,
+					gender: ad.data.gender,
+					origin: ad.data.origin,
+					geographic_range: ad.data.geographic_range,
+					arrival_date: formatDate(ad.data.arrival_date),
+					date_of_birth: formatDate(ad.data.date_of_birth),
+					image_cloud_link: ad.data.image_cloud_link,
+				});
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching animalData: ", error);
+			}
+		}
+		fetchData();
+	}, [animal_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -58,7 +110,7 @@ export default function AnimalInfo() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Animal ID: {animal_id}
+					{animalInfo.name}
 				</h1>
 			</div>
 
@@ -159,18 +211,32 @@ export default function AnimalInfo() {
 				</Dialog>
 			</div>
 
-			<div className="mt-5">
-				<div className="flex flex-col gap-3">
-					{Object.keys(animalInfo).map((key) => (
-						<div className="mb-2" key={key}>
-							<h3 className="text-lg text-gray-700 font-semibold">
-								{key
-									.replace(/_/g, " ")
-									.replace(/\b\w/g, (char) => char.toUpperCase())}
-							</h3>
-							<p className="text-gray-800 font-medium">{animalInfo[key]}</p>
-						</div>
-					))}
+			<div className="mt-5 flex w-full">
+				<div className="rounded-lg mr-10">
+					{animalInfo.image_cloud_link && (
+						<AdvancedImage
+							cldImg={cldClientSide
+								.image(animalInfo.image_cloud_link)
+								.resize(thumbnail().width(600).height(600))}
+						/>
+					)}
+				</div>
+
+				<div className="grid grid-cols-2 gap-3">
+					{Object.keys(animalInfo).map((key) => {
+						if (key === "image_cloud_link") return;
+
+						return (
+							<div className="mb-2" key={key}>
+								<h3 className="text-lg text-gray-800 font-semibold">
+									{key
+										.replace(/_/g, " ")
+										.replace(/\b\w/g, (char) => char.toUpperCase())}
+								</h3>
+								<p className="text-gray-800 font-medium">{animalInfo[key]}</p>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</>

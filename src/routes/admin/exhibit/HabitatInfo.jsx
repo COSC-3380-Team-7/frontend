@@ -11,37 +11,61 @@ import {
 } from "@/components/ui/table";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
-import { calculateAge } from "@/utils/ageCalc";
+import { calculateAge } from "@/utils/dateCalcs";
 
 export default function HabitatInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [isLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const { exhibit_id, habitat_id } = useParams();
 
-	const [data, setData] = useState([]);
+	const [habitatData, setHabitatData] = useState({});
+	const [animalData, setAnimalData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const response = await fetch(
+				setIsLoading(true);
+				const habitatResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/habitat/:${habitat_id}`
+				);
+
+				if (!habitatResponse.ok) {
+					console.error("Error fetching habitatData: ", habitatResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const hd = await habitatResponse.json();
+				console.log(hd.data);
+				setHabitatData(hd.data);
+
+				const animalResponse = await fetch(
 					`${import.meta.env.VITE_API_URL}/admin/habitat_animals/:${habitat_id}`
 				);
-				const data = await response.json();
-				console.log(data.data);
-				setData(data.data);
+
+				if (!animalResponse.ok) {
+					console.error("Error fetching animalData: ", animalResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const ad = await animalResponse.json();
+				console.log(ad.data);
+				setAnimalData(ad.data);
+				setIsLoading(false);
 			} catch (error) {
-				console.error("Error fetching data: ", error);
+				console.error("Error fetching animalData: ", error);
 			}
 		}
 		fetchData();
 	}, [habitat_id]);
 
 	if (isLoading) {
-		return <Loading text="Initializing..." />;
+		return <Loading />;
 	}
 
 	return (
@@ -56,7 +80,7 @@ export default function HabitatInfo() {
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						Habitat {habitat_id}
+						{habitatData.name} Habitat
 					</h1>
 				</div>
 
@@ -98,7 +122,7 @@ export default function HabitatInfo() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
+					{animalData.map((el) => (
 						<TableRow
 							key={el.animal_id}
 							onClick={() => {
@@ -136,7 +160,7 @@ export default function HabitatInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex >= animalData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

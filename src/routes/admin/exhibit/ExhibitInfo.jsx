@@ -16,6 +16,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function ExhibitInfo() {
 	const navigate = useNavigate();
@@ -24,25 +25,53 @@ export default function ExhibitInfo() {
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [data, setData] = useState([]);
+	const [habitatData, setHabitatData] = useState([]);
+	const [exhibitData, setExhibitData] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
+				setIsLoading(true);
+				const res1 = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/exhibit/:${exhibit_id}`
+				);
+
+				if (!res1.ok) {
+					console.error("Error fetching data: ", res1);
+					setIsLoading(false);
+					return;
+				}
+				const data1 = await res1.json();
+				console.log(data1.data);
+				setExhibitData(data1.data);
+
 				const response = await fetch(
 					`${
 						import.meta.env.VITE_API_URL
 					}/admin/exhibit_habitats/:${exhibit_id}`
 				);
+
+				if (!response.ok) {
+					console.error("Error fetching data: ", response);
+					setIsLoading(false);
+					return;
+				}
 				const data = await response.json();
+
 				console.log(data.data);
-				setData(data.data);
+				setHabitatData(data.data);
+				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching data: ", error);
 			}
 		}
 		fetchData();
 	}, [exhibit_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -56,7 +85,7 @@ export default function ExhibitInfo() {
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						Exhibit {exhibit_id}
+						{exhibitData.name} Exhibit
 					</h1>
 				</div>
 
@@ -105,7 +134,7 @@ export default function ExhibitInfo() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
+					{habitatData.map((el) => (
 						<TableRow
 							key={el.habitat_id}
 							onClick={() => {
@@ -142,7 +171,7 @@ export default function ExhibitInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex >= habitatData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

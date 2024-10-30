@@ -11,5 +11,5 @@ export default function Loading({ text }) {
 }
 
 Loading.propTypes = {
-	text: PropTypes.string.isRequired,
+	text: PropTypes.string,
 };

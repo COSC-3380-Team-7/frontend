@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function DepartmentAdminView() {
 	const paginationSize = 10;
@@ -19,23 +20,38 @@ export default function DepartmentAdminView() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
-	const [data, setData] = useState([
-		{
-			name: "James",
-			department_id: "INV001",
-			location: "A34",
-		},
-		{
-			name: "James2",
-			department_id: "INV002",
-			location: "A34",
-		},
-		{
-			name: "James3",
-			department_id: "INV003",
-			location: "A34",
-		},
-	]);
+	const [departmentData, setDepartmentData] = useState([]);
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const departmentResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/department`
+				);
+
+				if (!departmentResponse.ok) {
+					console.error("Error fetching data: ", departmentResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const dData = await departmentResponse.json();
+				console.log(dData.data);
+				setDepartmentData(dData.data);
+
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
@@ -53,17 +69,16 @@ export default function DepartmentAdminView() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[150px]">Department Id</TableHead>
+						<TableHead>Department Id</TableHead>
 						<TableHead>Name</TableHead>
 						<TableHead>Location</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.slice(leftIndex, rightIndex).map((el, index) => {
+					{departmentData.slice(leftIndex, rightIndex).map((el) => {
 						return (
 							<TableRow
-								key={index}
-								// key={el.employee_id}
+								key={el.department_id}
 								onClick={() => {
 									navigate(`/admin/department/${el.department_id}`);
 								}}
@@ -99,7 +114,7 @@ export default function DepartmentAdminView() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex >= departmentData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />
