@@ -90,6 +90,7 @@ export default function App() {
 									"Events",
 									"Attractions",
 									"Exhibits",
+                  "Animals",
 								].map((item) => (
 									<li key={item} className="p-2 hover:bg-gray-200">
 										<a href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}>

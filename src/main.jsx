@@ -78,6 +78,13 @@ import AssignExhibitEmployee from "./routes/admin/exhibit/AssignExhibitEmployee.
 import VetReportInfo from "./routes/admin/vet_reports/VetReportInfo.jsx";
 import MaintenanceReportInfo from "./routes/admin/maintenance/MaintenanceReportInfo.jsx";
 import AssignDepartmentEmployee from "./routes/admin/department/AssignDepartmentEmployee.jsx";
+import Animals from "./routes/homePages/planyourvisit/animals.jsx";
+import AfricanElephant from "./routes/homePages/planyourvisit/animalMore/africanElephant.jsx";
+import Lions from "./routes/homePages/planyourvisit/animalMore/lions.jsx";
+import Giraffe from "./routes/homePages/planyourvisit/animalMore/giraffe.jsx";
+import Penguins from "./routes/homePages/planyourvisit/animalMore/penguins.jsx";
+import Orangutans from "./routes/homePages/planyourvisit/animalMore/orangutans.jsx";
+import ReptileHouse from "./routes/homePages/planyourvisit/animalMore/reptilehouse.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -120,6 +127,11 @@ const router = createBrowserRouter(
 				<Route index element={<SignInPage />}></Route>
 			</Route>
 
+			<Route path="/african-elephant" element={<OutletWrapper />}>
+				<Route index element={<AfricanElephant />}></Route>
+			</Route>
+
+
 			<Route path="/memberships" element={<OutletWrapper />}>
 				<Route index element={<MembershipPage />}></Route>
 			</Route>
@@ -148,6 +160,10 @@ const router = createBrowserRouter(
 				<Route index element={<Attractions />}></Route>
 			</Route>
 
+			<Route path="/animals" element={<OutletWrapper />}>
+				<Route index element={<Animals />}></Route>
+			</Route>
+
 			<Route path="/exhibits" element={<OutletWrapper />}>
 				<Route index element={<Exhibits />}></Route>
 			</Route>
@@ -155,6 +171,25 @@ const router = createBrowserRouter(
 			<Route path="/profile" element={<OutletWrapper />}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
+
+			<Route path="/lions" element={<OutletWrapper />}>
+				<Route index element={<Lions />}></Route>
+			</Route>
+			<Route path="/giraffe" element={<OutletWrapper />}>
+				<Route index element={<Giraffe />}></Route>
+			</Route>
+
+			<Route path="/penguins" element={<OutletWrapper />}>
+				<Route index element={<Penguins />}></Route>
+			</Route>
+
+			<Route path="/orangutans" element={<OutletWrapper />}>
+				<Route index element={<Orangutans />}></Route>
+			</Route>
+			<Route path="/reptile-house" element={<OutletWrapper />}>
+				<Route index element={<ReptileHouse />}></Route>
+			</Route>
+
 
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
