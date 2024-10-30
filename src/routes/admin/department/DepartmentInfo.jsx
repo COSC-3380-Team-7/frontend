@@ -27,6 +27,7 @@ export default function DepartmentInfo() {
 	const navigate = useNavigate();
 	const { department_id } = useParams();
 	const [employeeData, setEmployeeData] = useState([]);
+	const [departmentData, setDepartmentData] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
@@ -47,6 +48,21 @@ export default function DepartmentInfo() {
 				const empData = await empResponse.json();
 				console.log(empData.data);
 				setEmployeeData(empData.data);
+
+				const departmentResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/department/:${department_id}`
+				);
+
+				if (!departmentResponse.ok) {
+					console.error("Error fetching data: ", departmentResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const dData = await departmentResponse.json();
+				console.log(dData.data);
+				setDepartmentData(dData.data);
+
 				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching data: ", error);
@@ -71,7 +87,7 @@ export default function DepartmentInfo() {
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						Department {department_id}
+						{departmentData.name} Department
 					</h1>
 				</div>
 
