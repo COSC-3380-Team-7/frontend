@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
+import Loading from "@/components/Loading";
 
 export default function EditPricing() {
 	const { ticket_id } = useParams();
@@ -16,13 +17,67 @@ export default function EditPricing() {
 
 	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
-		console.log(data);
-		toast.success("Employee created successfully.");
+
+		setIsLoading(true);
+
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/ticket_type`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					ticket_type_id: ticket_id,
+					category: pricingInfo.category,
+					price: pricingInfo.price,
+				}),
+			}
+		);
+
+		if (!res.ok) {
+			toast.error("Failed to update ticket pricing");
+			setIsLoading(false);
+			return;
+		}
+
+		setPricingInfo({
+			category: "",
+			price: "",
+		});
+		toast.success("Ticket pricing updated successfully");
+
+		setIsLoading(false);
 	};
+
+	useEffect(() => {
+		async function fetchData() {
+			setIsLoading(true);
+
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/ticket_type/:${ticket_id}`
+			);
+
+			if (!res.ok) {
+				console.error("Failed to fetch data", res);
+				setIsLoading(false);
+				return;
+			}
+
+			const data = await res.json();
+			console.log(data.data);
+			setPricingInfo(data.data);
+
+			setIsLoading(false);
+		}
+		fetchData();
+	}, [ticket_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -59,15 +114,15 @@ export default function EditPricing() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="pricing">Pricing</Label>
+						<Label htmlFor="price">Price</Label>
 						<Input
-							value={pricingInfo.pricing}
+							value={pricingInfo.price}
 							onChange={(e) =>
-								setPricingInfo({ ...pricingInfo, pricing: e.target.value })
+								setPricingInfo((prev) => ({ ...prev, price: e.target.value }))
 							}
 							type="text"
-							name="pricing"
-							id="pricing"
+							name="price"
+							id="price"
 							placeholder="3.50"
 							required
 						/>

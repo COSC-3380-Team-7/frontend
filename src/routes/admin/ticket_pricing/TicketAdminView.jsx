@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import Loading from "@/components/Loading";
 
 export default function TicketAdminView() {
 	const paginationSize = 10;
@@ -18,28 +19,36 @@ export default function TicketAdminView() {
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [data, setData] = useState([
-		{
-			ticket_type_id: 0,
-			category: "Veteran",
-			price: "5.00",
-		},
-		{
-			ticket_type_id: 1,
-			category: "Senior",
-			price: "5.00",
-		},
-		{
-			ticket_type_id: 2,
-			category: "Adult",
-			price: "7.50",
-		},
-		{
-			ticket_type_id: 3,
-			category: "Child",
-			price: "3.50",
-		},
-	]);
+	const [data, setData] = useState([]);
+
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		async function fetchData() {
+			setIsLoading(true);
+
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/ticket_type`
+			);
+
+			if (!res.ok) {
+				console.error("Failed to fetch data", res);
+				setIsLoading(false);
+				return;
+			}
+
+			const data = await res.json();
+			console.log(data.data);
+			setData(data.data);
+
+			setIsLoading(false);
+		}
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -72,7 +81,7 @@ export default function TicketAdminView() {
 							className="cursor-pointer"
 						>
 							<TableCell>{el.category}</TableCell>
-							<TableCell>${el.price}</TableCell>
+							<TableCell>${el.price.toFixed(2)}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

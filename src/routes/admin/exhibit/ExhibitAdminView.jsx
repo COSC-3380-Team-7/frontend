@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function ExhibitAdminView() {
-	const paginationSize = 10;
+	const paginationSize = 5;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

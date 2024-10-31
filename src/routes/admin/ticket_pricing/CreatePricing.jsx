@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
+import Loading from "@/components/Loading";
 
 export default function CreatePricing() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -16,13 +17,39 @@ export default function CreatePricing() {
 	const { ticket_id } = useParams();
 	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
-		console.log(data);
-		toast.success("Employee created successfully.");
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/ticket_type`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					category: pricingInfo.category,
+					price: parseFloat(pricingInfo.price),
+				}),
+			}
+		);
+
+		if (!res.ok) {
+			console.error("Failed to create ticket pricing.");
+			toast.error("Failed to create ticket pricing");
+			return;
+		}
+
+		setPricingInfo({
+			category: "",
+			price: "",
+		});
+
+		toast.success("Ticket pricing created successfully.");
 	};
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>

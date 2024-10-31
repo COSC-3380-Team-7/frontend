@@ -14,16 +14,39 @@ export default function CreateDepartment() {
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
-	console.log(departmentInfo);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log(departmentInfo);
-		toast.success("Employee created successfully.");
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/department`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(departmentInfo),
+			}
+		);
+
+		if (!response.ok) {
+			console.error("Error creating department: ", response);
+			setIsLoading(false);
+			toast.error("Error creating department.");
+			return;
+		}
+
+		setIsLoading(false);
+		setDepartmentInfo({
+			name: "",
+			location: "",
+		});
+		toast.success("Deparment created successfully");
 	}
 
 	if (isLoading) {
-		return <Loading text="Initializing..." />;
+		return <Loading />;
 	}
 
 	return (

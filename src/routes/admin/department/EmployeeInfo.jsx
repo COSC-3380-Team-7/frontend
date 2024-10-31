@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -10,12 +11,15 @@ import {
 	DialogClose,
 } from "@/components/ui/dialog";
 import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { formatDate } from "@/utils/dateCalcs";
 
 export default function EmployeeInfo() {
 	const { department_id, employee_id } = useParams();
+	const [isLoading, setIsLoading] = useState(false);
 	const [employeeInfo, setEmployeeInfo] = useState({
+		employee_id: "",
 		employment_status: "",
 		first_name: "",
 		middle_initial: "",
@@ -23,13 +27,56 @@ export default function EmployeeInfo() {
 		phone_number: "",
 		address: "",
 		email: "",
+		date_of_birth: "",
 		salary: "",
-		password: "",
 		department: "",
 		occupation: "",
-		manager: "",
+		// manager: "",
 	});
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		async function fetchEmployeeInfo() {
+			setIsLoading(true);
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/employee/:${employee_id}`
+			);
+
+			if (!res.ok) {
+				console.error("Failed to fetch employee information");
+				setIsLoading(false);
+				return;
+			}
+
+			const data = await res.json();
+			console.log(data.data);
+			setEmployeeInfo({
+				employee_id: data.data.employee_id,
+				employment_status: data.data.employment_status,
+				first_name: data.data.first_name,
+				middle_initial: data.data.middle_initial,
+				last_name: data.data.last_name,
+				phone_number: data.data.phone_number,
+				address: data.data.address,
+				email: data.data.email,
+				date_of_birth: formatDate(data.data.date_of_birth),
+				salary: data.data.salary,
+				hire_date: formatDate(data.data.hire_date),
+				department: data.data.department_name,
+				occupation: data.data.occupation_name,
+				// manager: data.data.manager,
+				department_name: data.data.department_name,
+			});
+
+			setIsLoading(false);
+		}
+
+		fetchEmployeeInfo();
+	}, [employee_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>

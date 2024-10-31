@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
+import Loading from "@/components/Loading";
 
 export default function CreateEmployee() {
 	const { department_id } = useParams();
@@ -31,6 +32,17 @@ export default function CreateEmployee() {
 		occupation: "",
 		manager: "",
 	});
+	console.log(employeeInfo);
+
+	const [departmentManagers, setDepartmentManagers] = useState([
+		{
+			id: "1234567",
+			first_name: "John",
+			last_name: "Doe",
+		},
+	]);
+	const [occupations, setOccupations] = useState([]);
+	console.log(occupations);
 
 	const [hireDate, setHireDate] = useState({
 		startDate: null,
@@ -41,7 +53,6 @@ export default function CreateEmployee() {
 		endDate: null,
 	});
 
-	console.log(dateOfBirth);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -64,6 +75,35 @@ export default function CreateEmployee() {
 		console.log(data);
 		toast.success("Employee created successfully.");
 	};
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const occRes = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/occupations`
+				);
+
+				if (!occRes.ok) {
+					console.error("Error fetching data: ", occRes);
+					setIsLoading(false);
+					return;
+				}
+
+				const occData = await occRes.json();
+				console.log(occData.data);
+				setOccupations(occData.data);
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, [department_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -252,8 +292,14 @@ export default function CreateEmployee() {
 									<SelectContent>
 										<SelectGroup>
 											<SelectLabel>Occupation</SelectLabel>
-											<SelectItem value="Zookeeper">Zookeeper</SelectItem>
-											<SelectItem value="Veterinarian">Veterinarian</SelectItem>
+											{occupations.map((occupation) => (
+												<SelectItem
+													key={occupation.occupation_id}
+													value={occupation.occupation_id.toString()}
+												>
+													{occupation.name}
+												</SelectItem>
+											))}
 										</SelectGroup>
 									</SelectContent>
 								</Select>
@@ -293,16 +339,29 @@ export default function CreateEmployee() {
 							<div className="mt-4">
 								<Label htmlFor="manager">Assigned Manager</Label>
 
-								<Select name="manager" id="manager" required>
+								<Select
+									value={employeeInfo.manager}
+									onValueChange={(value) =>
+										setEmployeeInfo((prev) => ({ ...prev, manager: value }))
+									}
+									name="manager"
+									id="manager"
+									required
+								>
 									<SelectTrigger className="max-w-52 border-gray-500">
 										<SelectValue placeholder="Select a manager" />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup>
-											<SelectLabel>North America</SelectLabel>
-											<SelectItem value="est">
-												Eastern Standard Time (EST)
-											</SelectItem>
+											<SelectLabel>Managers</SelectLabel>
+											{departmentManagers.map((manager) => (
+												<SelectItem
+													key={manager.id}
+													value={manager.id.toString()}
+												>
+													{manager.first_name} {manager.last_name}
+												</SelectItem>
+											))}
 										</SelectGroup>
 									</SelectContent>
 								</Select>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -13,14 +13,69 @@ export default function EditDepartment() {
 		name: "",
 		location: "",
 	});
+	const [form, setForm] = useState({
+		name: "",
+		location: "",
+	});
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log(departmentInfo);
-		toast.success("Employee created successfully.");
+
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/department/:${department_id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(form),
+			}
+		);
+
+		setIsLoading(false);
+
+		if (!response.ok) {
+			console.error("Error updating department: ", response);
+			toast.error("Error updating department.");
+			return;
+		}
+
+		setDepartmentInfo({
+			name: form.name,
+			location: form.location,
+		});
+		toast.success("Updated department successfully");
 	}
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/department/:${department_id}`
+				);
+
+				if (!response.ok) {
+					console.error("Error fetching data: ", response);
+					setIsLoading(false);
+					return;
+				}
+
+				const data = await response.json();
+				console.log(data.data);
+				setDepartmentInfo(data.data);
+				setForm(data.data);
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, [department_id]);
 
 	if (isLoading) {
 		return <Loading text="Initializing..." />;
@@ -46,10 +101,8 @@ export default function EditDepartment() {
 					<div className="mt-4">
 						<Label htmlFor="name">Department Name</Label>
 						<Input
-							value={departmentInfo.name}
-							onChange={(e) =>
-								setDepartmentInfo({ ...departmentInfo, name: e.target.value })
-							}
+							value={form.name}
+							onChange={(e) => setForm({ ...form, name: e.target.value })}
 							type="text"
 							name="name"
 							id="name"
@@ -61,10 +114,10 @@ export default function EditDepartment() {
 					<div className="mt-4">
 						<Label htmlFor="location">Department Location</Label>
 						<Input
-							value={departmentInfo.location}
+							value={form.location}
 							onChange={(e) =>
-								setDepartmentInfo({
-									...departmentInfo,
+								setForm({
+									...form,
 									location: e.target.value,
 								})
 							}
@@ -79,7 +132,11 @@ export default function EditDepartment() {
 
 				<div className="flex w-full justify-end max-w-2xl">
 					<Button
-						disabled={isLoading}
+						disabled={
+							isLoading ||
+							(form.name == departmentInfo.name &&
+								form.location == departmentInfo.location)
+						}
 						className="w-24 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
 						 transition-colorstext-white font-semibold disabled:cursor-not-allowed"
 					>

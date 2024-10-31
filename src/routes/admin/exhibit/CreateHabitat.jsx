@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
+import Loading from "@/components/Loading";
 
 export default function CreateHabitat() {
 	const [habitatInfo, setHabitatInfo] = useState({
@@ -16,25 +17,44 @@ export default function CreateHabitat() {
 	const navigate = useNavigate();
 	const { exhibit_id } = useParams();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/habitat`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: habitatInfo.name,
+					description: habitatInfo.description,
+					exhibit_id: +exhibit_id,
+				}),
 			}
-		*/
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
-		console.log(data);
-		toast.success("Employee created successfully.");
+		);
+
+		if (!response.ok) {
+			console.error("Error creating habitat: ", response);
+			setIsLoading(false);
+			toast.error("Error creating habitat");
+			return;
+		}
+
+		setIsLoading(false);
+		setHabitatInfo({
+			name: "",
+			description: "",
+		});
+		toast.success("Habitat created successfully");
 	};
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<div className="flex items-center gap-2 w-full mb-10">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
@@ -15,23 +15,79 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export default function CreateExhibit() {
 	const [exhibitInfo, setExhibitInfo] = useState({
 		name: "",
-		location: "",
 		description: "",
-		department: "",
+		department_id: "",
 	});
+	const [departmentData, setDepartmentData] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	console.log(exhibitInfo);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log(exhibitInfo);
-		// toast.success("Employee created successfully.");
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/exhibit`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: exhibitInfo.name,
+					description: exhibitInfo.description,
+					department_id: +exhibitInfo.department_id,
+				}),
+			}
+		);
+
+		if (!response.ok) {
+			console.error("Error creating department: ", response);
+			setIsLoading(false);
+			toast.error("Error creating exhibit");
+			return;
+		}
+
+		setIsLoading(false);
+		setExhibitInfo({
+			name: "",
+			description: "",
+			department_id: "",
+		});
+		toast.success("Exhibit created successfully");
 	}
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				setIsLoading(true);
+				const departmentResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/department`
+				);
+
+				if (!departmentResponse.ok) {
+					console.error("Error fetching data: ", departmentResponse);
+					setIsLoading(false);
+					return;
+				}
+
+				const dData = await departmentResponse.json();
+				console.log(dData.data);
+				setDepartmentData(dData.data);
+
+				setIsLoading(false);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+			}
+		}
+		fetchData();
+	}, []);
 
 	if (isLoading) {
 		return <Loading text="Initializing..." />;
@@ -68,21 +124,6 @@ export default function CreateExhibit() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="location">Exhibit Location</Label>
-						<Input
-							value={exhibitInfo.location}
-							onChange={(e) =>
-								setExhibitInfo({ ...exhibitInfo, location: e.target.value })
-							}
-							type="text"
-							name="location"
-							id="location"
-							placeholder="A26"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
 						<Label htmlFor="description">Description</Label>
 						<Textarea
 							value={exhibitInfo.description}
@@ -101,9 +142,9 @@ export default function CreateExhibit() {
 					<div className="mt-4">
 						<Label htmlFor="gender">Department</Label>
 						<Select
-							value={exhibitInfo.department}
+							value={exhibitInfo.department_id}
 							onValueChange={(value) =>
-								setExhibitInfo((prev) => ({ ...prev, department: value }))
+								setExhibitInfo((prev) => ({ ...prev, department_id: value }))
 							}
 							required
 						>
@@ -113,7 +154,14 @@ export default function CreateExhibit() {
 							<SelectContent>
 								<SelectGroup>
 									<SelectLabel>Department</SelectLabel>
-									<SelectItem value="WildLife">WildLife</SelectItem>
+									{departmentData.map((el) => (
+										<SelectItem
+											key={el.department_id}
+											value={el.department_id.toString()}
+										>
+											{el.name}
+										</SelectItem>
+									))}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
