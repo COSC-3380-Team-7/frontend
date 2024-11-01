@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,45 +15,94 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Textarea } from "@/components/ui/textarea";
+import Loading from "@/components/Loading";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
 
 export default function CreateEvent() {
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [eventInfo, setEventInfo] = useState({
-		event_id: "ExINV001",
-		name: "Field trip",
-		start_time: "09:00",
-		end_time: "20:00",
-		event_date: "2022-12-12",
-		description: "School field trip",
-		category: "School Event",
-		member_exclusive: "false",
+		name: "",
+		start_time: "",
+		end_time: "",
+		description: "",
+		event_category_id: "",
 	});
 	console.log(eventInfo);
 	const [eventDate, setEventDate] = useState({
 		startDate: null,
 		endDate: null,
 	});
+	const [eventCategories, setEventCategories] = useState([]);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
-			}
-		*/
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
-		console.log(data);
-		toast.success("Employee created successfully.");
+
+		setIsLoading(true);
+
+		const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/event`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: eventInfo.name,
+				start_time: eventInfo.start_time,
+				end_time: eventInfo.end_time,
+				event_date: sqlDateConverter(eventDate.startDate),
+				description: eventInfo.description,
+				event_category_id: +eventInfo.event_category_id,
+				member_exclusive: +eventInfo.member_exclusive,
+			}),
+		});
+
+		setIsLoading(false);
+
+		if (!res.ok) {
+			toast.error("Failed to create event");
+			return;
+		}
+
+		setEventInfo({
+			name: "",
+			start_time: "",
+			end_time: "",
+			description: "",
+			event_category_id: "",
+			member_exclusive: "",
+		});
+		setEventDate({
+			startDate: null,
+			endDate: null,
+		});
+		toast.success("Event created successfully");
 	};
+
+	useEffect(() => {
+		async function fetchData() {
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/event_category`
+			);
+			setIsLoading(false);
+
+			if (!res.ok) {
+				console.error("Failed to fetch data", res);
+				return;
+			}
+
+			const data = await res.json();
+			console.log(data.data);
+			setEventCategories(data.data);
+
+			setIsLoading(false);
+		}
+
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<div>
@@ -145,14 +194,14 @@ export default function CreateEvent() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="category">Event Category</Label>
+						<Label htmlFor="event_category_id">Event Category</Label>
 
 						<Select
-							name="category"
-							id="category"
-							value={eventInfo.category}
+							name="event_category_id"
+							id="event_category_id"
+							value={eventInfo.event_category_id}
 							onValueChange={(value) =>
-								setEventInfo((prev) => ({ ...prev, category: value }))
+								setEventInfo((prev) => ({ ...prev, event_category_id: value }))
 							}
 							required
 						>
@@ -161,7 +210,14 @@ export default function CreateEvent() {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="School Event">School Event</SelectItem>
+									{eventCategories.map((el) => (
+										<SelectItem
+											key={el.event_category_id}
+											value={el.event_category_id.toString()}
+										>
+											{el.category}
+										</SelectItem>
+									))}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -203,8 +259,8 @@ export default function CreateEvent() {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="true">True</SelectItem>
-									<SelectItem value="false">False</SelectItem>
+									<SelectItem value="0">True</SelectItem>
+									<SelectItem value="1">False</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>

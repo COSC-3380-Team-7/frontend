@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,30 +12,62 @@ export default function EditHabitat() {
 	const { exhibit_id, habitat_id } = useParams();
 	const navigate = useNavigate();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [habitatInfo, setHabitatInfo] = useState({
-		name: "African Forest",
-		description:
-			"Your adventure begins as you enter the African Forest, trekking down a path that emerges into a village trading outpost. You explore the small, round huts that surround a fire pit.",
+		name: "",
+		description: "",
 	});
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/habitat/:${habitat_id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: habitatInfo.name,
+					description: habitatInfo.description,
+					exhibit_id: +exhibit_id,
+				}),
 			}
-		*/
-		console.log(habitatInfo);
-		toast.success("Employee created successfully.");
+		);
+
+		if (!response.ok) {
+			console.error("Error updating habitat: ", response);
+			setIsLoading(false);
+			toast.error("Error updating habitat");
+			return;
+		}
+
+		setIsLoading(false);
+
+		toast.success("Habitat updated successfully");
 	}
+
+	useEffect(() => {
+		async function fetchData() {
+			setIsLoading(true);
+			const response = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/habitat/:${habitat_id}`
+			);
+
+			if (!response.ok) {
+				console.error("Error fetching data: ", response);
+				setIsLoading(false);
+				return;
+			}
+
+			const data = await response.json();
+			setHabitatInfo(data.data);
+			setIsLoading(false);
+		}
+		fetchData();
+	}, [habitat_id]);
 
 	if (isLoading) {
 		return <Loading />;

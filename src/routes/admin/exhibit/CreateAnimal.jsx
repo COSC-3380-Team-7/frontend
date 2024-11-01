@@ -59,7 +59,7 @@ export default function CreateAnimal() {
 		}
 	};
 
-	const handleSubmit = async (e) => {
+	async function handleSubmit(e) {
 		e.preventDefault();
 
 		const animalData = {
@@ -80,49 +80,44 @@ export default function CreateAnimal() {
 			habitat_id: habitat_id,
 		};
 
-		try {
-			setIsLoading(true);
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/admin/animal`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(animalData),
-				}
-			);
-			setIsLoading(false);
-
-			if (!response.ok) {
-				toast.error("Failed to add animal");
-				return;
+		setIsLoading(true);
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/animal`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(animalData),
 			}
+		);
+		setIsLoading(false);
 
-			const data = await response.json();
-			console.log(data);
-			toast.success("Animal added successfully");
-			setAnimalInfo({
-				name: "",
-				scientific_name: "",
-				height: "",
-				weight: "",
-				animal_fact: "",
-				conservation_status: "",
-				availability_status: "Present",
-				gender: "",
-				origin: "",
-				geographic_range: "",
-			});
-			setDateOfBirth({ startDate: null, endDate: null });
-			setArrivalDate({ startDate: null, endDate: null });
-			setImage(null);
-			setImageFileName("");
-		} catch (error) {
-			console.error(error);
-			toast.error("Failed to add animal.");
+		if (!response.ok) {
+			toast.error("Failed to add animal");
+			return;
 		}
-	};
+
+		const data = await response.json();
+		console.log(data);
+		toast.success("Animal added successfully");
+		setAnimalInfo({
+			name: "",
+			scientific_name: "",
+			height: "",
+			weight: "",
+			animal_fact: "",
+			conservation_status: "",
+			availability_status: "Present",
+			gender: "",
+			origin: "",
+			geographic_range: "",
+		});
+		setDateOfBirth({ startDate: null, endDate: null });
+		setArrivalDate({ startDate: null, endDate: null });
+		setImage(null);
+		setImageFileName("");
+	}
 
 	if (isLoading) {
 		return <Loading />;

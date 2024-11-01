@@ -51,44 +51,39 @@ export default function AnimalInfo() {
 	});
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {
-			try {
-				setIsLoading(true);
-				const animalResponse = await fetch(
-					`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
-				);
+			const animalResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
+			);
 
-				if (!animalResponse.ok) {
-					console.error("Error fetching animalData: ", animalResponse);
-					setIsLoading(false);
-					return;
-				}
-
-				const ad = await animalResponse.json();
-
-				console.log(ad.data);
-				setAnimalInfo({
-					name: ad.data.name,
-					age: calculateAge(ad.data.date_of_birth),
-					weight: ad.data.weight,
-					height: ad.data.height,
-					animal_fact: ad.data.animal_fact,
-					conservation_status: ad.data.conservation_status,
-					availability_status: ad.data.availability_status,
-					gender: ad.data.gender,
-					origin: ad.data.origin,
-					geographic_range: ad.data.geographic_range,
-					arrival_date: formatDate(ad.data.arrival_date),
-					date_of_birth: formatDate(ad.data.date_of_birth),
-					image_cloud_link: ad.data.image_cloud_link,
-				});
+			if (!animalResponse.ok) {
+				console.error("Error fetching animalData: ", animalResponse);
 				setIsLoading(false);
-			} catch (error) {
-				console.error("Error fetching animalData: ", error);
+				return;
 			}
+
+			const ad = await animalResponse.json();
+
+			console.log(ad.data);
+			setAnimalInfo({
+				name: ad.data.name,
+				age: calculateAge(ad.data.date_of_birth),
+				weight: ad.data.weight,
+				height: ad.data.height,
+				animal_fact: ad.data.animal_fact,
+				conservation_status: ad.data.conservation_status,
+				availability_status: ad.data.availability_status,
+				gender: ad.data.gender,
+				origin: ad.data.origin,
+				geographic_range: ad.data.geographic_range,
+				arrival_date: formatDate(ad.data.arrival_date),
+				date_of_birth: formatDate(ad.data.date_of_birth),
+				image_cloud_link: ad.data.image_cloud_link,
+			});
+			setIsLoading(false);
 		}
 		fetchData();
 	}, [animal_id]);
@@ -172,7 +167,7 @@ export default function AnimalInfo() {
 									required
 								>
 									<SelectTrigger className="max-w-52 border-gray-500">
-										<SelectValue placeholder="Select availability_status" />
+										<SelectValue placeholder="Select Reason" />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectGroup>

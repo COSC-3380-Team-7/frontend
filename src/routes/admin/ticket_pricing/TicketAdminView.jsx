@@ -21,12 +21,10 @@ export default function TicketAdminView() {
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {
-			setIsLoading(true);
-
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/ticket_type`
 			);

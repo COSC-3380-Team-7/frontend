@@ -19,13 +19,12 @@ export default function DepartmentAdminView() {
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [departmentData, setDepartmentData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				setIsLoading(true);
 				const departmentResponse = await fetch(
 					`${import.meta.env.VITE_API_URL}/admin/department`
 				);

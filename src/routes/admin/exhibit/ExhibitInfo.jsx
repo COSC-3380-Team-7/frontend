@@ -27,7 +27,7 @@ export default function ExhibitInfo() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [habitatData, setHabitatData] = useState([]);
 	const [exhibitData, setExhibitData] = useState({});
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {

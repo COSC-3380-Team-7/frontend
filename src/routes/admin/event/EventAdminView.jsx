@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,8 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import Loading from "@/components/Loading";
+import { formatDate, convertTo12Hour } from "@/utils/dateCalcs";
 
 export default function EventAdminView() {
 	const paginationSize = 10;
@@ -18,17 +20,32 @@ export default function EventAdminView() {
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [data, setData] = useState([
-		{
-			event_id: "ExINV001",
-			name: "Field trip",
-			start_time: "09:00",
-			end_time: "10:00",
-			event_date: "2022-12-12",
-			description: "School field trip",
-			category: "School Event",
-		},
-	]);
+	const [data, setData] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		async function fetchData() {
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/event`);
+			setIsLoading(false);
+
+			if (!res.ok) {
+				console.error("Failed to fetch data", res);
+				return;
+			}
+
+			const data = await res.json();
+			console.log(data.data);
+			setData(data.data);
+
+			setIsLoading(false);
+		}
+
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -52,6 +69,7 @@ export default function EventAdminView() {
 						<TableHead>Start Time</TableHead>
 						<TableHead>End Time</TableHead>
 						<TableHead>Event Date</TableHead>
+						<TableHead>Member Exclusive</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -65,9 +83,10 @@ export default function EventAdminView() {
 						>
 							<TableCell className="font-medium">{el.event_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
-							<TableCell>{el.start_time}</TableCell>
-							<TableCell>{el.end_time}</TableCell>
-							<TableCell>{el.event_date}</TableCell>
+							<TableCell>{convertTo12Hour(el.start_time)}</TableCell>
+							<TableCell>{convertTo12Hour(el.end_time)}</TableCell>
+							<TableCell>{formatDate(el.event_date)}</TableCell>
+							<TableCell>{el.member_exclusive ? "Yes" : "No"}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

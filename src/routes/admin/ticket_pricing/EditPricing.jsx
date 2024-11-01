@@ -9,7 +9,7 @@ import Loading from "@/components/Loading";
 
 export default function EditPricing() {
 	const { ticket_id } = useParams();
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [pricingInfo, setPricingInfo] = useState({
 		category: "",
 		price: "",
@@ -54,23 +54,19 @@ export default function EditPricing() {
 
 	useEffect(() => {
 		async function fetchData() {
-			setIsLoading(true);
-
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/ticket_type/:${ticket_id}`
 			);
+			setIsLoading(false);
 
 			if (!res.ok) {
 				console.error("Failed to fetch data", res);
-				setIsLoading(false);
 				return;
 			}
 
 			const data = await res.json();
 			console.log(data.data);
 			setPricingInfo(data.data);
-
-			setIsLoading(false);
 		}
 		fetchData();
 	}, [ticket_id]);

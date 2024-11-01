@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -16,24 +16,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Textarea } from "@/components/ui/textarea";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
+import Loading from "@/components/Loading";
 
 export default function EditAnimal() {
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
-		age: "",
-		weight: "",
+		scientific_name: "",
 		height: "",
+		weight: "",
 		animal_fact: "",
-		species: "",
 		conservation_status: "",
-		availability_status: "",
+		availability_status: "Present",
 		gender: "",
 		origin: "",
-		scientific_name: "",
 		geographic_range: "",
 	});
-	console.log(animalInfo);
 	const [arrivalDate, setArrivalDate] = useState({
 		startDate: null,
 		endDate: null,
@@ -43,12 +42,15 @@ export default function EditAnimal() {
 		endDate: null,
 	});
 	const [image, setImage] = useState(null);
+	const [imageFileName, setImageFileName] = useState("");
+
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
 
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
+			setImageFileName(file.name);
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				setImage(reader.result);
@@ -57,25 +59,109 @@ export default function EditAnimal() {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
+
+		const animalData = {
+			name: animalInfo.name,
+			scientific_name: animalInfo.scientific_name,
+			height: animalInfo.height,
+			weight: animalInfo.weight,
+			date_of_birth: sqlDateConverter(dateOfBirth.startDate),
+			gender: animalInfo.gender,
+			origin: animalInfo.origin,
+			arrival_date: sqlDateConverter(arrivalDate.startDate),
+			animal_fact: animalInfo.animal_fact,
+			geographic_range: animalInfo.geographic_range,
+			image: image,
+			image_filename: imageFileName,
+			conservation_status: animalInfo.conservation_status,
+			availability_status: animalInfo.availability_status,
+			habitat_id: habitat_id,
+		};
+
+		setIsLoading(true);
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(animalData),
 			}
-		*/
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
+		);
+		setIsLoading(false);
+
+		if (!response.ok) {
+			toast.error("Failed to update animal");
+			return;
+		}
+
+		const data = await response.json();
 		console.log(data);
-		toast.success("Employee created successfully.");
-	};
+		toast.success("Animal added successfully");
+		setAnimalInfo({
+			name: "",
+			scientific_name: "",
+			height: "",
+			weight: "",
+			animal_fact: "",
+			conservation_status: "",
+			availability_status: "Present",
+			gender: "",
+			origin: "",
+			geographic_range: "",
+		});
+		setDateOfBirth({ startDate: null, endDate: null });
+		setArrivalDate({ startDate: null, endDate: null });
+		setImage(null);
+		setImageFileName("");
+	}
+
+	useEffect(() => {
+		async function fetchData() {
+			const animalResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
+			);
+
+			if (!animalResponse.ok) {
+				console.error("Error fetching animalData: ", animalResponse);
+				setIsLoading(false);
+				return;
+			}
+
+			const ad = await animalResponse.json();
+
+			console.log(ad.data);
+			setAnimalInfo({
+				name: ad.data.name,
+				scientific_name: ad.data.scientific_name,
+				weight: ad.data.weight,
+				height: ad.data.height,
+				animal_fact: ad.data.animal_fact,
+				conservation_status: ad.data.conservation_status,
+				origin: ad.data.origin,
+				geographic_range: ad.data.geographic_range,
+				gender: ad.data.gender,
+			});
+			setDateOfBirth({
+				startDate: new Date(ad.data.date_of_birth),
+				endDate: new Date(ad.data.date_of_birth),
+			});
+			setArrivalDate({
+				startDate: new Date(ad.data.arrival_date),
+				endDate: new Date(ad.data.arrival_date),
+			});
+			setIsLoading(false);
+		}
+		fetchData();
+	}, [animal_id]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<div className="flex items-center gap-2 w-full mb-6">
@@ -110,21 +196,6 @@ export default function EditAnimal() {
 							name="name"
 							id="name"
 							placeholder="African Lion"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="species">Species</Label>
-						<Input
-							value={animalInfo.species}
-							onChange={(e) =>
-								setAnimalInfo({ ...animalInfo, species: e.target.value })
-							}
-							type="text"
-							name="species"
-							id="species"
-							placeholder="Lion"
 							required
 						/>
 					</div>
@@ -174,7 +245,7 @@ export default function EditAnimal() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="weight">Weight</Label>
+						<Label htmlFor="weight">Weight (kg)</Label>
 						<Input
 							value={animalInfo.weight}
 							onChange={(e) => {
@@ -192,7 +263,7 @@ export default function EditAnimal() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="height">Height</Label>
+						<Label htmlFor="height">Height (ft)</Label>
 						<Input
 							value={animalInfo.height}
 							onChange={(e) =>
@@ -223,8 +294,8 @@ export default function EditAnimal() {
 							<SelectContent>
 								<SelectGroup>
 									<SelectLabel>Gender</SelectLabel>
-									<SelectItem value="0">Male</SelectItem>
-									<SelectItem value="1">Female</SelectItem>
+									<SelectItem value="Male">Male</SelectItem>
+									<SelectItem value="Female">Female</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -240,6 +311,7 @@ export default function EditAnimal() {
 									conservation_status: value,
 								}))
 							}
+							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
 								<SelectValue placeholder="Select conservation status" />
@@ -331,9 +403,9 @@ export default function EditAnimal() {
 					<Button
 						disabled={isLoading}
 						className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
-						 transition-colorstext-white font-bold disabled:cursor-not-allowed"
+                         transition-colorstext-white font-bold disabled:cursor-not-allowed"
 					>
-						Create
+						Add
 					</Button>
 				</div>
 			</form>

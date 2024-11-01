@@ -20,28 +20,24 @@ export default function ExhibitAdminView() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {
-			try {
-				setIsLoading(true);
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/admin/exhibit`
-				);
-				if (!response.ok) {
-					console.error("Error fetching data: ", response);
-					setIsLoading(false);
-					return;
-				}
+			const response = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/exhibit`
+			);
 
-				const data = await response.json();
-				console.log(data.data);
-				setData(data.data);
+			if (!response.ok) {
+				console.error("Error fetching data: ", response);
 				setIsLoading(false);
-			} catch (error) {
-				console.error("Error fetching data: ", error);
+				return;
 			}
+
+			const data = await response.json();
+			console.log(data.data);
+			setData(data.data);
+			setIsLoading(false);
 		}
 		fetchData();
 	}, []);

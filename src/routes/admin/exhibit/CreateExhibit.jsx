@@ -24,7 +24,7 @@ export default function CreateExhibit() {
 		department_id: "",
 	});
 	const [departmentData, setDepartmentData] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const navigate = useNavigate();
 	console.log(exhibitInfo);
 
@@ -65,32 +65,27 @@ export default function CreateExhibit() {
 
 	useEffect(() => {
 		async function fetchData() {
-			try {
-				setIsLoading(true);
-				const departmentResponse = await fetch(
-					`${import.meta.env.VITE_API_URL}/admin/department`
-				);
+			const departmentResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/department`
+			);
 
-				if (!departmentResponse.ok) {
-					console.error("Error fetching data: ", departmentResponse);
-					setIsLoading(false);
-					return;
-				}
-
-				const dData = await departmentResponse.json();
-				console.log(dData.data);
-				setDepartmentData(dData.data);
-
+			if (!departmentResponse.ok) {
+				console.error("Error fetching data: ", departmentResponse);
 				setIsLoading(false);
-			} catch (error) {
-				console.error("Error fetching data: ", error);
+				return;
 			}
+
+			const dData = await departmentResponse.json();
+			console.log(dData.data);
+			setDepartmentData(dData.data);
+
+			setIsLoading(false);
 		}
 		fetchData();
 	}, []);
 
 	if (isLoading) {
-		return <Loading text="Initializing..." />;
+		return <Loading />;
 	}
 
 	return (

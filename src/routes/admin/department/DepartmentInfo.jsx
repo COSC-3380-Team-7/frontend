@@ -28,12 +28,11 @@ export default function DepartmentInfo() {
 	const { department_id } = useParams();
 	const [employeeData, setEmployeeData] = useState([]);
 	const [departmentData, setDepartmentData] = useState({});
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				setIsLoading(true);
 				const empResponse = await fetch(
 					`${
 						import.meta.env.VITE_API_URL

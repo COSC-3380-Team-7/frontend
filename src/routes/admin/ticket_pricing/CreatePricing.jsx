@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Loading from "@/components/Loading";
 
@@ -13,12 +13,11 @@ export default function CreatePricing() {
 		category: "",
 		price: "",
 	});
-
-	const { ticket_id } = useParams();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setIsLoading(true);
 		const res = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/ticket_type`,
 			{
@@ -33,6 +32,7 @@ export default function CreatePricing() {
 			}
 		);
 
+		setIsLoading(false);
 		if (!res.ok) {
 			console.error("Failed to create ticket pricing.");
 			toast.error("Failed to create ticket pricing");

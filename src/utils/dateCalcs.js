@@ -19,3 +19,10 @@ export function formatDate(dateTimeString) {
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${month}/${day}/${year}`;
 }
+export function convertTo12Hour(timeString) {
+	const [hours, minutes, seconds] = timeString.split(":");
+	let hour = parseInt(hours);
+	const ampm = hour >= 12 ? "PM" : "AM";
+	hour = hour % 12 || 12; // Convert hour to 12-hour format
+	return `${hour}:${minutes} ${ampm}`;
+}

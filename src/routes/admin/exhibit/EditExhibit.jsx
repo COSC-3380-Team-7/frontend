@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -7,36 +7,96 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import Loading from "@/components/Loading";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 export default function EditExhibit() {
 	const { exhibit_id } = useParams();
 	const navigate = useNavigate();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [exhibitInfo, setExhibitInfo] = useState({
-		name: "African Forest",
-		location: "B34",
-		description:
-			"Your adventure begins as you enter the African Forest, trekking down a path that emerges into a village trading outpost. You explore the small, round huts that surround a fire pit.",
+		name: "",
+		description: "",
+		department_id: "",
 	});
+	const [departmentData, setDepartmentData] = useState([]);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		/*
-			Form Data {
-				first_name: "John",
-				middle_initial: "D",
-				last_name: "Doe",
-				phone_number: "123456789",
-				address: "1234 Main St",
-				email: "email",
-				salary: "50000",
-				password: """
+		setIsLoading(true);
+
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/exhibit/:${exhibit_id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: exhibitInfo.name,
+					description: exhibitInfo.description,
+					department_id: +exhibitInfo.department_id,
+				}),
 			}
-		*/
-		console.log(exhibitInfo);
-		toast.success("Employee created successfully.");
+		);
+
+		if (!response.ok) {
+			console.error("Error updating exhibit: ", response);
+			setIsLoading(false);
+			toast.error("Error updating exhibit");
+			return;
+		}
+
+		setIsLoading(false);
+
+		toast.success("Exhibit updated successfully");
 	}
+
+	useEffect(() => {
+		async function fetchData() {
+			const departmentResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/department`
+			);
+
+			if (!departmentResponse.ok) {
+				console.error("Error fetching data: ", departmentResponse);
+				setIsLoading(false);
+				return;
+			}
+
+			const dData = await departmentResponse.json();
+			console.log(dData.data);
+			setDepartmentData(dData.data);
+
+			const exhibitResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/exhibit/:${exhibit_id}`
+			);
+			if (!exhibitResponse.ok) {
+				console.error("Error fetching data: ", exhibitResponse);
+				setIsLoading(false);
+				return;
+			}
+
+			const exhibitData = await exhibitResponse.json();
+			console.log(exhibitData.data);
+			setExhibitInfo({
+				name: exhibitData.data.name,
+				description: exhibitData.data.description,
+				department_id: exhibitData.data.department_id.toString(),
+			});
+
+			setIsLoading(false);
+		}
+		fetchData();
+	}, [exhibit_id]);
 
 	if (isLoading) {
 		return <Loading />;
@@ -73,21 +133,6 @@ export default function EditExhibit() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="location">Exhibit Location</Label>
-						<Input
-							value={exhibitInfo.location}
-							onChange={(e) =>
-								setExhibitInfo({ ...exhibitInfo, location: e.target.value })
-							}
-							type="text"
-							name="location"
-							id="location"
-							placeholder="A26"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
 						<Label htmlFor="description">Description</Label>
 						<Textarea
 							value={exhibitInfo.description}
@@ -101,6 +146,34 @@ export default function EditExhibit() {
 							className="border-gray-500"
 							required
 						/>
+					</div>
+
+					<div className="mt-4">
+						<Label htmlFor="gender">Department</Label>
+						<Select
+							value={exhibitInfo.department_id}
+							onValueChange={(value) =>
+								setExhibitInfo((prev) => ({ ...prev, department_id: value }))
+							}
+							required
+						>
+							<SelectTrigger className="max-w-52 border-gray-500">
+								<SelectValue placeholder="Select department" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectLabel>Department</SelectLabel>
+									{departmentData.map((el) => (
+										<SelectItem
+											key={el.department_id}
+											value={el.department_id.toString()}
+										>
+											{el.name}
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
 					</div>
 				</div>
 
