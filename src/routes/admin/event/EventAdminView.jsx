@@ -70,6 +70,7 @@ export default function EventAdminView() {
 						<TableHead>End Time</TableHead>
 						<TableHead>Event Date</TableHead>
 						<TableHead>Member Exclusive</TableHead>
+						<TableHead>Created At</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -87,6 +88,7 @@ export default function EventAdminView() {
 							<TableCell>{convertTo12Hour(el.end_time)}</TableCell>
 							<TableCell>{formatDate(el.event_date)}</TableCell>
 							<TableCell>{el.member_exclusive ? "Yes" : "No"}</TableCell>
+							<TableCell>{formatDate(el.created_at)}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
