@@ -12,7 +12,7 @@ import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
 import EmployeeValidation from "./routes/employee/EmployeeValidation.jsx";
 import ManagerLogin from "./routes/manager/ManagerLogin.jsx";
-import ManagerValidation from "./routes/manager/ManagerValidation.jsx";
+import ManagerValidation from "./routes/manager/Manager.jsx";
 import { Toaster } from "sonner";
 import MemberLogin from "./routes/member/MemberLogin.jsx";
 import AdminLogin from "./routes/admin/AdminLogin.jsx";
@@ -131,7 +131,6 @@ const router = createBrowserRouter(
 				<Route index element={<AfricanElephant />}></Route>
 			</Route>
 
-
 			<Route path="/memberships" element={<OutletWrapper />}>
 				<Route index element={<MembershipPage />}></Route>
 			</Route>
@@ -189,7 +188,6 @@ const router = createBrowserRouter(
 			<Route path="/reptile-house" element={<OutletWrapper />}>
 				<Route index element={<ReptileHouse />}></Route>
 			</Route>
-
 
 			<Route path="/member/login" element={<MemberLogin />}></Route>
 			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
