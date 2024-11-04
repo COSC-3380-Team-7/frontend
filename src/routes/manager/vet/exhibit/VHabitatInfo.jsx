@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-	ArrowLeftIcon,
-	ArrowRight,
-	PencilIcon,
-	PlusIcon,
-	UserIcon,
-} from "lucide-react";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -15,59 +9,60 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
+import { calculateAge } from "@/utils/dateCalcs";
 
-export default function ExhibitInfo() {
-	const navigate = useNavigate();
-	const { exhibit_id } = useParams();
+export default function VHabitatInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [habitatData, setHabitatData] = useState([]);
-	const [exhibitData, setExhibitData] = useState({});
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
+	const { exhibit_id, habitat_id } = useParams();
+
+	const [habitatData, setHabitatData] = useState({});
+	const [animalData, setAnimalData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				setIsLoading(true);
-				const res1 = await fetch(
-					`${import.meta.env.VITE_API_URL}/admin/exhibit/:${exhibit_id}`
+				const habitatResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/habitat/:${habitat_id}`
 				);
 
-				if (!res1.ok) {
-					console.error("Error fetching data: ", res1);
+				if (!habitatResponse.ok) {
+					console.error("Error fetching habitatData: ", habitatResponse);
 					setIsLoading(false);
 					return;
 				}
-				const data1 = await res1.json();
-				console.log(data1.data);
-				setExhibitData(data1.data);
 
-				const response = await fetch(
-					`${
-						import.meta.env.VITE_API_URL
-					}/admin/exhibit_habitats/:${exhibit_id}`
+				const hd = await habitatResponse.json();
+				console.log(hd.data);
+				setHabitatData(hd.data);
+
+				const animalResponse = await fetch(
+					`${import.meta.env.VITE_API_URL}/admin/habitat_animals/:${habitat_id}`
 				);
 
-				if (!response.ok) {
-					console.error("Error fetching data: ", response);
+				if (!animalResponse.ok) {
+					console.error("Error fetching animalData: ", animalResponse);
 					setIsLoading(false);
 					return;
 				}
-				const data = await response.json();
 
-				console.log(data.data);
-				setHabitatData(data.data);
+				const ad = await animalResponse.json();
+				console.log(ad.data);
+				setAnimalData(ad.data);
 				setIsLoading(false);
 			} catch (error) {
-				console.error("Error fetching data: ", error);
+				console.error("Error fetching animalData: ", error);
 			}
 		}
 		fetchData();
-	}, [exhibit_id]);
+	}, [habitat_id]);
 
 	if (isLoading) {
 		return <Loading />;
@@ -80,73 +75,46 @@ export default function ExhibitInfo() {
 					<Button
 						size="icon"
 						variant="outline"
-						onClick={() => navigate("/admin/exhibit")}
+						onClick={() => navigate(`/manager/vet/exhibit/${exhibit_id}`)}
 					>
 						<ArrowLeftIcon className="h-5 w-5" />
 					</Button>
 					<h1 className="text-3xl font-semibold text-gray-800">
-						{exhibitData.name} Exhibit
+						{habitatData.name} Habitat
 					</h1>
 				</div>
-
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="habitat/create">
-						<PlusIcon className="h-5 w-5" /> Create Habitat
-					</Link>
-				</Button>
-			</div>
-
-			<div className="flex items-center gap-4 mb-6">
-				<Button
-					asChild
-					variant="outline"
-					className="flex items-center gap-2 border-gray-500 w-40"
-				>
-					<Link to="edit">
-						<PencilIcon className="w-4 h-4" /> Edit Information
-					</Link>
-				</Button>
-
-				<Button
-					asChild
-					variant="outline"
-					className="flex items-center gap-2 border-gray-500 w-42"
-				>
-					<Link to="assignment">
-						<UserIcon className="w-4 h-4" /> Assign Employees
-					</Link>
-				</Button>
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-				Habitats
+				Animals
 			</h1>
 
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>Habitat Id</TableHead>
+						<TableHead>Animal Id</TableHead>
 						<TableHead>Name</TableHead>
-						<TableHead>Description</TableHead>
+						<TableHead>Nickname</TableHead>
+						<TableHead>Scientific Name</TableHead>
+						<TableHead>Gender</TableHead>
+						<TableHead>Age</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{habitatData.map((el) => (
+					{animalData.map((el) => (
 						<TableRow
-							key={el.habitat_id}
+							key={el.animal_id}
 							onClick={() => {
-								navigate(`habitat/${el.habitat_id}`);
+								navigate(`animal/${el.animal_id}`);
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell className="font-medium">{el.habitat_id}</TableCell>
+							<TableCell>{el.animal_id}</TableCell>
 							<TableCell>{el.name}</TableCell>
-							<TableCell className="max-w-xs text-ellipsis">
-								{el.description}
-							</TableCell>
+							<TableCell>{el.nickname}</TableCell>
+							<TableCell>{el.scientific_name}</TableCell>
+							<TableCell>{el.gender}</TableCell>
+							<TableCell>{calculateAge(el.date_of_birth)}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -171,7 +139,7 @@ export default function ExhibitInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= habitatData.length - 1}
+					disabled={rightIndex >= animalData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

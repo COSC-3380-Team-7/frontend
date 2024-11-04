@@ -12,7 +12,7 @@ import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
 import EmployeeValidation from "./routes/employee/EmployeeValidation.jsx";
 import ManagerLogin from "./routes/manager/ManagerLogin.jsx";
-import ManagerValidation from "./routes/manager/Manager.jsx";
+import ManagerValidation from "./routes/manager/MaintenanceManager.jsx";
 import { Toaster } from "sonner";
 import MemberLogin from "./routes/member/MemberLogin.jsx";
 import AdminLogin from "./routes/admin/AdminLogin.jsx";
@@ -85,6 +85,15 @@ import Giraffe from "./routes/homePages/planyourvisit/animalMore/giraffe.jsx";
 import Penguins from "./routes/homePages/planyourvisit/animalMore/penguins.jsx";
 import Orangutans from "./routes/homePages/planyourvisit/animalMore/orangutans.jsx";
 import ReptileHouse from "./routes/homePages/planyourvisit/animalMore/reptilehouse.jsx";
+import VetManager from "./routes/manager/VetManager.jsx";
+import VExhibitAdminView from "./routes/manager/vet/exhibit/VExhibitAdminView.jsx";
+import VExhibitInfo from "./routes/manager/vet/exhibit/VExhibitInfo.jsx";
+import VHabitatInfo from "./routes/manager/vet/exhibit/VHabitatInfo.jsx";
+import VAnimalInfo from "./routes/manager/vet/exhibit/VAnimalInfo.jsx";
+import VDepartmentInfo from "./routes/manager/vet/employee/VDepartmentInfo.jsx";
+import VEmployeeInfo from "./routes/manager/vet/employee/VEmployeeInfo.jsx";
+import CreateVetReport from "./routes/manager/vet/vet_reports/CreateVetReport.jsx";
+import AnimalSearch from "./routes/admin/vet_reports/AnimalSearch.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -200,16 +209,7 @@ const router = createBrowserRouter(
 			<Route path="/employee" element={<EmployeeValidation />}>
 				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
 			</Route>
-			<Route path="/manager/login" element={<ManagerLogin />}></Route>
-			<Route path="/manager" element={<ManagerValidation />}>
-				<Route path="vet" element={<p>vet</p>}></Route>
-			</Route>
-			<Route path="/manager" element={<ManagerValidation />}>
-				<Route path="maintenance" element={<p>maintenance</p>}></Route>
-			</Route>
-			<Route path="/manager" element={<ManagerValidation />}>
-				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
-			</Route>
+
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
 
 			<Route path="/admin" element={<Admin />}>
@@ -287,6 +287,55 @@ const router = createBrowserRouter(
 								<Route path="edit" element={<EditAnimal />}></Route>
 							</Route>
 							<Route path="animal/create" element={<CreateAnimal />}></Route>
+						</Route>
+					</Route>
+				</Route>
+
+				<Route path="event" element={<OutletWrapper />}>
+					<Route index element={<EventAdminView />}></Route>
+					<Route path="create" element={<CreateEvent />}></Route>
+					<Route path=":event_id" element={<Outlet />}>
+						<Route path="edit" element={<EditEvent />}></Route>
+					</Route>
+				</Route>
+			</Route>
+
+			<Route path="/manager/login" element={<ManagerLogin />}></Route>
+
+			<Route path="/manager/vet" element={<VetManager />}>
+				<Route path="vet_report" element={<OutletWrapper />}>
+					<Route index element={<VetReportsView />}></Route>
+					<Route path=":vet_report_id" element={<Outlet />}>
+						<Route index element={<VetReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="search" element={<OutletWrapper />}>
+					<Route index element={<AnimalSearch />}></Route>
+					<Route path=":animal_id/create" element={<Outlet />}>
+						<Route index element={<CreateVetReport />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="department" element={<OutletWrapper />}>
+					<Route index element={<VDepartmentInfo />}></Route>
+					<Route path="employee/:employee_id" element={<Outlet />}>
+						<Route index element={<VEmployeeInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<VExhibitAdminView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<VExhibitInfo />}></Route>
+						<Route path="habitat/:habitat_id" element={<Outlet />}>
+							<Route index element={<VHabitatInfo />}></Route>
+							<Route path="animal/:animal_id" element={<Outlet />}>
+								<Route index element={<VAnimalInfo />}></Route>
+								<Route path="create" element={<Outlet />}>
+									<Route index element={<CreateVetReport />}></Route>
+								</Route>
+							</Route>
 						</Route>
 					</Route>
 				</Route>

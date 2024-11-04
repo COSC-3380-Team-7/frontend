@@ -1,4 +1,4 @@
-import SideBar from "@/components/admin/Sidebar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Outlet } from "react-router-dom";
 import { useAdminStore } from "@/state_management/adminStore";
@@ -32,7 +32,7 @@ export default function Admin() {
 				</Button>
 			</nav>
 			<div className="flex">
-				<SideBar />
+				<AdminSidebar />
 				<div className="flex-1 min-h-custom overflow-y-auto mt-16">
 					<Outlet />
 				</div>

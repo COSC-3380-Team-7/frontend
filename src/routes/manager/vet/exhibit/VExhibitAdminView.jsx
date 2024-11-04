@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -13,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
-export default function ExhibitAdminView() {
+export default function VExhibitAdminView() {
 	const paginationSize = 5;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -50,14 +49,6 @@ export default function ExhibitAdminView() {
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
 				<h1 className="text-3xl font-semibold text-gray-800">Exhibits</h1>
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="create">
-						<PlusIcon className="h-5 w-5" /> Create Exhibit
-					</Link>
-				</Button>
 			</div>
 
 			<Table>

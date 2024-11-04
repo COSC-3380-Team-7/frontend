@@ -1,15 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-	BuildingIcon,
-	CalendarDays,
-	ChartColumnIncreasing,
-	HammerIcon,
-	HeartPulseIcon,
-	PawPrint,
-	TicketsIcon,
-} from "lucide-react";
+import { HeartPulseIcon, PawPrint } from "lucide-react";
 
-export default function SideBar() {
+export default function ZookeeperMSidebar() {
 	const location = useLocation();
 
 	function isActiveLink(link, pathname, mainDirectory) {
@@ -24,39 +16,14 @@ export default function SideBar() {
 
 	const navLinks = [
 		{
-			href: "/admin/department",
-			icon: <BuildingIcon className="h-6 w-6 mr-1" />,
-			name: "Departments",
-		},
-		{
-			href: "/admin/exhibit",
+			href: "/manager/vet/exhibit",
 			icon: <PawPrint className="h-6 w-6 mr-1" />,
 			name: "Exhibits",
 		},
 		{
-			href: "/admin/event",
-			icon: <CalendarDays className="h-6 w-6 mr-1" />,
-			name: "Events",
-		},
-		{
-			href: "/admin/vet_report",
+			href: "/manager/vet/vet_report",
 			icon: <HeartPulseIcon className="h-6 w-6 mr-1" />,
 			name: "Veterinarian Reports",
-		},
-		{
-			href: "/admin/maintenance_report",
-			icon: <HammerIcon className="h-6 w-6 mr-1" />,
-			name: "Maintenance Reports",
-		},
-		{
-			href: "/admin/finance",
-			icon: <ChartColumnIncreasing className="h-6 w-6 mr-1" />,
-			name: "Finances",
-		},
-		{
-			href: "/admin/ticket",
-			icon: <TicketsIcon className="h-6 w-6 mr-1" />,
-			name: "Ticket Pricing",
 		},
 	];
 
