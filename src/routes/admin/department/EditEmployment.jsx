@@ -173,7 +173,9 @@ export default function EditEmployment() {
 					auth_level_id: empData.data.auth_level_id.toString(),
 					position: empData.data.position,
 					employment_status: empData.data.employment_status,
-					manager_id: empData.data.manager_id.toString(),
+					manager_id: empData.data.manager_id
+						? empData.data.manager_id.toString()
+						: "",
 				};
 			});
 
