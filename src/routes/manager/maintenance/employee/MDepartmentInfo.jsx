@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
-export default function VDepartmentInfo() {
+export default function MDepartmentInfo() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);

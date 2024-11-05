@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
 
-export default function VEmployeeInfo() {
+export default function MEmployeeInfo() {
 	const { employee_id } = useParams();
 	const [isLoading, setIsLoading] = useState(false);
 	const [employeeInfo, setEmployeeInfo] = useState({

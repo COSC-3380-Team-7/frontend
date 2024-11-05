@@ -21,7 +21,7 @@ import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { useManagerStore } from "@/state_management/managerStore";
 import { calculateAge, formatDate } from "@/utils/dateCalcs";
 
-export default function CreateVetReport() {
+export default function CreateMaintReport() {
 	const { employee_id } = useManagerStore();
 	console.log(employee_id);
 	const { animal_id } = useParams();

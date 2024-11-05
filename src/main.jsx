@@ -12,7 +12,6 @@ import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
 import EmployeeValidation from "./routes/employee/EmployeeValidation.jsx";
 import ManagerLogin from "./routes/manager/ManagerLogin.jsx";
-import ManagerValidation from "./routes/manager/MaintenanceManager.jsx";
 import { Toaster } from "sonner";
 import MemberLogin from "./routes/member/MemberLogin.jsx";
 import AdminLogin from "./routes/admin/AdminLogin.jsx";
@@ -94,6 +93,14 @@ import VDepartmentInfo from "./routes/manager/vet/employee/VDepartmentInfo.jsx";
 import VEmployeeInfo from "./routes/manager/vet/employee/VEmployeeInfo.jsx";
 import CreateVetReport from "./routes/manager/vet/vet_reports/CreateVetReport.jsx";
 import AnimalSearch from "./routes/admin/vet_reports/AnimalSearch.jsx";
+import MaintenanceManager from "./routes/manager/MaintenanceManager.jsx";
+import EditEmployment from "./routes/admin/department/EditEmployment.jsx";
+import MMaintenanceReportsView from "./routes/manager/maintenance/MMaintenanceReportsView.jsx";
+import MExhibitAdminView from "./routes/manager/maintenance/MExhibitAdminView.jsx";
+import MExhibitInfo from "./routes/manager/maintenance/MExhibitInfo.jsx";
+import MMaintenanceReportInfo from "./routes/manager/maintenance/MMaintenanceReportInfo.jsx";
+import HabitatSearch from "./routes/manager/maintenance/HabitatSearch.jsx";
+import CreateMaintReport from "./routes/manager/maintenance/CreateMaintReport.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -227,7 +234,11 @@ const router = createBrowserRouter(
 							<Route path="create" element={<CreateEmployee />}></Route>
 							<Route path=":employee_id" element={<Outlet />}>
 								<Route index element={<EmployeeInfo />}></Route>
-								<Route path="edit" element={<EditEmployee />}></Route>
+								<Route path="edit_personal" element={<EditEmployee />}></Route>
+								<Route
+									path="edit_employment"
+									element={<EditEmployment />}
+								></Route>
 							</Route>
 						</Route>
 					</Route>
@@ -339,12 +350,34 @@ const router = createBrowserRouter(
 						</Route>
 					</Route>
 				</Route>
+			</Route>
 
-				<Route path="event" element={<OutletWrapper />}>
-					<Route index element={<EventAdminView />}></Route>
-					<Route path="create" element={<CreateEvent />}></Route>
-					<Route path=":event_id" element={<Outlet />}>
-						<Route path="edit" element={<EditEvent />}></Route>
+			<Route path="/manager/maintenance" element={<MaintenanceManager />}>
+				<Route path="maintenance_report" element={<OutletWrapper />}>
+					<Route index element={<MMaintenanceReportsView />}></Route>
+					<Route path=":maintenance_report_id" element={<Outlet />}>
+						<Route index element={<MMaintenanceReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="search" element={<OutletWrapper />}>
+					<Route index element={<HabitatSearch />}></Route>
+					<Route path=":animal_id/create" element={<Outlet />}>
+						<Route index element={<CreateMaintReport />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="department" element={<OutletWrapper />}>
+					<Route index element={<VDepartmentInfo />}></Route>
+					<Route path="employee/:employee_id" element={<Outlet />}>
+						<Route index element={<VEmployeeInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<MExhibitAdminView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<MExhibitInfo />}></Route>
 					</Route>
 				</Route>
 			</Route>

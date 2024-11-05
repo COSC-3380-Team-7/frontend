@@ -16,7 +16,7 @@ import Loading from "@/components/Loading";
 import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
-export default function AnimalSearch() {
+export default function HabitatSearch() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -25,7 +25,7 @@ export default function AnimalSearch() {
 
 	const [data, setData] = useState([]);
 
-	const [animalInfo, setAnimalInfo] = useState({
+	const [habitatInfo, setHabitatInfo] = useState({
 		name: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +36,8 @@ export default function AnimalSearch() {
 		setIsLoading(true);
 
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/admin/query_animal_name?name=${
-				animalInfo.name
+			`${import.meta.env.VITE_API_URL}/admin/query_habitat_name?name=${
+				habitatInfo.name
 			}`
 		);
 
@@ -51,7 +51,7 @@ export default function AnimalSearch() {
 		const data = await response.json();
 		if (data.data.length === 0) {
 			console.log("No data found");
-			toast.error(`Animal could not be found`);
+			toast.error(`Habitat could not be found`);
 			return;
 		}
 		console.log(data.data);
@@ -66,22 +66,22 @@ export default function AnimalSearch() {
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Create Veterinarian Report
+					Create Maintenance Report
 				</h1>
 			</div>
 
 			<form onSubmit={handleSubmit} className="flex items-center gap-8 mb-8">
 				<div className="flex flex-col gap-1 max-w-52">
-					<Label htmlFor="name">Animal Name</Label>
+					<Label htmlFor="name">Habitat Name</Label>
 					<Input
-						value={animalInfo.name}
+						value={habitatInfo.name}
 						onChange={(e) =>
-							setAnimalInfo({ ...animalInfo, name: e.target.value })
+							setHabitatInfo({ ...habitatInfo, name: e.target.value })
 						}
 						type="text"
 						name="name"
 						id="name"
-						placeholder="African Lion"
+						placeholder="Jaguar Den"
 						required
 					/>
 				</div>
@@ -100,29 +100,21 @@ export default function AnimalSearch() {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Animal Id</TableHead>
-								<TableHead>Animal</TableHead>
-								<TableHead>Nickname</TableHead>
-								<TableHead>Age</TableHead>
+								<TableHead>Habitat Id</TableHead>
+								<TableHead>Name</TableHead>
+								<TableHead>Description</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{data.slice(leftIndex, rightIndex).map((el) => {
-								return (
-									<TableRow
-										key={el.animal_id}
-										onClick={() => {
-											navigate(`${el.animal_id}/create`);
-										}}
-										className="cursor-pointer"
-									>
-										<TableCell>{el.animal_id}</TableCell>
-										<TableCell>{el.name}</TableCell>
-										<TableCell>{el.nickname}</TableCell>
-										<TableCell>{formatDate(el.date_of_birth)}</TableCell>
-									</TableRow>
-								);
-							})}
+							{data.map((el) => (
+								<TableRow key={el.habitat_id}>
+									<TableCell className="font-medium">{el.habitat_id}</TableCell>
+									<TableCell>{el.name}</TableCell>
+									<TableCell className="max-w-xs text-ellipsis">
+										{el.description}
+									</TableCell>
+								</TableRow>
+							))}
 						</TableBody>
 					</Table>
 					<div className="flex w-full justify-end items-center gap-2 mt-4">

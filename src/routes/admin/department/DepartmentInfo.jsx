@@ -129,10 +129,11 @@ export default function DepartmentInfo() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[120px]">Employee Id</TableHead>
+						<TableHead>Employee Id</TableHead>
 						<TableHead>First Name</TableHead>
 						<TableHead>Last Name</TableHead>
-						<TableHead className="text-right">Salary</TableHead>
+						<TableHead>Occupation</TableHead>
+						<TableHead>Position</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -151,7 +152,8 @@ export default function DepartmentInfo() {
 								</TableCell>
 								<TableCell>{item.first_name}</TableCell>
 								<TableCell>{item.last_name}</TableCell>
-								<TableCell className="text-right">{item.salary}</TableCell>
+								<TableCell>{item.occupation}</TableCell>
+								<TableCell>{item.title}</TableCell>
 							</TableRow>
 						);
 					})}

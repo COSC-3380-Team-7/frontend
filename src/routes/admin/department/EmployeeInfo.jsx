@@ -1,16 +1,6 @@
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-	DialogClose,
-} from "@/components/ui/dialog";
-import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
+import { ArrowLeftIcon, PencilIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
@@ -99,35 +89,20 @@ export default function EmployeeInfo() {
 					variant="outline"
 					className="flex items-center gap-2 border-gray-500"
 				>
-					<Link to="edit">
-						<PencilIcon className="w-4 h-4" /> Edit Information
+					<Link to="edit_personal">
+						<PencilIcon className="w-4 h-4" /> Edit Personal Information
 					</Link>
 				</Button>
 
-				<Dialog>
-					<DialogTrigger asChild>
-						<Button
-							variant="outline"
-							className="flex items-center gap-2 border-gray-500"
-						>
-							<UserX className="w-4 h-4" /> Remove Employee
-						</Button>
-					</DialogTrigger>
-					<DialogContent className="max-w-lg">
-						<DialogHeader>
-							<DialogTitle className="text-xl">Remove Employee</DialogTitle>
-							<DialogDescription className="text-gray-700 text-base">
-								Are you sure you want to remove this employee?
-							</DialogDescription>
-						</DialogHeader>
-
-						<DialogFooter>
-							<DialogClose asChild>
-								<Button variant="destructive">Remove</Button>
-							</DialogClose>
-						</DialogFooter>
-					</DialogContent>
-				</Dialog>
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500"
+				>
+					<Link to="edit_employment">
+						<PencilIcon className="w-4 h-4" /> Edit Employment Information
+					</Link>
+				</Button>
 			</div>
 
 			<div className="mt-5">

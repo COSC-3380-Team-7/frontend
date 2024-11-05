@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { HammerIcon, User } from "lucide-react";
+import { HammerIcon, PawPrint, PencilRuler, User } from "lucide-react";
 
 export default function MaintenanceMSidebar() {
 	const location = useLocation();
@@ -21,9 +21,19 @@ export default function MaintenanceMSidebar() {
 			name: "Employees",
 		},
 		{
+			href: "/manager/maintenance/exhibit",
+			icon: <PawPrint className="h-6 w-6 mr-1" />,
+			name: "Exhibits",
+		},
+		{
 			href: "/manager/maintenance/maintenance_report",
 			icon: <HammerIcon className="h-6 w-6 mr-1" />,
 			name: "Maintenance Reports",
+		},
+		{
+			href: "/manager/maintenance/search",
+			icon: <PencilRuler className="h-6 w-6 mr-1" />,
+			name: "Create Report",
 		},
 	];
 

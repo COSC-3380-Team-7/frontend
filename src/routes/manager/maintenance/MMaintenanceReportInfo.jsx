@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function MaintenanceReportInfo() {
+export default function MMaintenanceReportInfo() {
 	const { maintenance_report_id } = useParams();
 	const navigate = useNavigate();
 	const [reportInfo, setReportInfo] = useState({
@@ -63,7 +63,7 @@ export default function MaintenanceReportInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/admin/maintenance_report`)}
+					onClick={() => navigate(`/manager/maintenance/maintenance_report`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

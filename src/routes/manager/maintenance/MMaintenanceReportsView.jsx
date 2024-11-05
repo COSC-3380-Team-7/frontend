@@ -27,7 +27,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-export default function MaintenanceReportsView() {
+export default function MMaintenanceReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
