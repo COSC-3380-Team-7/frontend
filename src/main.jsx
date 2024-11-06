@@ -42,6 +42,7 @@ import Events from "./routes/homePages/planyourvisit/events.jsx";
 import Attractions from "./routes/homePages/planyourvisit/attractions.jsx";
 import Exhibits from "./routes/homePages/planyourvisit/exhibits.jsx";
 import UserProfile from "./routes/homePages/userProfile/UserProfile.jsx";
+import EditProfile from "./routes/homePages/userProfile/EditProfile.jsx";
 
 // FinanceAdminView.jsx
 
@@ -137,6 +138,10 @@ const router = createBrowserRouter(
 
 			<Route path="/login" element={<OutletWrapper />}>
 				<Route index element={<LoginPage />}></Route>
+			</Route>
+
+			<Route path="/edit-profile" element={<OutletWrapper />}>
+				<Route index element={<EditProfile />}></Route>
 			</Route>
 
 			<Route path="/signup" element={<OutletWrapper />}>

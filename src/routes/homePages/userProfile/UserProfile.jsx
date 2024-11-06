@@ -1,93 +1,10 @@
-
-// export default function UserProfile() { 
-// 	const userData = {
-// 		name: "John Doe",
-// 		email: "johndoe@example.com",
-// 		membership: "Gold Member",
-// 		memberSince: "April 2023",
-// 		favoriteAnimal: "Giraffe",
-// 		visits: [
-// 			{ date: "September 15, 2023", activities: ["Lion Show", "Reptile House"] },
-// 			{ date: "August 22, 2023", activities: ["Bird Pavilion", "Elephant Walk"] },
-// 			{ date: "July 12, 2023", activities: ["Penguin Parade", "Aquarium"] },
-// 		],
-// 		currentTickets: 3,
-// 		balance: "$45.00",
-// 		pastPurchases: [
-// 			{ item: "Stuffed Animal - Giraffe", date: "September 15, 2023", price: "$15.00" },
-// 			{ item: "Zoo Souvenir Mug", date: "August 22, 2023", price: "$8.00" },
-// 			{ item: "Safari Hat", date: "July 12, 2023", price: "$20.00" },
-// 		],
-// 	};
-
-// 	return (
-// 		<div className="min-h-screen bg-gradient-to-b from-gray-200 to-gray-50 p-10 flex justify-center items-center">
-// 			<div className="bg-white w-full max-w-4xl p-10 rounded-lg shadow-lg">
-// 				<div className="text-center mb-10">
-// 					{/* <img
-// 						src="https://via.placeholder.com/100"
-// 						alt="User Avatar"
-// 						className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-green-600"
-// 					/> */}
-// 					<h2 className="text-3xl font-bold text-gray-800">{userData.name}</h2>
-// 					<p className="text-gray-600">{userData.email}</p>
-// 					<div className="flex justify-center space-x-4 mt-2">
-// 						<span className="bg-yellow-300 text-yellow-800 font-semibold px-3 py-1 rounded-full text-sm">
-// 							{userData.membership} 🌟
-// 						</span>
-// 						<span className="text-sm text-gray-500">Member since {userData.memberSince}</span>
-// 					</div>
-// 				</div>
-
-// 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-// 					{/* Current Tickets and Balance */}
-// 					<div className="bg-gray-100 p-6 rounded-lg shadow-sm">
-// 						<h3 className="text-xl font-bold text-green-600 mb-4">Account Summary</h3>
-// 						<p><strong>Current Tickets:</strong> {userData.currentTickets}</p>
-// 						<p><strong>Account Balance:</strong> {userData.balance}</p>
-// 					</div>
-
-// 					{/* Favorite Animal and Visits */}
-// 					<div className="bg-gray-100 p-6 rounded-lg shadow-sm">
-// 						<h3 className="text-xl font-bold text-green-600 mb-4">Visits</h3>
-// 						<p><strong>Favorite Animal:</strong> {userData.favoriteAnimal}</p>
-// 						<ul className="mt-2">
-// 							{userData.visits.map((visit, index) => (
-// 								<li key={index} className="text-gray-700">
-// 									<strong>{visit.date}:</strong> {visit.activities.join(", ")}
-// 								</li>
-// 							))}
-// 						</ul>
-// 					</div>
-
-// 					{/* Past Purchases */}
-// 					<div className="md:col-span-2 bg-gray-100 p-6 rounded-lg shadow-sm">
-// 						<h3 className="text-xl font-bold text-green-600 mb-4">Past Purchases</h3>
-// 						<ul>
-// 							{userData.pastPurchases.map((purchase, index) => (
-// 								<li key={index} className="flex justify-between text-gray-700 mb-2">
-// 									<span>{purchase.item} - {purchase.date}</span>
-// 									<span>{purchase.price}</span>
-// 								</li>
-// 							))}
-// 						</ul>
-// 					</div>
-// 				</div>
-
-// 				<div className="flex justify-center mt-10 space-x-4">
-// 					<button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-// 						Edit Profile
-// 					</button>
-// 					<button className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition">
-// 						Log Out
-// 					</button>
-// 				</div>
-// 			</div>
-// 		</div>
-// 	);
-// }
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAdminStore } from "@/state_management/adminStore";
 
 export default function UserProfile() {
+	const navigate = useNavigate();
+	const { clearState } = useAdminStore();
 	// Simulated data for multiple users
 	const usersData = [
 		{
@@ -186,12 +103,35 @@ export default function UserProfile() {
 				</div>
 
 				<div className="flex justify-center mt-10 space-x-4">
-					<button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+					<Button 
+						onClick={() => {
+							clearState();
+							navigate("/edit-profile");
+							toast.success("You have been logged out");
+						}}
+						className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
 						Edit Profile
-					</button>
-					<button className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition">
+						
+					</Button>
+					<Button 
+						onClick={() => {
+							clearState();
+							navigate("/tickets");
+						}}
+						className="bg-green-400 text-white px-6 py-2 rounded hover:bg-green-500 transition">
+						Buy Tickets
+						
+					</Button>
+					<Button 
+						onClick={() => {
+							clearState();
+							navigate("/login");
+							toast.success("You have been logged out");
+						}}
+						className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition">
 						Log Out
-					</button>
+					</Button>
+					
 				</div>
 			</div>
 		</div>

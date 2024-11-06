@@ -1,7 +1,6 @@
 
 export default function EditProfile(){
 
-
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-200 to-gray-50 p-10 flex justify-center items-center">
             <div className="bg-white w-full max-w-4xl p-10 rounded-lg shadow-lg">
