@@ -18,7 +18,7 @@ import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
-export default function VetReportsView() {
+export default function VVetReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -56,6 +56,7 @@ export default function VetReportsView() {
 	});
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
+		nickname: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -67,7 +68,8 @@ export default function VetReportsView() {
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/queried_vet_report?name=${
 				animalInfo.name
-			}&start_date=${sqlDateConverter(
+			}&nickname=${animalInfo.nickname}
+			&start_date=${sqlDateConverter(
 				startDate.startDate
 			)}&end_date=${sqlDateConverter(endDate.startDate)}`
 		);
@@ -113,6 +115,21 @@ export default function VetReportsView() {
 						name="name"
 						id="name"
 						placeholder="African Lion"
+						required
+					/>
+				</div>
+
+				<div className="flex flex-col gap-1 max-w-52">
+					<Label htmlFor="nickname">Animal Nickname</Label>
+					<Input
+						value={animalInfo.nickname}
+						onChange={(e) =>
+							setAnimalInfo({ ...animalInfo, nickname: e.target.value })
+						}
+						type="text"
+						name="nickname"
+						id="nickname"
+						placeholder="Larry"
 						required
 					/>
 				</div>

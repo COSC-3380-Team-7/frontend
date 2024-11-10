@@ -175,6 +175,7 @@ export default function MMaintenanceReportsView() {
 						<TableHeader>
 							<TableRow>
 								<TableHead>Report Id</TableHead>
+								<TableHead>Title</TableHead>
 								<TableHead>Habitat</TableHead>
 								<TableHead>Working Status</TableHead>
 								<TableHead>Created By</TableHead>
@@ -192,6 +193,7 @@ export default function MMaintenanceReportsView() {
 										className="cursor-pointer"
 									>
 										<TableCell>{el.maintenance_report_id}</TableCell>
+										<TableCell>{el.title}</TableCell>
 										<TableCell>{el.habitat_name}</TableCell>
 										<TableCell>{el.working_status}</TableCell>
 										<TableCell>

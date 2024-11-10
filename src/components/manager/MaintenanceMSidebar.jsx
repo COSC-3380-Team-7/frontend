@@ -18,7 +18,7 @@ export default function MaintenanceMSidebar() {
 		{
 			href: "/manager/maintenance/employee",
 			icon: <User className="h-6 w-6 mr-1" />,
-			name: "Employees",
+			name: "Supervised Employees",
 		},
 		{
 			href: "/manager/maintenance/exhibit",

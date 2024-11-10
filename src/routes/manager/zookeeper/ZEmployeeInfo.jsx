@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
 
-export default function VEmployeeInfo() {
+export default function ZEmployeeInfo() {
 	const { employee_id } = useParams();
 	const [isLoading, setIsLoading] = useState(false);
 	const [employeeInfo, setEmployeeInfo] = useState({
@@ -71,7 +71,7 @@ export default function VEmployeeInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/manager/vet/employee`)}
+					onClick={() => navigate(`/manager/zookeeper/employee`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

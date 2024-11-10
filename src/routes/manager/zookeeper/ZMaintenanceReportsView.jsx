@@ -10,42 +10,31 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import Loading from "@/components/Loading";
+import { toast } from "sonner";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Loading from "@/components/Loading";
-import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { formatDate } from "@/utils/dateCalcs";
-import { toast } from "sonner";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
-export default function VetReportsView() {
+export default function ZMaintenanceReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-
-	// const vetReport = {
-	// 	animal_id: "",
-	// 	animal_name: "",
-	// nickname: "",
-	// 	checkup_date: "",
-	// 	created_at: "",
-	// 	diagnosis: "",
-	// 	first_name: "",
-	// 	health_status: "",
-	// 	last_name: "",
-	// 	measured_weight: "",
-	// 	symptoms: "",
-	// 	title: "",
-	// 	treatment: "",
-	// 	updated_at: "",
-	// 	vet_report_id: "",
-	// 	veterinarian_id: "",
-	// };
-
 	const [data, setData] = useState([]);
-
+	const [isLoading, setIsLoading] = useState(false);
 	const [startDate, setStartDate] = useState({
 		startDate: null,
 		endDate: null,
@@ -54,11 +43,10 @@ export default function VetReportsView() {
 		startDate: null,
 		endDate: null,
 	});
-	const [animalInfo, setAnimalInfo] = useState({
-		name: "",
-		nickname: "",
+	const [reportInfo, setReportInfo] = useState({
+		habitat_name: "",
+		working_status: "",
 	});
-	const [isLoading, setIsLoading] = useState(false);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -66,12 +54,15 @@ export default function VetReportsView() {
 		setIsLoading(true);
 
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/admin/queried_vet_report?name=${
-				animalInfo.name
-			} &nickname=${animalInfo.nickname}
-			&start_date=${sqlDateConverter(
+			`${
+				import.meta.env.VITE_API_URL
+			}/admin/query_maintenance_report?habitat_name=${
+				reportInfo.habitat_name
+			}&start_date=${sqlDateConverter(
 				startDate.startDate
-			)}&end_date=${sqlDateConverter(endDate.startDate)}`
+			)}&end_date=${sqlDateConverter(endDate.startDate)}
+			&working_status=${reportInfo.working_status}
+			`
 		);
 
 		setIsLoading(false);
@@ -84,9 +75,10 @@ export default function VetReportsView() {
 		const data = await response.json();
 		if (data.data.length === 0) {
 			console.log("No data found");
-			toast.error(`Reports of ${animalInfo.name} could not be found`);
+			toast.error(`Reports of ${reportInfo.habitat_name} could not be found`);
 			return;
 		}
+
 		console.log(data.data);
 		setData(data.data);
 	}
@@ -99,43 +91,51 @@ export default function VetReportsView() {
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Veterinarian Reports
+					Maintenance Reports
 				</h1>
 			</div>
 
 			<form onSubmit={handleSubmit} className="flex items-center gap-8 mb-8">
 				<div className="flex flex-col gap-1 max-w-52">
-					<Label htmlFor="name">Animal Name</Label>
+					<Label htmlFor="name">Habitat Name</Label>
 					<Input
-						value={animalInfo.name}
+						value={reportInfo.habitat_name}
 						onChange={(e) =>
-							setAnimalInfo({ ...animalInfo, name: e.target.value })
+							setReportInfo({ ...reportInfo, habitat_name: e.target.value })
 						}
 						type="text"
 						name="name"
 						id="name"
-						placeholder="African Lion"
+						placeholder="Lion Den"
 						required
 					/>
 				</div>
 
-				<div className="flex flex-col gap-1 max-w-52">
-					<Label htmlFor="nickname">Animal Nickname</Label>
-					<Input
-						value={animalInfo.nickname}
-						onChange={(e) =>
-							setAnimalInfo({ ...animalInfo, nickname: e.target.value })
+				<div className="flex flex-col gap-1 w-52">
+					<Label htmlFor="working_status">Working Status</Label>
+					<Select
+						value={reportInfo.working_status}
+						onValueChange={(value) =>
+							setReportInfo((prev) => ({ ...prev, working_status: value }))
 						}
-						type="text"
-						name="nickname"
-						id="nickname"
-						placeholder="Larry"
 						required
-					/>
+					>
+						<SelectTrigger className="max-w-52 border-gray-500">
+							<SelectValue placeholder="Select status" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>Status</SelectLabel>
+								<SelectItem value="Pending">Pending</SelectItem>
+								<SelectItem value="In Progress">In Progress</SelectItem>
+								<SelectItem value="Completed">Completed</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
 				</div>
 
 				<div className="flex flex-col gap-1 max-w-52">
-					<Label>Checkup Start Date</Label>
+					<Label>Start Date</Label>
 					<Datepicker
 						inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 						primaryColor="lime"
@@ -148,7 +148,7 @@ export default function VetReportsView() {
 				</div>
 
 				<div className="flex flex-col gap-1 max-w-52">
-					<Label>Checkup End Date</Label>
+					<Label>End Date</Label>
 					<Datepicker
 						inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 						primaryColor="lime"
@@ -175,11 +175,10 @@ export default function VetReportsView() {
 						<TableHeader>
 							<TableRow>
 								<TableHead>Report Id</TableHead>
-								<TableHead>Animal</TableHead>
-								<TableHead>Nickname</TableHead>
-								<TableHead>Health Status</TableHead>
+								<TableHead>Title</TableHead>
+								<TableHead>Habitat</TableHead>
+								<TableHead>Working Status</TableHead>
 								<TableHead>Created By</TableHead>
-								<TableHead>Checkup Date</TableHead>
 								<TableHead>Created At</TableHead>
 							</TableRow>
 						</TableHeader>
@@ -187,26 +186,26 @@ export default function VetReportsView() {
 							{data.slice(leftIndex, rightIndex).map((el) => {
 								return (
 									<TableRow
-										key={el.vet_report_id}
+										key={el.maintenance_report_id}
 										onClick={() => {
-											navigate(`${el.vet_report_id}`);
+											navigate(`${el.maintenance_report_id}`);
 										}}
 										className="cursor-pointer"
 									>
-										<TableCell>{el.vet_report_id}</TableCell>
-										<TableCell>{el.animal_name}</TableCell>
-										<TableCell>{el.nickname}</TableCell>
-										<TableCell>{el.health_status}</TableCell>
+										<TableCell>{el.maintenance_report_id}</TableCell>
+										<TableCell>{el.title}</TableCell>
+										<TableCell>{el.habitat_name}</TableCell>
+										<TableCell>{el.working_status}</TableCell>
 										<TableCell>
-											Dr. {el.first_name} {el.last_name}
+											{el.first_name} {el.last_name}
 										</TableCell>
-										<TableCell>{formatDate(el.checkup_date)}</TableCell>
 										<TableCell>{formatDate(el.created_at)}</TableCell>
 									</TableRow>
 								);
 							})}
 						</TableBody>
 					</Table>
+
 					<div className="flex w-full justify-end items-center gap-2 mt-4">
 						<Button
 							className="flex items-center p-3 gap-1 font-semibold bg-buttonBg hover:bg-buttonHoverBg"

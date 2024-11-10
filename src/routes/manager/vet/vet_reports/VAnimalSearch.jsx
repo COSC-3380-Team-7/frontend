@@ -10,50 +10,21 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
-import Datepicker from "react-tailwindcss-datepicker";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/Loading";
-import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
-export default function VetReportsView() {
+export default function VAnimalSearch() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 
-	// const vetReport = {
-	// 	animal_id: "",
-	// 	animal_name: "",
-	// nickname: "",
-	// 	checkup_date: "",
-	// 	created_at: "",
-	// 	diagnosis: "",
-	// 	first_name: "",
-	// 	health_status: "",
-	// 	last_name: "",
-	// 	measured_weight: "",
-	// 	symptoms: "",
-	// 	title: "",
-	// 	treatment: "",
-	// 	updated_at: "",
-	// 	vet_report_id: "",
-	// 	veterinarian_id: "",
-	// };
-
 	const [data, setData] = useState([]);
 
-	const [startDate, setStartDate] = useState({
-		startDate: null,
-		endDate: null,
-	});
-	const [endDate, setEndDate] = useState({
-		startDate: null,
-		endDate: null,
-	});
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
 		nickname: "",
@@ -66,12 +37,9 @@ export default function VetReportsView() {
 		setIsLoading(true);
 
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/admin/queried_vet_report?name=${
+			`${import.meta.env.VITE_API_URL}/admin/query_animal_name?name=${
 				animalInfo.name
-			} &nickname=${animalInfo.nickname}
-			&start_date=${sqlDateConverter(
-				startDate.startDate
-			)}&end_date=${sqlDateConverter(endDate.startDate)}`
+			}&nickname=${animalInfo.nickname}`
 		);
 
 		setIsLoading(false);
@@ -84,7 +52,7 @@ export default function VetReportsView() {
 		const data = await response.json();
 		if (data.data.length === 0) {
 			console.log("No data found");
-			toast.error(`Reports of ${animalInfo.name} could not be found`);
+			toast.error(`Animal could not be found`);
 			return;
 		}
 		console.log(data.data);
@@ -99,7 +67,7 @@ export default function VetReportsView() {
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Veterinarian Reports
+					Create Veterinarian Report
 				</h1>
 			</div>
 
@@ -134,32 +102,6 @@ export default function VetReportsView() {
 					/>
 				</div>
 
-				<div className="flex flex-col gap-1 max-w-52">
-					<Label>Checkup Start Date</Label>
-					<Datepicker
-						inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-						primaryColor="lime"
-						useRange={false}
-						asSingle={true}
-						value={startDate}
-						onChange={(newValue) => setStartDate(newValue)}
-						required
-					/>
-				</div>
-
-				<div className="flex flex-col gap-1 max-w-52">
-					<Label>Checkup End Date</Label>
-					<Datepicker
-						inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-						primaryColor="lime"
-						useRange={false}
-						asSingle={true}
-						value={endDate}
-						onChange={(newValue) => setEndDate(newValue)}
-						required
-					/>
-				</div>
-
 				<Button
 					className="
                     flex items-center self-end p-3 gap-1 font-semibold bg-buttonBg hover:bg-buttonHoverBg
@@ -174,34 +116,26 @@ export default function VetReportsView() {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Report Id</TableHead>
+								<TableHead>Animal Id</TableHead>
 								<TableHead>Animal</TableHead>
 								<TableHead>Nickname</TableHead>
-								<TableHead>Health Status</TableHead>
-								<TableHead>Created By</TableHead>
-								<TableHead>Checkup Date</TableHead>
-								<TableHead>Created At</TableHead>
+								<TableHead>Age</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							{data.slice(leftIndex, rightIndex).map((el) => {
 								return (
 									<TableRow
-										key={el.vet_report_id}
+										key={el.animal_id}
 										onClick={() => {
-											navigate(`${el.vet_report_id}`);
+											navigate(`${el.animal_id}/create`);
 										}}
 										className="cursor-pointer"
 									>
-										<TableCell>{el.vet_report_id}</TableCell>
-										<TableCell>{el.animal_name}</TableCell>
+										<TableCell>{el.animal_id}</TableCell>
+										<TableCell>{el.name}</TableCell>
 										<TableCell>{el.nickname}</TableCell>
-										<TableCell>{el.health_status}</TableCell>
-										<TableCell>
-											Dr. {el.first_name} {el.last_name}
-										</TableCell>
-										<TableCell>{formatDate(el.checkup_date)}</TableCell>
-										<TableCell>{formatDate(el.created_at)}</TableCell>
+										<TableCell>{formatDate(el.date_of_birth)}</TableCell>
 									</TableRow>
 								);
 							})}
