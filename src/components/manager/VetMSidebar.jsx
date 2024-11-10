@@ -16,7 +16,7 @@ export default function VetMSidebar() {
 
 	const navLinks = [
 		{
-			href: "/manager/vet/department",
+			href: "/manager/vet/employee",
 			icon: <User className="h-6 w-6 mr-1" />,
 			name: "Supervised Employees",
 		},

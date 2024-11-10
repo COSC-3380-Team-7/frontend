@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
 
-export default function VetReportInfo() {
+export default function ZVetReportInfo() {
 	const { vet_report_id } = useParams();
 	const navigate = useNavigate();
 	const [reportInfo, setReportInfo] = useState({
@@ -65,7 +65,7 @@ export default function VetReportInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/admin/vet_report`)}
+					onClick={() => navigate(`/manager/zookeeper/vet_report`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
 
-export default function VetReportInfo() {
+export default function VVetReportInfo() {
 	const { vet_report_id } = useParams();
 	const navigate = useNavigate();
 	const [reportInfo, setReportInfo] = useState({

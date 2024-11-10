@@ -27,7 +27,6 @@ import AnimalInfo from "./routes/admin/exhibit/AnimalInfo.jsx";
 import CreateAnimal from "./routes/admin/exhibit/CreateAnimal.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import OutletWrapper from "./components/OutletWrapper.jsx";
-
 import Page1 from "./routes/homePages/page1.jsx";
 import Page2 from "./routes/homePages/page2.jsx";
 import Page3 from "./routes/homePages/page3.jsx";
@@ -42,19 +41,10 @@ import Events from "./routes/homePages/planyourvisit/events.jsx";
 import Attractions from "./routes/homePages/planyourvisit/attractions.jsx";
 import Exhibits from "./routes/homePages/planyourvisit/exhibits.jsx";
 import UserProfile from "./routes/homePages/userProfile/UserProfile.jsx";
-
-// FinanceAdminView.jsx
-
-// import VetRecordsView from "./routes/admin/VetRecordsView.jsx";
-// import MaintenanceAdminView from "./routes/admin/MaintenanceAdminView.jsx";
-// import FinanceAdminView from "./routes/admin/FinanceAdminView.jsx";
-// import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
-
 import VetReportsView from "./routes/admin/vet_reports/VetReportsView.jsx";
 import MaintenanceReportsView from "./routes/admin/maintenance/MaintenanceReportsView.jsx";
 import FinanceAdminView from "./routes/admin/finance/FinanceAdminView.jsx";
 import TicketAdminView from "./routes/admin/ticket_pricing/TicketAdminView.jsx";
-
 import EditEmployee from "./routes/admin/department/EditEmployee.jsx";
 import EditExhibit from "./routes/admin/exhibit/EditExhibit.jsx";
 import EditHabitat from "./routes/admin/exhibit/EditHabitat.jsx";
@@ -68,7 +58,6 @@ import CreatePricing from "./routes/admin/ticket_pricing/CreatePricing.jsx";
 import EventAdminView from "./routes/admin/event/EventAdminView.jsx";
 import CreateEvent from "./routes/admin/event/CreateEvent.jsx";
 import EditEvent from "./routes/admin/event/EditEvent.jsx";
-
 import Habitat from "./routes/homepage/Habitat.jsx";
 import TicketSales from "./routes/admin/finance/TicketSales.jsx";
 import MerchandiseSales from "./routes/admin/finance/MerchandiseSales.jsx";
@@ -89,10 +78,9 @@ import VExhibitAdminView from "./routes/manager/vet/exhibit/VExhibitAdminView.js
 import VExhibitInfo from "./routes/manager/vet/exhibit/VExhibitInfo.jsx";
 import VHabitatInfo from "./routes/manager/vet/exhibit/VHabitatInfo.jsx";
 import VAnimalInfo from "./routes/manager/vet/exhibit/VAnimalInfo.jsx";
-import VDepartmentInfo from "./routes/manager/vet/employee/VDepartmentInfo.jsx";
+import VSupervisedEmployees from "./routes/manager/vet/employee/VSupervisedEmployees.jsx";
 import VEmployeeInfo from "./routes/manager/vet/employee/VEmployeeInfo.jsx";
-import CreateVetReport from "./routes/manager/vet/vet_reports/CreateVetReport.jsx";
-import AnimalSearch from "./routes/admin/vet_reports/AnimalSearch.jsx";
+import CreateVetReport from "./routes/manager/vet/vet_reports/VCreateVetReport.jsx";
 import MaintenanceManager from "./routes/manager/MaintenanceManager.jsx";
 import EditEmployment from "./routes/admin/department/EditEmployment.jsx";
 import MMaintenanceReportsView from "./routes/manager/maintenance/MMaintenanceReportsView.jsx";
@@ -104,6 +92,20 @@ import CreateMaintReport from "./routes/manager/maintenance/CreateMaintReport.js
 import MSupervisedEmployees from "./routes/manager/maintenance/employee/MSupervisedEmployees.jsx";
 import MEmployeeInfo from "./routes/manager/maintenance/employee/MEmployeeInfo.jsx";
 import ZookeeperManager from "./routes/manager/ZookeeperManager.jsx";
+import ZSupervisedEmployees from "./routes/manager/zookeeper/ZSupervisedEmployees.jsx";
+import ZEmployeeInfo from "./routes/manager/zookeeper/ZEmployeeInfo.jsx";
+import ZExhibitView from "./routes/manager/zookeeper/ZExhibitView.jsx";
+import ZExhibitInfo from "./routes/manager/zookeeper/ZExhibitInfo.jsx";
+import ZHabitatInfo from "./routes/manager/zookeeper/ZHabitatInfo.jsx";
+import ZAnimalInfo from "./routes/manager/zookeeper/ZAnimalInfo.jsx";
+import ZEditAnimal from "./routes/manager/zookeeper/ZEditAnimal.jsx";
+import ZCreateAnimal from "./routes/manager/zookeeper/ZCreateAnimal.jsx";
+import VVetReportInfo from "./routes/manager/vet/vet_reports/VVetReportInfo.jsx";
+import VVetReportsView from "./routes/manager/vet/vet_reports/VVetReportsView.jsx";
+import VCreateVetReport from "./routes/manager/vet/vet_reports/VCreateVetReport.jsx";
+import VAnimalSearch from "./routes/manager/vet/vet_reports/VAnimalSearch.jsx";
+import ZVetReportsView from "./routes/manager/zookeeper/ZVetReportsView.jsx";
+import ZVetReportInfo from "./routes/manager/zookeeper/ZVetReportInfo.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -318,22 +320,22 @@ const router = createBrowserRouter(
 
 			<Route path="/manager/vet" element={<VetManager />}>
 				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<VetReportsView />}></Route>
+					<Route index element={<VVetReportsView />}></Route>
 					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<VetReportInfo />}></Route>
+						<Route index element={<VVetReportInfo />}></Route>
 					</Route>
 				</Route>
 
 				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<AnimalSearch />}></Route>
+					<Route index element={<VAnimalSearch />}></Route>
 					<Route path=":animal_id/create" element={<Outlet />}>
-						<Route index element={<CreateVetReport />}></Route>
+						<Route index element={<VCreateVetReport />}></Route>
 					</Route>
 				</Route>
 
-				<Route path="department" element={<OutletWrapper />}>
-					<Route index element={<VDepartmentInfo />}></Route>
-					<Route path="employee/:employee_id" element={<Outlet />}>
+				<Route path="employee" element={<OutletWrapper />}>
+					<Route index element={<VSupervisedEmployees />}></Route>
+					<Route path=":employee_id" element={<Outlet />}>
 						<Route index element={<VEmployeeInfo />}></Route>
 					</Route>
 				</Route>
@@ -370,13 +372,6 @@ const router = createBrowserRouter(
 					</Route>
 				</Route>
 
-				<Route path="department" element={<OutletWrapper />}>
-					<Route index element={<VDepartmentInfo />}></Route>
-					<Route path="employee/:employee_id" element={<Outlet />}>
-						<Route index element={<VEmployeeInfo />}></Route>
-					</Route>
-				</Route>
-
 				<Route path="exhibit" element={<OutletWrapper />}>
 					<Route index element={<MExhibitView />}></Route>
 					<Route path=":exhibit_id" element={<Outlet />}>
@@ -393,38 +388,32 @@ const router = createBrowserRouter(
 			</Route>
 
 			<Route path="/manager/zookeeper" element={<ZookeeperManager />}>
-				<Route path="maintenance_report" element={<OutletWrapper />}>
-					<Route index element={<MMaintenanceReportsView />}></Route>
-					<Route path=":maintenance_report_id" element={<Outlet />}>
-						<Route index element={<MMaintenanceReportInfo />}></Route>
-					</Route>
-				</Route>
-
 				<Route path="employee" element={<OutletWrapper />}>
-					<Route index element={<MSupervisedEmployees />}></Route>
+					<Route index element={<ZSupervisedEmployees />}></Route>
 					<Route path=":employee_id" element={<Outlet />}>
-						<Route index element={<MEmployeeInfo />}></Route>
-					</Route>
-				</Route>
-
-				<Route path="department" element={<OutletWrapper />}>
-					<Route index element={<VDepartmentInfo />}></Route>
-					<Route path="employee/:employee_id" element={<Outlet />}>
-						<Route index element={<VEmployeeInfo />}></Route>
+						<Route index element={<ZEmployeeInfo />}></Route>
 					</Route>
 				</Route>
 
 				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<MExhibitView />}></Route>
+					<Route index element={<ZExhibitView />}></Route>
 					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<MExhibitInfo />}></Route>
+						<Route index element={<ZExhibitInfo />}></Route>
+						<Route path="habitat/:habitat_id" element={<Outlet />}>
+							<Route index element={<ZHabitatInfo />}></Route>
+							<Route path="animal/:animal_id" element={<Outlet />}>
+								<Route index element={<ZAnimalInfo />}></Route>
+								<Route path="edit" element={<ZEditAnimal />}></Route>
+							</Route>
+							<Route path="animal/create" element={<ZCreateAnimal />}></Route>
+						</Route>
 					</Route>
 				</Route>
 
 				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<VetReportsView />}></Route>
+					<Route index element={<ZVetReportsView />}></Route>
 					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<VetReportInfo />}></Route>
+						<Route index element={<ZVetReportInfo />}></Route>
 					</Route>
 				</Route>
 			</Route>

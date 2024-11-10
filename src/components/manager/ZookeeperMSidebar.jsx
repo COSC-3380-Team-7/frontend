@@ -16,7 +16,7 @@ export default function ZookeeperMSidebar() {
 
 	const navLinks = [
 		{
-			href: "/manager/zookeeper/department",
+			href: "/manager/zookeeper/employee",
 			icon: <User className="h-6 w-6 mr-1" />,
 			name: "Supervised Employees",
 		},

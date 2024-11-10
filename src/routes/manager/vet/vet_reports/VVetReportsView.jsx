@@ -18,7 +18,7 @@ import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
-export default function VetReportsView() {
+export default function VVetReportsView() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -68,7 +68,8 @@ export default function VetReportsView() {
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/queried_vet_report?name=${
 				animalInfo.name
-			}&start_date=${sqlDateConverter(
+			}&nickname=${animalInfo.nickname}
+			&start_date=${sqlDateConverter(
 				startDate.startDate
 			)}&end_date=${sqlDateConverter(endDate.startDate)}`
 		);

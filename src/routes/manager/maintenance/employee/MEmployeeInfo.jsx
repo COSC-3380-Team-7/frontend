@@ -71,7 +71,7 @@ export default function MEmployeeInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/manager/vet/department`)}
+					onClick={() => navigate(`/manager/vet/employee`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

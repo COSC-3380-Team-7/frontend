@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 import { useManagerStore } from "@/state_management/managerStore";
 
-export default function VDepartmentInfo() {
+export default function VSupervisedEmployees() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -79,7 +79,7 @@ export default function VDepartmentInfo() {
 							<TableRow
 								key={item.employee_id}
 								onClick={() => {
-									navigate(`employee/${item.employee_id}`);
+									navigate(`${item.employee_id}`);
 								}}
 								className="cursor-pointer"
 							>
