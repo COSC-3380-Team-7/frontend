@@ -56,6 +56,7 @@ export default function VetReportsView() {
 	});
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
+		nickname: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -113,6 +114,21 @@ export default function VetReportsView() {
 						name="name"
 						id="name"
 						placeholder="African Lion"
+						required
+					/>
+				</div>
+
+				<div className="flex flex-col gap-1 max-w-52">
+					<Label htmlFor="nickname">Animal Nickname</Label>
+					<Input
+						value={animalInfo.nickname}
+						onChange={(e) =>
+							setAnimalInfo({ ...animalInfo, nickname: e.target.value })
+						}
+						type="text"
+						name="nickname"
+						id="nickname"
+						placeholder="Larry"
 						required
 					/>
 				</div>

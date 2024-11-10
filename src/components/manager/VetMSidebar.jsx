@@ -18,7 +18,7 @@ export default function VetMSidebar() {
 		{
 			href: "/manager/vet/department",
 			icon: <User className="h-6 w-6 mr-1" />,
-			name: "Employees",
+			name: "Supervised Employees",
 		},
 		{
 			href: "/manager/vet/exhibit",

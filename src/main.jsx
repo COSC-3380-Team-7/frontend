@@ -96,11 +96,14 @@ import AnimalSearch from "./routes/admin/vet_reports/AnimalSearch.jsx";
 import MaintenanceManager from "./routes/manager/MaintenanceManager.jsx";
 import EditEmployment from "./routes/admin/department/EditEmployment.jsx";
 import MMaintenanceReportsView from "./routes/manager/maintenance/MMaintenanceReportsView.jsx";
-import MExhibitAdminView from "./routes/manager/maintenance/MExhibitAdminView.jsx";
+import MExhibitView from "./routes/manager/maintenance/MExhibitView.jsx";
 import MExhibitInfo from "./routes/manager/maintenance/MExhibitInfo.jsx";
 import MMaintenanceReportInfo from "./routes/manager/maintenance/MMaintenanceReportInfo.jsx";
 import HabitatSearch from "./routes/manager/maintenance/HabitatSearch.jsx";
 import CreateMaintReport from "./routes/manager/maintenance/CreateMaintReport.jsx";
+import MSupervisedEmployees from "./routes/manager/maintenance/employee/MSupervisedEmployees.jsx";
+import MEmployeeInfo from "./routes/manager/maintenance/employee/MEmployeeInfo.jsx";
+import ZookeeperManager from "./routes/manager/ZookeeperManager.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -360,10 +363,10 @@ const router = createBrowserRouter(
 					</Route>
 				</Route>
 
-				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<HabitatSearch />}></Route>
-					<Route path=":animal_id/create" element={<Outlet />}>
-						<Route index element={<CreateMaintReport />}></Route>
+				<Route path="employee" element={<OutletWrapper />}>
+					<Route index element={<MSupervisedEmployees />}></Route>
+					<Route path=":employee_id" element={<Outlet />}>
+						<Route index element={<MEmployeeInfo />}></Route>
 					</Route>
 				</Route>
 
@@ -375,9 +378,53 @@ const router = createBrowserRouter(
 				</Route>
 
 				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<MExhibitAdminView />}></Route>
+					<Route index element={<MExhibitView />}></Route>
 					<Route path=":exhibit_id" element={<Outlet />}>
 						<Route index element={<MExhibitInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="search" element={<OutletWrapper />}>
+					<Route index element={<HabitatSearch />}></Route>
+					<Route path=":habitat_id/create" element={<Outlet />}>
+						<Route index element={<CreateMaintReport />}></Route>
+					</Route>
+				</Route>
+			</Route>
+
+			<Route path="/manager/zookeeper" element={<ZookeeperManager />}>
+				<Route path="maintenance_report" element={<OutletWrapper />}>
+					<Route index element={<MMaintenanceReportsView />}></Route>
+					<Route path=":maintenance_report_id" element={<Outlet />}>
+						<Route index element={<MMaintenanceReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="employee" element={<OutletWrapper />}>
+					<Route index element={<MSupervisedEmployees />}></Route>
+					<Route path=":employee_id" element={<Outlet />}>
+						<Route index element={<MEmployeeInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="department" element={<OutletWrapper />}>
+					<Route index element={<VDepartmentInfo />}></Route>
+					<Route path="employee/:employee_id" element={<Outlet />}>
+						<Route index element={<VEmployeeInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<MExhibitView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<MExhibitInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="vet_report" element={<OutletWrapper />}>
+					<Route index element={<VetReportsView />}></Route>
+					<Route path=":vet_report_id" element={<Outlet />}>
+						<Route index element={<VetReportInfo />}></Route>
 					</Route>
 				</Route>
 			</Route>
