@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
-import EmployeeValidation from "./routes/employee/EmployeeValidation.jsx";
 import ManagerLogin from "./routes/manager/ManagerLogin.jsx";
 import { Toaster } from "sonner";
 import MemberLogin from "./routes/member/MemberLogin.jsx";
@@ -106,6 +105,28 @@ import VCreateVetReport from "./routes/manager/vet/vet_reports/VCreateVetReport.
 import VAnimalSearch from "./routes/manager/vet/vet_reports/VAnimalSearch.jsx";
 import ZVetReportsView from "./routes/manager/zookeeper/ZVetReportsView.jsx";
 import ZVetReportInfo from "./routes/manager/zookeeper/ZVetReportInfo.jsx";
+import MaintenanceEmployee from "./routes/employee/MaintenanceEmployee.jsx";
+import EMaintenanceReportsView from "./routes/employee/maintenance/EMaintenanceReportsView.jsx";
+import EMaintenanceReportInfo from "./routes/employee/maintenance/EMaintenanceReportInfo.jsx";
+import EExhibitView from "./routes/employee/maintenance/EExhibitView.jsx";
+import EExhibitInfo from "./routes/employee/maintenance/EExhibitInfo.jsx";
+import EHabitatSearch from "./routes/employee/maintenance/EHabitatSearch.jsx";
+import ECreateMaintReport from "./routes/employee/maintenance/ECreateMaintReport.jsx";
+import ZookeeperEmployee from "./routes/employee/ZookeeperEmployee.jsx";
+import EZExhibitView from "./routes/employee/zookeeper/EZExhibitView.jsx";
+import EZExhibitInfo from "./routes/employee/zookeeper/EZExhibitInfo.jsx";
+import EZHabitatInfo from "./routes/employee/zookeeper/EZHabitatInfo.jsx";
+import EZAnimalInfo from "./routes/employee/zookeeper/EZAnimalInfo.jsx";
+import EZEditAnimal from "./routes/employee/zookeeper/EZEditAnimal.jsx";
+import VetEmployee from "./routes/employee/VetEmployee.jsx";
+import EVExhibitView from "./routes/employee/vet/exhibit/EVExhibitView.jsx";
+import EVExhibitInfo from "./routes/employee/vet/exhibit/EVExhibitInfo.jsx";
+import EVHabitatInfo from "./routes/employee/vet/exhibit/EVHabitatInfo.jsx";
+import EVAnimalInfo from "./routes/employee/vet/exhibit/EVAnimalInfo.jsx";
+import EVAnimalSearch from "./routes/employee/vet/vet_reports/EVAnimalSearch.jsx";
+import EVCreateVetReport from "./routes/employee/vet/vet_reports/EVCreateVetReport.jsx";
+import EVVetReportsView from "./routes/employee/vet/vet_reports/EVVetReportsView.jsx";
+import EVVetReportInfo from "./routes/employee/vet/vet_reports/EVVetReportInfo.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -211,16 +232,6 @@ const router = createBrowserRouter(
 			</Route>
 
 			<Route path="/member/login" element={<MemberLogin />}></Route>
-			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
-			<Route path="/employee" element={<EmployeeValidation />}>
-				<Route path="vet" element={<p>vet</p>}></Route>
-			</Route>
-			<Route path="/employee" element={<EmployeeValidation />}>
-				<Route path="maintenance" element={<p>maintenance</p>}></Route>
-			</Route>
-			<Route path="/employee" element={<EmployeeValidation />}>
-				<Route path="zookeeper" element={<p>zookeeper</p>}></Route>
-			</Route>
 
 			<Route path="/admin/login" element={<AdminLogin />}></Route>
 
@@ -414,6 +425,76 @@ const router = createBrowserRouter(
 					<Route index element={<ZVetReportsView />}></Route>
 					<Route path=":vet_report_id" element={<Outlet />}>
 						<Route index element={<ZVetReportInfo />}></Route>
+					</Route>
+				</Route>
+			</Route>
+
+			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
+
+			<Route path="/employee/vet" element={<VetEmployee />}>
+				<Route path="vet_report" element={<OutletWrapper />}>
+					<Route index element={<EVVetReportsView />}></Route>
+					<Route path=":vet_report_id" element={<Outlet />}>
+						<Route index element={<EVVetReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="search" element={<OutletWrapper />}>
+					<Route index element={<EVAnimalSearch />}></Route>
+					<Route path=":animal_id/create" element={<Outlet />}>
+						<Route index element={<EVCreateVetReport />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<EVExhibitView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<EVExhibitInfo />}></Route>
+						<Route path="habitat/:habitat_id" element={<Outlet />}>
+							<Route index element={<EVHabitatInfo />}></Route>
+							<Route path="animal/:animal_id" element={<Outlet />}>
+								<Route index element={<EVAnimalInfo />}></Route>
+							</Route>
+						</Route>
+					</Route>
+				</Route>
+			</Route>
+
+			<Route path="/employee/maintenance" element={<MaintenanceEmployee />}>
+				<Route path="maintenance_report" element={<OutletWrapper />}>
+					<Route index element={<EMaintenanceReportsView />}></Route>
+					<Route path=":maintenance_report_id" element={<Outlet />}>
+						<Route index element={<EMaintenanceReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<EExhibitView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<EExhibitInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="search" element={<OutletWrapper />}>
+					<Route index element={<EHabitatSearch />}></Route>
+					<Route path=":habitat_id/create" element={<Outlet />}>
+						<Route index element={<ECreateMaintReport />}></Route>
+					</Route>
+				</Route>
+			</Route>
+
+			<Route path="/employee/zookeeper" element={<ZookeeperEmployee />}>
+				<Route path="exhibit" element={<OutletWrapper />}>
+					<Route index element={<EZExhibitView />}></Route>
+					<Route path=":exhibit_id" element={<Outlet />}>
+						<Route index element={<EZExhibitInfo />}></Route>
+						<Route path="habitat/:habitat_id" element={<Outlet />}>
+							<Route index element={<EZHabitatInfo />}></Route>
+							<Route path="animal/:animal_id" element={<Outlet />}>
+								<Route index element={<EZAnimalInfo />}></Route>
+								<Route path="edit" element={<EZEditAnimal />}></Route>
+							</Route>
+						</Route>
 					</Route>
 				</Route>
 			</Route>
