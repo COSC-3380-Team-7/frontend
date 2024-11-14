@@ -1,20 +1,20 @@
-import SideBar from "@/components/admin/AdminSidebar";
-import { Button } from "@/components/ui/button";
 import { Outlet } from "react-router-dom";
-import { useAdminStore } from "@/state_management/adminStore";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { useEffect } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { useEmployeeStore } from "@/state_management/employeeStore";
+import MaintenanceESidebar from "@/components/employee/MaintenanceESidebar";
 
-export default function Employee() {
-	const { isLoggedIn, employee_id, clearState } = useAdminStore();
+export default function MaintenanceEmployee() {
 	const navigate = useNavigate();
+	const { loggedIn, clearState } = useEmployeeStore();
 
 	// useEffect(() => {
-	// 	if (!isLoggedIn && !employee_id) {
-	// 		navigate("/admin/login");
+	// 	if (!loggedIn) {
+	// 		navigate("/employee/login");
 	// 	}
-	// }, [isLoggedIn, employee_id, navigate]);
+	// }, [loggedIn, navigate]);
 
 	return (
 		<div className="h-screen">
@@ -22,7 +22,7 @@ export default function Employee() {
 				<Button
 					onClick={() => {
 						clearState();
-						navigate("/admin/login");
+						navigate("/employee/login");
 						toast.success("You have been logged out");
 					}}
 					variant="outline"
@@ -32,7 +32,7 @@ export default function Employee() {
 				</Button>
 			</nav>
 			<div className="flex">
-				<SideBar />
+				<MaintenanceESidebar />
 				<div className="flex-1 min-h-custom overflow-y-auto mt-16">
 					<Outlet />
 				</div>
