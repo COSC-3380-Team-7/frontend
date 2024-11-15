@@ -17,7 +17,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -26,12 +25,14 @@ import { cldClientSide } from "@/lib/cloudinary";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { formatDate, calculateAge } from "@/utils/dateCalcs";
 import Loading from "@/components/Loading";
+import { toast } from "sonner";
 
 export default function AnimalInfo() {
 	const [open, setOpen] = useState(false);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
 		scientific_name: "",
+		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		age: "",
 		height: "",
 		weight: "",
@@ -39,7 +40,6 @@ export default function AnimalInfo() {
 		date_of_birth: "",
 		gender: "",
 		conservation_status: "", // 'Stable', 'Threatened', 'Endangered'
-		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		origin: "",
 		geographic_range: "",
 		animal_fact: "",
@@ -47,11 +47,44 @@ export default function AnimalInfo() {
 	});
 	const [availabilityInfo, setAvailabilityInfo] = useState({
 		availability_status: "",
-		removal_details: "",
 	});
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
+
+	async function handleAnimalStatusUpdate(e) {
+		e.preventDefault();
+
+		setIsLoading(true);
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/update_availability`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					animal_id: animal_id,
+					availability_status: availabilityInfo.availability_status,
+				}),
+			}
+		);
+
+		setIsLoading(false);
+
+		if (!res.ok) {
+			console.error("Failed to update animal status");
+			toast.error("Failed to update animal status");
+			return;
+		}
+
+		setAnimalInfo((prev) => ({
+			...prev,
+			availability_status: availabilityInfo.availability_status,
+		}));
+
+		toast.success("Animal status updated successfully");
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -70,12 +103,13 @@ export default function AnimalInfo() {
 			console.log(ad.data);
 			setAnimalInfo({
 				name: ad.data.name,
+				scientific_name: ad.data.scientific_name,
 				age: calculateAge(ad.data.date_of_birth),
+				availability_status: ad.data.availability_status,
 				weight: ad.data.weight,
 				height: ad.data.height,
 				animal_fact: ad.data.animal_fact,
 				conservation_status: ad.data.conservation_status,
-				availability_status: ad.data.availability_status,
 				gender: ad.data.gender,
 				origin: ad.data.origin,
 				geographic_range: ad.data.geographic_range,
@@ -83,6 +117,11 @@ export default function AnimalInfo() {
 				date_of_birth: formatDate(ad.data.date_of_birth),
 				image_cloud_link: ad.data.image_cloud_link,
 			});
+
+			setAvailabilityInfo({
+				availability_status: ad.data.availability_status,
+			});
+
 			setIsLoading(false);
 		}
 		fetchData();
@@ -126,8 +165,7 @@ export default function AnimalInfo() {
 						setOpen(open);
 						if (!open) {
 							setAvailabilityInfo({
-								availability_status: "",
-								removal_details: "",
+								availability_status: animalInfo.availability_status,
 							});
 						}
 					}}
@@ -137,23 +175,20 @@ export default function AnimalInfo() {
 							variant="outline"
 							className="flex items-center gap-2 border-gray-500"
 						>
-							<UserX className="w-4 h-4" /> Remove Animal
+							<UserX className="w-4 h-4" /> Update Animal Status
 						</Button>
 					</DialogTrigger>
 					<DialogContent className="max-w-lg">
 						<DialogHeader>
-							<DialogTitle className="text-xl">Remove Animal</DialogTitle>
+							<DialogTitle className="text-xl">
+								Update Animal Status
+							</DialogTitle>
 							<DialogDescription className="text-gray-700 text-base">
-								Are you sure you want to remove this animal?
+								Are you sure you want to update this animal&apos;s availability?
 							</DialogDescription>
 						</DialogHeader>
 
-						<form
-							onSubmit={(e) => {
-								e.preventDefault();
-								console.log(availabilityInfo);
-							}}
-						>
+						<form onSubmit={handleAnimalStatusUpdate}>
 							<div className="mb-2">
 								<Label htmlFor="removal_reason">Removal Reason</Label>
 								<Select
@@ -172,6 +207,7 @@ export default function AnimalInfo() {
 									<SelectContent>
 										<SelectGroup>
 											<SelectLabel>Reason</SelectLabel>
+											<SelectItem value="Present">Present</SelectItem>
 											<SelectItem value="Transferred">Transferred</SelectItem>
 											<SelectItem value="Deceased">Deceased</SelectItem>
 										</SelectGroup>
@@ -179,27 +215,17 @@ export default function AnimalInfo() {
 								</Select>
 							</div>
 
-							<div className="mb-4">
-								<Label htmlFor="removal_details">Details</Label>
-								<Textarea
-									value={availabilityInfo.removal_details}
-									onChange={(e) => {
-										setAvailabilityInfo({
-											...availabilityInfo,
-											removal_details: e.target.value,
-										});
-									}}
-									type="text"
-									name="removal_details"
-									id="removal_details"
-									placeholder="Details"
-									className="border-gray-500"
-									required
-								/>
-							</div>
-
 							<div className="flex w-full justify-end">
-								<Button variant="destructive">Remove</Button>
+								<Button
+									disabled={
+										isLoading ||
+										availabilityInfo.availability_status ===
+											animalInfo.availability_status
+									}
+									variant="destructive"
+								>
+									Update
+								</Button>
 							</div>
 						</form>
 					</DialogContent>

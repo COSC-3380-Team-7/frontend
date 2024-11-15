@@ -1,5 +1,23 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, PencilIcon } from "lucide-react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AdvancedImage, lazyload } from "@cloudinary/react";
@@ -7,12 +25,14 @@ import { cldClientSide } from "@/lib/cloudinary";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { formatDate, calculateAge } from "@/utils/dateCalcs";
 import Loading from "@/components/Loading";
+import { toast } from "sonner";
 
 export default function ZAnimalInfo() {
+	const [open, setOpen] = useState(false);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
 		scientific_name: "",
-		nickname: "",
+		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		age: "",
 		height: "",
 		weight: "",
@@ -20,16 +40,51 @@ export default function ZAnimalInfo() {
 		date_of_birth: "",
 		gender: "",
 		conservation_status: "", // 'Stable', 'Threatened', 'Endangered'
-		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		origin: "",
 		geographic_range: "",
 		animal_fact: "",
 		image_cloud_link: "",
 	});
-
+	const [availabilityInfo, setAvailabilityInfo] = useState({
+		availability_status: "",
+	});
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
+
+	async function handleAnimalStatusUpdate(e) {
+		e.preventDefault();
+
+		setIsLoading(true);
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/update_availability`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					animal_id: animal_id,
+					availability_status: availabilityInfo.availability_status,
+				}),
+			}
+		);
+
+		setIsLoading(false);
+
+		if (!res.ok) {
+			console.error("Failed to update animal status");
+			toast.error("Failed to update animal status");
+			return;
+		}
+
+		setAnimalInfo((prev) => ({
+			...prev,
+			availability_status: availabilityInfo.availability_status,
+		}));
+
+		toast.success("Animal status updated successfully");
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -49,13 +104,12 @@ export default function ZAnimalInfo() {
 			setAnimalInfo({
 				name: ad.data.name,
 				scientific_name: ad.data.scientific_name,
-				nickname: ad.data.nickname,
 				age: calculateAge(ad.data.date_of_birth),
+				availability_status: ad.data.availability_status,
 				weight: ad.data.weight,
 				height: ad.data.height,
 				animal_fact: ad.data.animal_fact,
 				conservation_status: ad.data.conservation_status,
-				availability_status: ad.data.availability_status,
 				gender: ad.data.gender,
 				origin: ad.data.origin,
 				geographic_range: ad.data.geographic_range,
@@ -63,6 +117,11 @@ export default function ZAnimalInfo() {
 				date_of_birth: formatDate(ad.data.date_of_birth),
 				image_cloud_link: ad.data.image_cloud_link,
 			});
+
+			setAvailabilityInfo({
+				availability_status: ad.data.availability_status,
+			});
+
 			setIsLoading(false);
 		}
 		fetchData();
@@ -87,7 +146,7 @@ export default function ZAnimalInfo() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					{animalInfo.nickname} the {animalInfo.name}
+					{animalInfo.name}
 				</h1>
 			</div>
 
@@ -101,6 +160,78 @@ export default function ZAnimalInfo() {
 						<PencilIcon className="w-4 h-4" /> Edit Information
 					</Link>
 				</Button>
+
+				<Dialog
+					open={open}
+					onOpenChange={(open) => {
+						setOpen(open);
+						if (!open) {
+							setAvailabilityInfo({
+								availability_status: animalInfo.availability_status,
+							});
+						}
+					}}
+				>
+					<DialogTrigger asChild>
+						<Button
+							variant="outline"
+							className="flex items-center gap-2 border-gray-500"
+						>
+							<UserX className="w-4 h-4" /> Update Animal Status
+						</Button>
+					</DialogTrigger>
+					<DialogContent className="max-w-lg">
+						<DialogHeader>
+							<DialogTitle className="text-xl">
+								Update Animal Status
+							</DialogTitle>
+							<DialogDescription className="text-gray-700 text-base">
+								Are you sure you want to update this animal&apos;s availability?
+							</DialogDescription>
+						</DialogHeader>
+
+						<form onSubmit={handleAnimalStatusUpdate}>
+							<div className="mb-2">
+								<Label htmlFor="removal_reason">Removal Reason</Label>
+								<Select
+									value={availabilityInfo.availability_status}
+									onValueChange={(value) => {
+										setAvailabilityInfo((prev) => ({
+											...prev,
+											availability_status: value,
+										}));
+									}}
+									required
+								>
+									<SelectTrigger className="max-w-52 border-gray-500">
+										<SelectValue placeholder="Select Reason" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup>
+											<SelectLabel>Reason</SelectLabel>
+											<SelectItem value="Present">Present</SelectItem>
+											<SelectItem value="Transferred">Transferred</SelectItem>
+											<SelectItem value="Deceased">Deceased</SelectItem>
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div>
+
+							<div className="flex w-full justify-end">
+								<Button
+									disabled={
+										isLoading ||
+										availabilityInfo.availability_status ===
+											animalInfo.availability_status
+									}
+									variant="destructive"
+								>
+									Update
+								</Button>
+							</div>
+						</form>
+					</DialogContent>
+				</Dialog>
 			</div>
 
 			<div className="mt-5 flex w-full">

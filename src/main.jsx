@@ -127,6 +127,7 @@ import EVAnimalSearch from "./routes/employee/vet/vet_reports/EVAnimalSearch.jsx
 import EVCreateVetReport from "./routes/employee/vet/vet_reports/EVCreateVetReport.jsx";
 import EVVetReportsView from "./routes/employee/vet/vet_reports/EVVetReportsView.jsx";
 import EVVetReportInfo from "./routes/employee/vet/vet_reports/EVVetReportInfo.jsx";
+import PromoteEmployee from "./routes/admin/department/PromoteEmployee.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -149,85 +150,85 @@ const router = createBrowserRouter(
 				</Route>
 			</Route>
 
-			<Route path="/dolphin-show" element={<Outlet/>}>
+			<Route path="/dolphin-show" element={<Outlet />}>
 				<Route index element={<Page1 />}></Route>
 			</Route>
 
-			<Route path="/halloween-sales" element={<Outlet/>}>
+			<Route path="/halloween-sales" element={<Outlet />}>
 				<Route index element={<Page2 />}></Route>
 			</Route>
 
-			<Route path="/year-end-sale" element={<Outlet/>}>
+			<Route path="/year-end-sale" element={<Outlet />}>
 				<Route index element={<Page3 />}></Route>
 			</Route>
 
-			<Route path="/login" element={<Outlet/>}>
+			<Route path="/login" element={<Outlet />}>
 				<Route index element={<LoginPage />}></Route>
 			</Route>
 
-			<Route path="/signup" element={<Outlet/>}>
+			<Route path="/signup" element={<Outlet />}>
 				<Route index element={<SignInPage />}></Route>
 			</Route>
 
-			<Route path="/african-elephant" element={<Outlet/>}>
+			<Route path="/african-elephant" element={<Outlet />}>
 				<Route index element={<AfricanElephant />}></Route>
 			</Route>
 
-			<Route path="/memberships" element={<Outlet/>}>
+			<Route path="/memberships" element={<Outlet />}>
 				<Route index element={<MembershipPage />}></Route>
 			</Route>
 
-			<Route path="/hours" element={<Outlet/>}>
+			<Route path="/hours" element={<Outlet />}>
 				<Route index element={<Hours />}></Route>
 			</Route>
 
-			<Route path="/tickets" element={<Outlet/>}>
+			<Route path="/tickets" element={<Outlet />}>
 				<Route index element={<Ticket />}></Route>
 			</Route>
 
-			<Route path="/map" element={<Outlet/>}>
+			<Route path="/map" element={<Outlet />}>
 				<Route index element={<Map />}></Route>
 			</Route>
 
-			<Route path="/parking" element={<Outlet/>}>
+			<Route path="/parking" element={<Outlet />}>
 				<Route index element={<Parking />}></Route>
 			</Route>
 
-			<Route path="/events" element={<Outlet/>}>
+			<Route path="/events" element={<Outlet />}>
 				<Route index element={<Events />}></Route>
 			</Route>
 
-			<Route path="/attractions" element={<Outlet/>}>
+			<Route path="/attractions" element={<Outlet />}>
 				<Route index element={<Attractions />}></Route>
 			</Route>
 
-			<Route path="/animals" element={<Outlet/>}>
+			<Route path="/animals" element={<Outlet />}>
 				<Route index element={<Animals />}></Route>
 			</Route>
 
-			<Route path="/exhibits" element={<Outlet/>}>
+			<Route path="/exhibits" element={<Outlet />}>
 				<Route index element={<Exhibits />}></Route>
 			</Route>
 
-			<Route path="/profile" element={<Outlet/>}>
+			<Route path="/profile" element={<Outlet />}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
 
-			<Route path="/lions" element={<Outlet/>}>
+			<Route path="/lions" element={<Outlet />}>
 				<Route index element={<Lions />}></Route>
 			</Route>
-			<Route path="/giraffe" element={<Outlet/>}>
+			<Route path="/giraffe" element={<Outlet />}>
 				<Route index element={<Giraffe />}></Route>
 			</Route>
 
-			<Route path="/penguins" element={<Outlet/>}>
+			<Route path="/penguins" element={<Outlet />}>
 				<Route index element={<Penguins />}></Route>
 			</Route>
 
-			<Route path="/orangutans" element={<Outlet/>}>
+			<Route path="/orangutans" element={<Outlet />}>
 				<Route index element={<Orangutans />}></Route>
 			</Route>
-			<Route path="/reptile-house" element={<Outlet/>}>
+			<Route path="/reptile-house" element={<Outlet />}>
 				<Route index element={<ReptileHouse />}></Route>
 			</Route>
 
@@ -255,6 +256,7 @@ const router = createBrowserRouter(
 									path="edit_employment"
 									element={<EditEmployment />}
 								></Route>
+								<Route path="promote" element={<PromoteEmployee />}></Route>
 							</Route>
 						</Route>
 					</Route>
