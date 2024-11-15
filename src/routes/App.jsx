@@ -86,7 +86,9 @@ export default function App() {
                   "Hours",
                   "Tickets",
                   "Zoo Map",
+                  "Parking",
                   "Events",
+                  "Attractions",
                   "Exhibits",
                   "Animals",
                 ].map((item) => (

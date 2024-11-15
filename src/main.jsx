@@ -149,85 +149,85 @@ const router = createBrowserRouter(
 				</Route>
 			</Route>
 
-			<Route path="/dolphin-show" element={<OutletWrapper />}>
+			<Route path="/dolphin-show" element={<Outlet/>}>
 				<Route index element={<Page1 />}></Route>
 			</Route>
 
-			<Route path="/halloween-sales" element={<OutletWrapper />}>
+			<Route path="/halloween-sales" element={<Outlet/>}>
 				<Route index element={<Page2 />}></Route>
 			</Route>
 
-			<Route path="/year-end-sale" element={<OutletWrapper />}>
+			<Route path="/year-end-sale" element={<Outlet/>}>
 				<Route index element={<Page3 />}></Route>
 			</Route>
 
-			<Route path="/login" element={<OutletWrapper />}>
+			<Route path="/login" element={<Outlet/>}>
 				<Route index element={<LoginPage />}></Route>
 			</Route>
 
-			<Route path="/signup" element={<OutletWrapper />}>
+			<Route path="/signup" element={<Outlet/>}>
 				<Route index element={<SignInPage />}></Route>
 			</Route>
 
-			<Route path="/african-elephant" element={<OutletWrapper />}>
+			<Route path="/african-elephant" element={<Outlet/>}>
 				<Route index element={<AfricanElephant />}></Route>
 			</Route>
 
-			<Route path="/memberships" element={<OutletWrapper />}>
+			<Route path="/memberships" element={<Outlet/>}>
 				<Route index element={<MembershipPage />}></Route>
 			</Route>
 
-			<Route path="/hours" element={<OutletWrapper />}>
+			<Route path="/hours" element={<Outlet/>}>
 				<Route index element={<Hours />}></Route>
 			</Route>
 
-			<Route path="/tickets" element={<OutletWrapper />}>
+			<Route path="/tickets" element={<Outlet/>}>
 				<Route index element={<Ticket />}></Route>
 			</Route>
 
-			<Route path="/map" element={<OutletWrapper />}>
+			<Route path="/map" element={<Outlet/>}>
 				<Route index element={<Map />}></Route>
 			</Route>
 
-			<Route path="/parking" element={<OutletWrapper />}>
+			<Route path="/parking" element={<Outlet/>}>
 				<Route index element={<Parking />}></Route>
 			</Route>
 
-			<Route path="/events" element={<OutletWrapper />}>
+			<Route path="/events" element={<Outlet/>}>
 				<Route index element={<Events />}></Route>
 			</Route>
 
-			<Route path="/attractions" element={<OutletWrapper />}>
+			<Route path="/attractions" element={<Outlet/>}>
 				<Route index element={<Attractions />}></Route>
 			</Route>
 
-			<Route path="/animals" element={<OutletWrapper />}>
+			<Route path="/animals" element={<Outlet/>}>
 				<Route index element={<Animals />}></Route>
 			</Route>
 
-			<Route path="/exhibits" element={<OutletWrapper />}>
+			<Route path="/exhibits" element={<Outlet/>}>
 				<Route index element={<Exhibits />}></Route>
 			</Route>
 
-			<Route path="/profile" element={<OutletWrapper />}>
+			<Route path="/profile" element={<Outlet/>}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
 
-			<Route path="/lions" element={<OutletWrapper />}>
+			<Route path="/lions" element={<Outlet/>}>
 				<Route index element={<Lions />}></Route>
 			</Route>
-			<Route path="/giraffe" element={<OutletWrapper />}>
+			<Route path="/giraffe" element={<Outlet/>}>
 				<Route index element={<Giraffe />}></Route>
 			</Route>
 
-			<Route path="/penguins" element={<OutletWrapper />}>
+			<Route path="/penguins" element={<Outlet/>}>
 				<Route index element={<Penguins />}></Route>
 			</Route>
 
-			<Route path="/orangutans" element={<OutletWrapper />}>
+			<Route path="/orangutans" element={<Outlet/>}>
 				<Route index element={<Orangutans />}></Route>
 			</Route>
-			<Route path="/reptile-house" element={<OutletWrapper />}>
+			<Route path="/reptile-house" element={<Outlet/>}>
 				<Route index element={<ReptileHouse />}></Route>
 			</Route>
 

@@ -1,72 +1,31 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
-
 export default function Ticket() {
   const ticketOptions = [
     {
-      id: 1,
       name: "General Admission",
       description: "Access to all public exhibits and attractions.",
-      price: 20.0,
+      price: "$20.00",
     },
     {
-      id: 2,
       name: "Children's Ticket (Ages 3-12)",
       description: "Discounted ticket for children. Free for children under 3.",
-      price: 10.0,
+      price: "$10.00",
     },
     {
-      id: 3,
       name: "Senior Ticket (Ages 65+)",
       description: "Discounted ticket for seniors.",
-      price: 15.0,
+      price: "$15.00",
     },
     {
-      id: 4,
       name: "Membership Pass",
       description: "Annual access with member-only perks and discounts.",
-      price: 100.0,
+      price: "$100.00",
     },
     {
-      id: 5,
       name: "Family Pass",
       description: "Annual access for two adults and up to three children.",
-      price: 180.0,
+      price: "$180.00",
     },
   ];
-
-  const [ticketCounts, setTicketCounts] = useState(ticketOptions.map(() => 0));
-  const [selectedDate, setSelectedDate] = useState(""); // State to manage selected date
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-  const handleIncrement = (index) => {
-    setTicketCounts(
-      ticketCounts.map((count, i) => (i === index ? count + 1 : count))
-    );
-  };
-
-  const handleDecrement = (index) => {
-    setTicketCounts(
-      ticketCounts.map((count, i) =>
-        i === index && count > 0 ? count - 1 : count
-      )
-    );
-  };
-
-  const calculateSubtotal = () => {
-    return ticketCounts
-      .reduce(
-        (total, count, index) => total + count * ticketOptions[index].price,
-        0
-      )
-      .toFixed(2);
-  };
-
-  const isCheckoutDisabled = calculateSubtotal() === "0.00"; // Disable checkout if subtotal is 0
-
-  const goBackToHome = () => {
-    navigate("/"); // Navigate to the home page (or any route you want)
-  };
 
   return (
     <div className="relative flex flex-col items-center justify-center bg-gray-100 p-6">
