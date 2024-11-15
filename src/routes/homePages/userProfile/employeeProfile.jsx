@@ -2,7 +2,7 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function UserProfile() {
+export default function EmployeeProfile() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const userData = location.state; // Access user data passed from LoginPage
@@ -52,8 +52,9 @@ export default function UserProfile() {
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 					<div className="bg-gray-100 p-6 rounded-lg shadow-sm">
 						<h3 className="text-xl font-bold text-green-600 mb-4">Account Summary</h3>
-						<p><strong>Current Tickets:</strong> {currentTickets}</p>
-						<p><strong>Account Balance:</strong> {balance}</p>
+						{/* <p><strong>Current Tickets:</strong> {currentTickets}</p>
+						<p><strong>Account Balance:</strong> {balance}</p> */}
+                        <p><strong>this is an Employee</strong></p> 
 					</div>
 
 					<div className="bg-gray-100 p-6 rounded-lg shadow-sm">
@@ -104,43 +105,3 @@ export default function UserProfile() {
 		</div>
 	);
 }
-
-
-// import { useLocation, useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-
-// export default function UserProfile() {
-// 	const navigate = useNavigate();
-// 	const location = useLocation();
-// 	const userData = location.state; // Access user data passed from LoginPage
-
-// 	// Log user data to the console
-// 	useEffect(() => {
-// 		if (userData) {
-// 			console.log("User Data:", userData);
-// 		} else {
-// 			console.log("User data not found.");
-// 		}
-// 	}, [userData]);
-
-// 	// Redirect or display an error if userData is not available
-// 	if (!userData) {
-// 		return (
-// 			<div className="min-h-screen flex items-center justify-center">
-// 				<p>User data not found. Please log in again.</p>
-// 				<button 
-// 					onClick={() => navigate("/member/login")} 
-// 					className="ml-4 bg-blue-500 text-white px-4 py-2 rounded"
-// 				>
-// 					Go to Login
-// 				</button>
-// 			</div>
-// 		);
-// 	}
-
-// 	return (
-// 		<div className="min-h-screen flex items-center justify-center">
-// 			<p>Check the console for user data.</p>
-// 		</div>
-// 	);
-// }

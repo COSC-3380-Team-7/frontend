@@ -3,20 +3,14 @@ import React, { useState, useEffect, useRef } from "react";
 const carouselData = [
 	{
 		image:
-			"https://cdn.prod.website-files.com/63e51157295a654688a15aca/63e540072e4d298ea274be3b_guinea%20pig%20gamer.png",
-		message: "Upcoming Dolphin Show - Don't miss it!",
+			"https://s28164.pcdn.co/files/elephant-lanterns-2023-ZL-600x400.jpg",
+		message: "Zoo Lights with TXU Engergy",
 		buttonLink: "/dolphin-show",
 	},
 	{
 		image:
-			"https://images.nightcafe.studio/jobs/V8qs4d5o2VPu8hJSeYmu/V8qs4d5o2VPu8hJSeYmu--1--47trm_4x.jpg?tr=w-1600,c-at_max",
-		message: "Halloween Special Sales - Spooky Discounts!",
-		buttonLink: "/halloween-sales",
-	},
-	{
-		image:
 			"https://images.nightcafe.studio/jobs/MsTuElvCNcnAmCCzS1W0/MsTuElvCNcnAmCCzS1W0--1--jb3ap.jpg?tr=w-1600,c-at_max",
-		message: "End of Year Merch Sale - Get Your Souvenirs!",
+		message: "Black Friday Merch Sale - Get Your Souvenirs!",
 		buttonLink: "/year-end-sale",
 	},
 ];
@@ -85,10 +79,8 @@ export default function App() {
 								{[
 									"Hours",
 									"Tickets",
-									"Zoo Map",
-									"Parking",
-									"Events",
-									"Attractions",
+									"Zoo Map", 
+									"Events", 
 									"Exhibits",
                   "Animals",
 								].map((item) => (
