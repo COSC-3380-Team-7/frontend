@@ -30,12 +30,14 @@ export default function Ticket() {
   return (
     <div className="relative flex flex-col items-center justify-center bg-gray-100 p-6">
       {/* Go Back to Home Button */}
+      // Trigger navigation on click
+      {/* Left arrow symbol */}
       <button
-        onClick={goBackToHome} // Trigger navigation on click
+        onClick={goBackToHome} 
         className="absolute top-10 left-10 bg-gray-300 p-2 rounded-full hover:bg-gray-400 transition"
       >
-        <span className="text-xl">&larr;</span> {/* Left arrow symbol */}
-      </button>
+        <span className="text-xl">&larr;</span> 
+      </button> 
 
       <h1 className="text-2xl font-bold text-center mb-8">Tickets</h1>
 
