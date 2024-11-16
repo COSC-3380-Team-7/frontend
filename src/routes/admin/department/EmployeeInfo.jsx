@@ -103,6 +103,16 @@ export default function EmployeeInfo() {
 						<PencilIcon className="w-4 h-4" /> Edit Employment Information
 					</Link>
 				</Button>
+
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500"
+				>
+					<Link to="promote">
+						<PencilIcon className="w-4 h-4" /> Promote / Demotion
+					</Link>
+				</Button>
 			</div>
 
 			<div className="mt-5">

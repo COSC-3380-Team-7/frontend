@@ -56,7 +56,7 @@ export default function ManagerLogin() {
 		<div className="flex items-center justify-center py-60">
 			<div className="w-full max-w-96">
 				<div className="mb-7">
-					<p className="text-2xl font-semibold mb-2">Employee Portal</p>
+					<p className="text-2xl font-semibold mb-2">Manager Portal</p>
 					<p className="text-base font-semibold text-gray-800">
 						Sign in to your account
 					</p>

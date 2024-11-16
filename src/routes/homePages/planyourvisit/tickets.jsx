@@ -71,15 +71,15 @@ export default function Ticket() {
   return (
     <div className="relative flex flex-col items-center justify-center bg-gray-100 p-6">
       {/* Go Back to Home Button */}
+      // Trigger navigation on click
+      {/* Left arrow symbol */}
       <button
         onClick={goBackToHome} // Trigger navigation on click
-        className="absolute top-4 left-4 bg-gray-300 p-2 rounded-full hover:bg-gray-400 transition"
+        className="absolute top-10 left-10 bg-gray-300 p-2 rounded-full hover:bg-gray-400 transition"
       >
-        <span className="text-xl">&larr;</span> {/* Left arrow symbol */}
+        <span className="text-xl">&larr;</span>
       </button>
-
       <h1 className="text-2xl font-bold text-center mb-8">Tickets</h1>
-
       <div className="grid gap-6 lg:grid-cols-2">
         {ticketOptions.map((ticket, index) => (
           <div
@@ -109,7 +109,6 @@ export default function Ticket() {
           </div>
         ))}
       </div>
-
       {/* Date Picker Section */}
       <div className="mt-8 p-4 bg-white rounded-lg shadow-md w-full max-w-lg text-center">
         <h2 className="text-xl font-semibold mb-4">Select Your Visit Date</h2>
@@ -121,7 +120,6 @@ export default function Ticket() {
           min={new Date().toISOString().split("T")[0]} // Restricts selection to today and future dates
         />
       </div>
-
       {/* Subtotal Section */}
       <div className="mt-8 p-4 bg-white rounded-lg shadow-md w-full max-w-lg text-center">
         <h2 className="text-xl font-semibold">Subtotal</h2>
@@ -129,7 +127,6 @@ export default function Ticket() {
           ${calculateSubtotal()}
         </p>
       </div>
-
       {/* Checkout Button */}
       <div className="mt-8">
         <button

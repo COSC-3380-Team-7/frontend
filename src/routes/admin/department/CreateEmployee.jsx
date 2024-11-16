@@ -85,12 +85,31 @@ export default function CreateEmployee() {
 		setIsLoading(false);
 
 		if (!res.ok) {
-			toast.error("Error creating employee");
+			const data = await res.json();
 			console.error("Error creating employee: ", res);
+			if (data.error_message) {
+				toast.error(data.error_message);
+			}
+
 			return;
 		}
 
-		toast.success("Employee created successfully.");
+		toast.success("Employee created successfully");
+		setEmployeeInfo({
+			first_name: "",
+			middle_initial: "",
+			last_name: "",
+			email: "",
+			phone_number: "",
+			address: "",
+			salary: "",
+			password: "",
+			confirm_password: "",
+			department_id: "",
+			occupation_id: "",
+		});
+		setHireDate({ startDate: null, endDate: null });
+		setDateOfBirth({ startDate: null, endDate: null });
 	}
 
 	useEffect(() => {

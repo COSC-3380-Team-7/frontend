@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -13,31 +12,30 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
-export default function ExhibitAdminView() {
-	const paginationSize = 5;
+export default function ZMAnimalFood() {
+	const navigate = useNavigate();
+	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
-	const navigate = useNavigate();
-	const [data, setData] = useState([]);
+	const [foodData, setFoodData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function fetchData() {
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/admin/all_exhibits`
+			setIsLoading(true);
+			const res1 = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/food_for_animal`
 			);
+			setIsLoading(false);
 
-			if (!response.ok) {
-				console.error("Error fetching data: ", response);
-				setIsLoading(false);
+			if (!res1.ok) {
+				console.error("Error fetching data: ", res1);
 				return;
 			}
-
-			const data = await response.json();
-			console.log(data.data);
-			setData(data.data);
-			setIsLoading(false);
+			const data1 = await res1.json();
+			console.log(data1.data);
+			setFoodData(data1.data);
 		}
 		fetchData();
 	}, []);
@@ -48,42 +46,38 @@ export default function ExhibitAdminView() {
 
 	return (
 		<>
-			<div className="flex items-center justify-between w-full mb-10">
-				<h1 className="text-3xl font-semibold text-gray-800">Exhibits</h1>
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="create">
-						<PlusIcon className="h-5 w-5" /> Create Exhibit
-					</Link>
-				</Button>
+			<div className="flex items-center w-full justify-between mb-4">
+				<div className="flex items-center gap-2 w-full">
+					<h1 className="text-3xl font-semibold text-gray-800">Animal Food</h1>
+				</div>
 			</div>
+
+			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2 mt-4">
+				Food
+			</h1>
 
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>Exhibit Id</TableHead>
+						<TableHead>Food Id</TableHead>
 						<TableHead>Name</TableHead>
-						<TableHead>Department</TableHead>
-						<TableHead>Description</TableHead>
+						<TableHead>Stock</TableHead>
+						<TableHead>Category</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
+					{foodData.map((el) => (
 						<TableRow
-							key={el.exhibit_id}
+							key={el.animal_food_id}
 							onClick={() => {
-								navigate(`${el.exhibit_id}`);
+								navigate(`${el.animal_food_id}`);
 							}}
 							className="cursor-pointer"
 						>
-							<TableCell>{el.exhibit_id}</TableCell>
-							<TableCell>{el.exhibit_name}</TableCell>
-							<TableCell>{el.department_name}</TableCell>
-							<TableCell className="max-w-xs text-ellipsis">
-								{el.description}
-							</TableCell>
+							<TableCell className="font-medium">{el.animal_food_id}</TableCell>
+							<TableCell>{el.food_name}</TableCell>
+							<TableCell>{el.stock}</TableCell>
+							<TableCell>{el.food_type}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -108,7 +102,7 @@ export default function ExhibitAdminView() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex >= foodData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

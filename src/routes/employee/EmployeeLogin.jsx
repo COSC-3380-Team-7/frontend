@@ -16,8 +16,6 @@ export default function EmployeeLogin() {
 		const formData = new FormData(e.target);
 		const email = formData.get("email");
 		const password = formData.get("password");
-		console.log(email);
-		console.log(password);
 
 		setIsLoading(true);
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/employee/login`, {
@@ -36,9 +34,9 @@ export default function EmployeeLogin() {
 		}
 
 		const data = await res.json();
-		console.log(data.data);
+		console.log(data);
 
-		const { employee_id, occupation } = data.data;
+		const { employee_id, occupation } = data;
 		console.log(employee_id, occupation);
 		setEmployeeState(employee_id);
 
@@ -46,7 +44,7 @@ export default function EmployeeLogin() {
 		if (occupation === "Maintenance Worker") {
 			navigate("/employee/maintenance");
 		} else if (occupation === "Zookeeper") {
-			navigate("/employee/zookeeper");
+			navigate("/employee/zookeeper/exhibit");
 		} else if (occupation === "Veterinarian") {
 			navigate("/employee/vet");
 		}

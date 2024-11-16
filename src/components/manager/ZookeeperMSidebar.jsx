@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { HeartPulseIcon, PawPrint, User } from "lucide-react";
+import { Apple, HeartPulseIcon, PawPrint, User } from "lucide-react";
 
 export default function ZookeeperMSidebar() {
 	const location = useLocation();
@@ -24,6 +24,11 @@ export default function ZookeeperMSidebar() {
 			href: "/manager/zookeeper/exhibit",
 			icon: <PawPrint className="h-6 w-6 mr-1" />,
 			name: "Exhibits",
+		},
+		{
+			href: "/manager/zookeeper/animal_food",
+			icon: <Apple className="h-6 w-6 mr-1" />,
+			name: "Animal Food",
 		},
 		{
 			href: "/manager/zookeeper/vet_report",

@@ -21,6 +21,7 @@ import Loading from "@/components/Loading";
 
 export default function ZEditAnimal() {
 	const [isLoading, setIsLoading] = useState(true);
+	const [allHabitats, setAllHabitats] = useState([]);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
 		scientific_name: "",
@@ -29,10 +30,10 @@ export default function ZEditAnimal() {
 		weight: "",
 		animal_fact: "",
 		conservation_status: "",
-		availability_status: "Present",
 		gender: "",
 		origin: "",
 		geographic_range: "",
+		habitat_id: "",
 	});
 	const [arrivalDate, setArrivalDate] = useState({
 		startDate: null,
@@ -78,8 +79,7 @@ export default function ZEditAnimal() {
 			image: image,
 			image_filename: imageFileName,
 			conservation_status: animalInfo.conservation_status,
-			availability_status: animalInfo.availability_status,
-			habitat_id: habitat_id,
+			habitat_id: animalInfo.habitat_id,
 		};
 
 		setIsLoading(true);
@@ -102,28 +102,30 @@ export default function ZEditAnimal() {
 
 		const data = await response.json();
 		console.log(data);
-		toast.success("Animal added successfully");
-		setAnimalInfo({
-			name: "",
-			scientific_name: "",
-			nickname: "",
-			height: "",
-			weight: "",
-			animal_fact: "",
-			conservation_status: "",
-			availability_status: "Present",
-			gender: "",
-			origin: "",
-			geographic_range: "",
-		});
-		setDateOfBirth({ startDate: null, endDate: null });
-		setArrivalDate({ startDate: null, endDate: null });
-		setImage(null);
-		setImageFileName("");
+		toast.success("Animal updated successfully");
+
+		if (image) {
+			setImage(null);
+			setImageFileName("");
+		}
 	}
 
 	useEffect(() => {
 		async function fetchData() {
+			const habitatResponse = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/habitat`
+			);
+
+			if (!habitatResponse.ok) {
+				console.error("Error fetching habitatData: ", habitatResponse);
+				setIsLoading(false);
+				return;
+			}
+
+			const hd = await habitatResponse.json();
+			console.log(hd.data);
+			setAllHabitats(hd.data);
+
 			const animalResponse = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
 			);
@@ -148,6 +150,7 @@ export default function ZEditAnimal() {
 				origin: ad.data.origin,
 				geographic_range: ad.data.geographic_range,
 				gender: ad.data.gender,
+				habitat_id: ad.data.habitat_id.toString(),
 			});
 			setDateOfBirth({
 				startDate: new Date(ad.data.date_of_birth),
@@ -188,6 +191,33 @@ export default function ZEditAnimal() {
 					<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
 						Animal Information
 					</h1>
+
+					<div className="mt-4">
+						<Label htmlFor="habitat_id">Change Animal Habitat</Label>
+						<Select
+							value={animalInfo.habitat_id}
+							onValueChange={(value) =>
+								setAnimalInfo((prev) => ({ ...prev, habitat_id: value }))
+							}
+							required
+						>
+							<SelectTrigger className="max-w-52 border-gray-500">
+								<SelectValue placeholder="Select habitat" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									{allHabitats.map((habitat) => (
+										<SelectItem
+											key={habitat.habitat_id}
+											value={habitat.habitat_id.toString()}
+										>
+											{habitat.name}
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
 
 					<div className="mt-4">
 						<Label htmlFor="name">Name</Label>
@@ -427,7 +457,7 @@ export default function ZEditAnimal() {
 						className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
                          transition-colorstext-white font-bold disabled:cursor-not-allowed"
 					>
-						Add
+						Save
 					</Button>
 				</div>
 			</form>
