@@ -127,8 +127,10 @@ import EVAnimalSearch from "./routes/employee/vet/vet_reports/EVAnimalSearch.jsx
 import EVCreateVetReport from "./routes/employee/vet/vet_reports/EVCreateVetReport.jsx";
 import EVVetReportsView from "./routes/employee/vet/vet_reports/EVVetReportsView.jsx";
 import EVVetReportInfo from "./routes/employee/vet/vet_reports/EVVetReportInfo.jsx";
-import AnimalMore from "./routes/homePages/planyourvisit/animalmore.jsx";
 import PromoteEmployee from "./routes/admin/department/PromoteEmployee.jsx";
+import ZMCreateAnimalFood from "./routes/manager/zookeeper/ZMCreateAnimalFood.jsx";
+import ZMAnimalFood from "./routes/manager/zookeeper/ZMAnimalFood.jsx";
+import ZMEditAnimalFood from "./routes/manager/zookeeper/ZMEditAnimalFood.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -203,9 +205,8 @@ const router = createBrowserRouter(
 				<Route index element={<Attractions />}></Route>
 			</Route>
 
-			<Route>
-				<Route path="/animals" element={<Animals />} />
-				<Route path="/animalmore/:animalId" element={<AnimalMore />} />
+			<Route path="/animals" element={<Outlet />}>
+				<Route index element={<Animals />}></Route>
 			</Route>
 
 			<Route path="/exhibits" element={<Outlet />}>
@@ -215,9 +216,6 @@ const router = createBrowserRouter(
 			<Route path="/profile" element={<Outlet />}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
-			{/* <Route path="/animalmore" element={<Outlet/>}>
-				<Route index element={<AnimalMore />}></Route>
-			</Route> */}
 
 			<Route path="/lions" element={<Outlet />}>
 				<Route index element={<Lions />}></Route>
@@ -432,6 +430,14 @@ const router = createBrowserRouter(
 					<Route index element={<ZVetReportsView />}></Route>
 					<Route path=":vet_report_id" element={<Outlet />}>
 						<Route index element={<ZVetReportInfo />}></Route>
+					</Route>
+				</Route>
+
+				<Route path="animal_food" element={<OutletWrapper />}>
+					<Route index element={<ZMAnimalFood />}></Route>
+					<Route path="create" element={<ZMCreateAnimalFood />}></Route>
+					<Route path=":animal_food_id" element={<Outlet />}>
+						<Route index element={<ZMEditAnimalFood />}></Route>
 					</Route>
 				</Route>
 			</Route>
