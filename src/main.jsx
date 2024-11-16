@@ -127,6 +127,7 @@ import EVAnimalSearch from "./routes/employee/vet/vet_reports/EVAnimalSearch.jsx
 import EVCreateVetReport from "./routes/employee/vet/vet_reports/EVCreateVetReport.jsx";
 import EVVetReportsView from "./routes/employee/vet/vet_reports/EVVetReportsView.jsx";
 import EVVetReportInfo from "./routes/employee/vet/vet_reports/EVVetReportInfo.jsx";
+import AnimalMore from "./routes/homePages/planyourvisit/animalmore.jsx";
 import PromoteEmployee from "./routes/admin/department/PromoteEmployee.jsx";
 
 const router = createBrowserRouter(
@@ -202,8 +203,9 @@ const router = createBrowserRouter(
 				<Route index element={<Attractions />}></Route>
 			</Route>
 
-			<Route path="/animals" element={<Outlet />}>
-				<Route index element={<Animals />}></Route>
+			<Route>
+				<Route path="/animals" element={<Animals />} />
+				<Route path="/animalmore/:animalId" element={<AnimalMore />} />
 			</Route>
 
 			<Route path="/exhibits" element={<Outlet />}>
@@ -213,6 +215,9 @@ const router = createBrowserRouter(
 			<Route path="/profile" element={<Outlet />}>
 				<Route index element={<UserProfile />}></Route>
 			</Route>
+			{/* <Route path="/animalmore" element={<Outlet/>}>
+				<Route index element={<AnimalMore />}></Route>
+			</Route> */}
 
 			<Route path="/lions" element={<Outlet />}>
 				<Route index element={<Lions />}></Route>
