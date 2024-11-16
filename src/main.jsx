@@ -131,6 +131,7 @@ import PromoteEmployee from "./routes/admin/department/PromoteEmployee.jsx";
 import ZMCreateAnimalFood from "./routes/manager/zookeeper/ZMCreateAnimalFood.jsx";
 import ZMAnimalFood from "./routes/manager/zookeeper/ZMAnimalFood.jsx";
 import ZMEditAnimalFood from "./routes/manager/zookeeper/ZMEditAnimalFood.jsx";
+import AnimalMore from "./routes/homePages/planyourvisit/animalmore.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -151,6 +152,11 @@ const router = createBrowserRouter(
 						</Route>
 					</Route>
 				</Route>
+			</Route>
+
+			<Route>
+				<Route path="/animals" element={<Animals />} />
+				<Route path="/animalmore/:animalId" element={<AnimalMore />} />
 			</Route>
 
 			<Route path="/dolphin-show" element={<Outlet />}>
