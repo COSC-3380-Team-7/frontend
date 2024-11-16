@@ -73,7 +73,7 @@ export default function App() {
 								{[
 									"Hours",
 									"Tickets",
-									"Zoo Map", 
+									// "Zoo Map", 
 									"Events", 
 									"Exhibits",
                   "Animals",
