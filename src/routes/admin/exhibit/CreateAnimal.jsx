@@ -157,6 +157,7 @@ export default function CreateAnimal() {
 							name="name"
 							id="name"
 							placeholder="African Lion"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -175,6 +176,7 @@ export default function CreateAnimal() {
 							name="scientific_name"
 							id="scientific_name"
 							placeholder="Lion"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -193,6 +195,7 @@ export default function CreateAnimal() {
 							name="nickname"
 							id="nickname"
 							placeholder="Leo"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -232,8 +235,9 @@ export default function CreateAnimal() {
 								setAnimalInfo({ ...animalInfo, weight: value });
 							}}
 							type="number"
+							step="0.01"
 							min="0"
-							max="100000"
+							max="5000"
 							name="weight"
 							id="weight"
 							placeholder="100"
@@ -249,7 +253,8 @@ export default function CreateAnimal() {
 								setAnimalInfo({ ...animalInfo, height: e.target.value })
 							}
 							min="0"
-							max="100000"
+							max="20"
+							step="0.01"
 							type="number"
 							name="height"
 							id="height"
@@ -318,6 +323,7 @@ export default function CreateAnimal() {
 							id="origin"
 							placeholder="Africa"
 							required
+							maxlength="100"
 						/>
 					</div>
 
@@ -337,6 +343,7 @@ export default function CreateAnimal() {
 							placeholder="Geographic Range"
 							className="border-gray-500"
 							required
+							maxlength="1000"
 						/>
 					</div>
 
@@ -353,6 +360,7 @@ export default function CreateAnimal() {
 							placeholder="This is an animal fact"
 							className="border-gray-500"
 							required
+							maxlength="1000"
 						/>
 					</div>
 

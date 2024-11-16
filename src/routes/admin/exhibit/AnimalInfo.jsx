@@ -83,6 +83,7 @@ export default function AnimalInfo() {
 			availability_status: availabilityInfo.availability_status,
 		}));
 
+		setOpen(false);
 		toast.success("Animal status updated successfully");
 	}
 

@@ -13,38 +13,13 @@ import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import Datepicker from "react-tailwindcss-datepicker";
 
-export default function AnimalFoodPurchases() {
+export default function AnimalFoodCostAnalysis() {
 	const paginationSize = 10;
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [data, setData] = useState([
-		{
-			ticket_type_id: 0,
-			category: "Veteran",
-			price: "5.00",
-			quantity_sold: 10,
-		},
-		{
-			ticket_type_id: 1,
-			category: "Senior",
-			price: "5.00",
-			quantity_sold: 10,
-		},
-		{
-			ticket_type_id: 2,
-			category: "Adult",
-			price: "7.50",
-			quantity_sold: 10,
-		},
-		{
-			ticket_type_id: 3,
-			category: "Child",
-			price: "3.50",
-			quantity_sold: 10,
-		},
-	]);
+	const [data, setData] = useState([]);
 
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");

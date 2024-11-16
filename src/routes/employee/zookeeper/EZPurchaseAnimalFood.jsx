@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Loading from "@/components/Loading";
 import {
@@ -16,71 +16,66 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-export default function ZMEditAnimalFood() {
-	const [isLoading, setIsLoading] = useState(true);
-	const [foodInfo, setFoodInfo] = useState({
-		food_name: "",
-		food_type: "",
-		stock: "",
+export default function EZPurchaseAnimalFood() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [foodInfo, setFoodInfo] = useState([]);
+	const [vendorInfo, setVendorInfo] = useState({
+		vendor_name: "",
+		purchased_price: "",
+		quantity: "",
+		animal_food_id: "",
 	});
 
 	const navigate = useNavigate();
-	const { animal_food_id } = useParams();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		if (foodInfo.food_name.length > 100) {
+		if (vendorInfo.vendor_name.length > 100) {
 			toast.error("Food name cannot be more than 100 characters");
-			return;
-		}
-
-		if (foodInfo.stock > 100) {
-			toast.error("Stock cannot be more than 100");
 			return;
 		}
 
 		setIsLoading(true);
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/manager/update_animal_food`,
+			`${import.meta.env.VITE_API_URL}/manager/purchase_animal_food`,
 			{
-				method: "PUT",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					animal_food_id: animal_food_id,
-					food_name: foodInfo.food_name,
-					food_type: foodInfo.food_type,
-					stock: +foodInfo.stock,
+					vendor_name: vendorInfo.vendor_name,
+					purchased_price: parseFloat(vendorInfo.purchased_price),
+					quantity: parseInt(vendorInfo.quantity),
+					animal_food_id: vendorInfo.animal_food_id,
 				}),
 			}
 		);
 		setIsLoading(false);
 
 		if (!response.ok) {
-			const data = await response.json();
-
-			if (data.error_message) {
-				toast.error(data.error_message);
-			} else {
-				toast.error("Failed to update animal food");
-			}
-
+			console.error("Error buying animal food: ", response);
+			toast.error("Error buying animal food");
 			return;
 		}
 
 		const data = await response.json();
 		console.log(data);
-		toast.success("Animal food successfully updated");
+		toast.success("Animal food purchased successfully");
+
+		setVendorInfo({
+			vendor_name: "",
+			purchased_price: "",
+			quantity: "",
+			animal_food_id: "",
+		});
 	}
 
 	useEffect(() => {
 		async function fetchData() {
 			const res = await fetch(
-				`${
-					import.meta.env.VITE_API_URL
-				}/manager/food_for_animal/:${animal_food_id}`
+				`${import.meta.env.VITE_API_URL}/admin/food_for_animal`
 			);
 			setIsLoading(false);
 
@@ -89,15 +84,11 @@ export default function ZMEditAnimalFood() {
 				return;
 			}
 			const data = await res.json();
-
-			setFoodInfo({
-				food_name: data.data.food_name,
-				food_type: data.data.food_type,
-				stock: data.data.stock,
-			});
+			console.log(data.data);
+			setFoodInfo(data.data);
 		}
 		fetchData();
-	}, [animal_food_id]);
+	}, []);
 
 	if (isLoading) {
 		return <Loading />;
@@ -114,41 +105,62 @@ export default function ZMEditAnimalFood() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Edit Animal Food
+					Purchase Animal Food
 				</h1>
 			</div>
 
 			<form onSubmit={handleSubmit}>
 				<div className="max-w-2xl">
 					<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-						Animal Food Information
+						Vendor Information
 					</h1>
 
 					<div className="mt-4">
-						<Label htmlFor="food_name">Name</Label>
+						<Label htmlFor="vendor_name">Name</Label>
 						<Input
-							value={foodInfo.food_name}
+							value={vendorInfo.vendor_name}
 							onChange={(e) =>
-								setFoodInfo({ ...foodInfo, food_name: e.target.value })
+								setVendorInfo({ ...vendorInfo, vendor_name: e.target.value })
 							}
 							type="text"
-							name="food_name"
-							id="name"
-							placeholder="Apple"
+							name="vendor_name"
+							id="vendor_name"
+							placeholder="Animal Food Vendor"
 							required
 						/>
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="stock">Stock</Label>
+						<Label htmlFor="purchased_price">Purchase Price per Item</Label>
 						<Input
-							value={foodInfo.stock}
+							value={vendorInfo.purchased_price}
 							onChange={(e) =>
-								setFoodInfo({ ...foodInfo, stock: e.target.value })
+								setVendorInfo({
+									...vendorInfo,
+									purchased_price: e.target.value,
+								})
 							}
 							type="number"
-							name="stock"
-							id="name"
+							step="0.01"
+							name="purchased_price"
+							id="purchased_price"
+							placeholder="0.00"
+							min="0"
+							max="100"
+							required
+						/>
+					</div>
+
+					<div className="mt-4">
+						<Label htmlFor="quantity">Quantity</Label>
+						<Input
+							value={vendorInfo.quantity}
+							onChange={(e) =>
+								setVendorInfo({ ...vendorInfo, quantity: e.target.value })
+							}
+							type="number"
+							name="quantity"
+							id="quantity"
 							placeholder="0"
 							min="0"
 							max="100"
@@ -157,26 +169,28 @@ export default function ZMEditAnimalFood() {
 					</div>
 
 					<div className="mt-4">
-						<Label htmlFor="food_type">Category</Label>
+						<Label htmlFor="animal_food">Food</Label>
 						<Select
-							value={foodInfo.food_type}
+							value={vendorInfo.animal_food_id}
 							onValueChange={(value) =>
-								setFoodInfo((prev) => ({ ...prev, food_type: value }))
+								setVendorInfo((prev) => ({ ...prev, animal_food_id: value }))
 							}
 							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
-								<SelectValue placeholder="Select food category" />
+								<SelectValue placeholder="Select food" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectLabel>Category</SelectLabel>
-									<SelectItem value="Meat">Meat</SelectItem>
-									<SelectItem value="Vegetable">Vegetable</SelectItem>
-									<SelectItem value="Fruit">Fruit</SelectItem>
-									<SelectItem value="Fish">Fish</SelectItem>
-									<SelectItem value="Insects">Insects</SelectItem>
-									<SelectItem value="Nuts">Nuts</SelectItem>
+									<SelectLabel>Food</SelectLabel>
+									{foodInfo.map((food) => (
+										<SelectItem
+											key={food.animal_food_id}
+											value={food.animal_food_id.toString()}
+										>
+											{food.food_name}
+										</SelectItem>
+									))}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -186,9 +200,9 @@ export default function ZMEditAnimalFood() {
 						<Button
 							disabled={isLoading}
 							className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
-                         transition-colorstext-white font-bold disabled:cursor-not-allowed"
+						 transition-colors text-white font-bold disabled:cursor-not-allowed"
 						>
-							Update
+							Purchase
 						</Button>
 					</div>
 				</div>

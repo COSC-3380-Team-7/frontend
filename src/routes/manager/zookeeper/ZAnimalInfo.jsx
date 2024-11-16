@@ -17,7 +17,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { ArrowLeftIcon, PencilIcon, UserX } from "lucide-react";
+import { ArrowLeftIcon, Drumstick, PencilIcon, UserX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AdvancedImage, lazyload } from "@cloudinary/react";
@@ -31,6 +31,7 @@ export default function ZAnimalInfo() {
 	const [open, setOpen] = useState(false);
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
+		nickname: "",
 		scientific_name: "",
 		availability_status: "", // 'Present', 'Transferred', 'Deceased'
 		age: "",
@@ -103,6 +104,7 @@ export default function ZAnimalInfo() {
 			console.log(ad.data);
 			setAnimalInfo({
 				name: ad.data.name,
+				nickname: ad.data.nickname,
 				scientific_name: ad.data.scientific_name,
 				age: calculateAge(ad.data.date_of_birth),
 				availability_status: ad.data.availability_status,
@@ -146,11 +148,20 @@ export default function ZAnimalInfo() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					{animalInfo.name}
+					{animalInfo.nickname} the {animalInfo.name}
 				</h1>
 			</div>
 
 			<div className="flex items-center gap-3">
+				<Button
+					asChild
+					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
+				>
+					<Link to="feed">
+						<Drumstick className="h-5 w-5" /> Feed Animal
+					</Link>
+				</Button>
+
 				<Button
 					asChild
 					variant="outline"

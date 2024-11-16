@@ -60,7 +60,7 @@ import EditEvent from "./routes/admin/event/EditEvent.jsx";
 import Habitat from "./routes/homepage/Habitat.jsx";
 import TicketSales from "./routes/admin/finance/TicketSales.jsx";
 import MerchandiseSales from "./routes/admin/finance/MerchandiseSales.jsx";
-import AnimalFoodPurchases from "./routes/admin/finance/AnimalFoodPurchases.jsx";
+import AnimalFoodCostAnalysis from "./routes/admin/finance/AnimalFoodCostAnalysis.jsx";
 import AssignExhibitEmployee from "./routes/admin/exhibit/AssignExhibitEmployee.jsx";
 import VetReportInfo from "./routes/admin/vet_reports/VetReportInfo.jsx";
 import MaintenanceReportInfo from "./routes/admin/maintenance/MaintenanceReportInfo.jsx";
@@ -132,6 +132,8 @@ import ZMCreateAnimalFood from "./routes/manager/zookeeper/ZMCreateAnimalFood.js
 import ZMAnimalFood from "./routes/manager/zookeeper/ZMAnimalFood.jsx";
 import ZMEditAnimalFood from "./routes/manager/zookeeper/ZMEditAnimalFood.jsx";
 import AnimalMore from "./routes/homePages/planyourvisit/animalmore.jsx";
+import ZMPurchaseAnimalFood from "./routes/manager/zookeeper/ZMPurchaseAnimalFood.jsx";
+import ZMFeedAnimals from "./routes/manager/zookeeper/ZMFeedAnimals.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -294,7 +296,7 @@ const router = createBrowserRouter(
 						<Route index element={<MerchandiseSales />}></Route>
 					</Route>
 					<Route path="animal_food_purchases" element={<Outlet />}>
-						<Route index element={<AnimalFoodPurchases />}></Route>
+						<Route index element={<AnimalFoodCostAnalysis />}></Route>
 					</Route>
 				</Route>
 
@@ -426,6 +428,7 @@ const router = createBrowserRouter(
 							<Route path="animal/:animal_id" element={<Outlet />}>
 								<Route index element={<ZAnimalInfo />}></Route>
 								<Route path="edit" element={<ZEditAnimal />}></Route>
+								<Route path="feed" element={<ZMFeedAnimals />}></Route>
 							</Route>
 							<Route path="animal/create" element={<ZCreateAnimal />}></Route>
 						</Route>
@@ -441,7 +444,9 @@ const router = createBrowserRouter(
 
 				<Route path="animal_food" element={<OutletWrapper />}>
 					<Route index element={<ZMAnimalFood />}></Route>
+					<Route path="purchase" element={<ZMPurchaseAnimalFood />}></Route>
 					<Route path="create" element={<ZMCreateAnimalFood />}></Route>
+
 					<Route path=":animal_food_id" element={<Outlet />}>
 						<Route index element={<ZMEditAnimalFood />}></Route>
 					</Route>

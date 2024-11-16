@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 import Loading from "@/components/Loading";
 import {
@@ -16,8 +16,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-export default function ZMCreateAnimalFood() {
-	const [isLoading, setIsLoading] = useState(false);
+export default function EZEditAnimalFood() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [foodInfo, setFoodInfo] = useState({
 		food_name: "",
 		food_type: "",
@@ -25,6 +25,7 @@ export default function ZMCreateAnimalFood() {
 	});
 
 	const navigate = useNavigate();
+	const { animal_food_id } = useParams();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -41,13 +42,14 @@ export default function ZMCreateAnimalFood() {
 
 		setIsLoading(true);
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/manager/create_animal_food`,
+			`${import.meta.env.VITE_API_URL}/manager/update_animal_food`,
 			{
-				method: "POST",
+				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
+					animal_food_id: animal_food_id,
 					food_name: foodInfo.food_name,
 					food_type: foodInfo.food_type,
 					stock: +foodInfo.stock,
@@ -62,7 +64,7 @@ export default function ZMCreateAnimalFood() {
 			if (data.error_message) {
 				toast.error(data.error_message);
 			} else {
-				toast.error("Failed to create animal food");
+				toast.error("Failed to update animal food");
 			}
 
 			return;
@@ -70,14 +72,32 @@ export default function ZMCreateAnimalFood() {
 
 		const data = await response.json();
 		console.log(data);
-		toast.success("Animal food successfully created");
-
-		setFoodInfo({
-			food_name: "",
-			food_type: "",
-			stock: "",
-		});
+		toast.success("Animal food successfully updated");
 	}
+
+	useEffect(() => {
+		async function fetchData() {
+			const res = await fetch(
+				`${
+					import.meta.env.VITE_API_URL
+				}/manager/food_for_animal/:${animal_food_id}`
+			);
+			setIsLoading(false);
+
+			if (!res.ok) {
+				console.error("Error fetching data: ", res);
+				return;
+			}
+			const data = await res.json();
+
+			setFoodInfo({
+				food_name: data.data.food_name,
+				food_type: data.data.food_type,
+				stock: data.data.stock,
+			});
+		}
+		fetchData();
+	}, [animal_food_id]);
 
 	if (isLoading) {
 		return <Loading />;
@@ -94,7 +114,7 @@ export default function ZMCreateAnimalFood() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Add Animal Food
+					Edit Animal Food
 				</h1>
 			</div>
 
@@ -168,7 +188,7 @@ export default function ZMCreateAnimalFood() {
 							className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
                          transition-colorstext-white font-bold disabled:cursor-not-allowed"
 						>
-							Add
+							Update
 						</Button>
 					</div>
 				</div>
