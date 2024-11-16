@@ -17,7 +17,7 @@ export default {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			colors: {
-				primaryBg: "#006747",
+				primaryBg: "#467061",
 				primaryBorder: "#77B143",
 				buttonBg: "#598532",
 				buttonHoverBg: "#6DA33E",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight } from "lucide-react";
+import { ArrowLeftIcon, ArrowRight, ShoppingBasket } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -9,7 +9,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function ZMAnimalFood() {
@@ -50,6 +50,17 @@ export default function ZMAnimalFood() {
 				<div className="flex items-center gap-2 w-full">
 					<h1 className="text-3xl font-semibold text-gray-800">Animal Food</h1>
 				</div>
+			</div>
+
+			<div className="flex items-center gap-4 mb-6">
+				<Button
+					asChild
+					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
+				>
+					<Link to="purchase">
+						<ShoppingBasket className="h-5 w-5" /> Purchase Animal Food
+					</Link>
+				</Button>
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2 mt-4">

@@ -42,7 +42,7 @@ export default function CreateDepartment() {
 			name: "",
 			location: "",
 		});
-		toast.success("Deparment created successfully");
+		toast.success("Department created successfully");
 	}
 
 	if (isLoading) {
