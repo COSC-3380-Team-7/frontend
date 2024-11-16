@@ -19,9 +19,9 @@ export default function TicketAdminView() {
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
-	const [data, setData] = useState([]);
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {

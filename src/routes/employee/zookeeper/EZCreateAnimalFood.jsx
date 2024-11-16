@@ -16,7 +16,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-export default function ZMCreateAnimalFood() {
+export default function EZCreateAnimalFood() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [foodInfo, setFoodInfo] = useState({
 		food_name: "",
