@@ -3,8 +3,6 @@ import {
 	BuildingIcon,
 	CalendarDays,
 	ChartColumnIncreasing,
-	HammerIcon,
-	HeartPulseIcon,
 	PawPrint,
 	TicketsIcon,
 } from "lucide-react";
@@ -37,16 +35,6 @@ export default function AdminSidebar() {
 			href: "/admin/event",
 			icon: <CalendarDays className="h-6 w-6 mr-1" />,
 			name: "Events",
-		},
-		{
-			href: "/admin/vet_report",
-			icon: <HeartPulseIcon className="h-6 w-6 mr-1" />,
-			name: "Veterinarian Reports",
-		},
-		{
-			href: "/admin/maintenance_report",
-			icon: <HammerIcon className="h-6 w-6 mr-1" />,
-			name: "Maintenance Reports",
 		},
 		{
 			href: "/admin/finance",

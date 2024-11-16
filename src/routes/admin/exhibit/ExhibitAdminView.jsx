@@ -25,7 +25,7 @@ export default function ExhibitAdminView() {
 	useEffect(() => {
 		async function fetchData() {
 			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/admin/exhibit`
+				`${import.meta.env.VITE_API_URL}/admin/all_exhibits`
 			);
 
 			if (!response.ok) {
