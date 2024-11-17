@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function ExhibitAdminView() {
-	const paginationSize = 5;
+	const [paginationSize] = useState(5);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -70,22 +70,24 @@ export default function ExhibitAdminView() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{data.map((el) => (
-						<TableRow
-							key={el.exhibit_id}
-							onClick={() => {
-								navigate(`${el.exhibit_id}`);
-							}}
-							className="cursor-pointer"
-						>
-							<TableCell>{el.exhibit_id}</TableCell>
-							<TableCell>{el.exhibit_name}</TableCell>
-							<TableCell>{el.department_name}</TableCell>
-							<TableCell className="max-w-xs text-ellipsis">
-								{el.description}
-							</TableCell>
-						</TableRow>
-					))}
+					{data.slice(leftIndex, rightIndex).map((el) => {
+						return (
+							<TableRow
+								key={el.exhibit_id}
+								onClick={() => {
+									navigate(`${el.exhibit_id}`);
+								}}
+								className="cursor-pointer"
+							>
+								<TableCell>{el.exhibit_id}</TableCell>
+								<TableCell>{el.exhibit_name}</TableCell>
+								<TableCell>{el.department_name}</TableCell>
+								<TableCell className="max-w-xs text-ellipsis">
+									{el.description}
+								</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 
@@ -108,7 +110,7 @@ export default function ExhibitAdminView() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex > data.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

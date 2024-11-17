@@ -323,7 +323,7 @@ export default function CreateAnimal() {
 							id="origin"
 							placeholder="Africa"
 							required
-							maxlength="100"
+							maxLength="100"
 						/>
 					</div>
 
@@ -343,7 +343,7 @@ export default function CreateAnimal() {
 							placeholder="Geographic Range"
 							className="border-gray-500"
 							required
-							maxlength="1000"
+							maxLength="1000"
 						/>
 					</div>
 
@@ -360,7 +360,7 @@ export default function CreateAnimal() {
 							placeholder="This is an animal fact"
 							className="border-gray-500"
 							required
-							maxlength="1000"
+							maxLength="1000"
 						/>
 					</div>
 

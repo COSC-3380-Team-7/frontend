@@ -15,6 +15,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import Datepicker from "react-tailwindcss-datepicker";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
 
 export default function ZMFeedAnimals() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +29,11 @@ export default function ZMFeedAnimals() {
 		quantity: "",
 		animal_food_id: "",
 	});
+	const [feedingDate, setFeedingDate] = useState({
+		startDate: null,
+		endDate: null,
+	});
+
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 
 	const navigate = useNavigate();
@@ -55,6 +62,7 @@ export default function ZMFeedAnimals() {
 					animal_id: animal_id,
 					quantity: parseInt(foodEaten.quantity),
 					animal_food_id: foodEaten.animal_food_id,
+					feeding_date: sqlDateConverter(feedingDate.startDate),
 				}),
 			}
 		);
@@ -81,6 +89,11 @@ export default function ZMFeedAnimals() {
 		setFoodEaten({
 			quantity: "",
 			animal_food_id: "",
+		});
+
+		setFeedingDate({
+			startDate: null,
+			endDate: null,
 		});
 	}
 
@@ -195,6 +208,19 @@ export default function ZMFeedAnimals() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
+					</div>
+
+					<div className="mt-4 flex flex-col gap-1 max-w-52">
+						<Label>Feeding Date</Label>
+						<Datepicker
+							inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+							primaryColor="lime"
+							useRange={false}
+							asSingle={true}
+							value={feedingDate}
+							onChange={(newValue) => setFeedingDate(newValue)}
+							required
+						/>
 					</div>
 
 					<div className="flex w-full justify-end max-w-2xl">

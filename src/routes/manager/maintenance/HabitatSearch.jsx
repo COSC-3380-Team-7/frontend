@@ -16,7 +16,7 @@ import Loading from "@/components/Loading";
 import { toast } from "sonner";
 
 export default function HabitatSearch() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function ZExhibitView() {
-	const paginationSize = 5;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +99,7 @@ export default function ZExhibitView() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex > data.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

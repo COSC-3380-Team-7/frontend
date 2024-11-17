@@ -78,7 +78,7 @@ export default function CreateDepartment() {
 							id="name"
 							placeholder="Zookeeper Department"
 							required
-							maxlength="100"
+							maxLength="100"
 						/>
 					</div>
 
@@ -97,7 +97,7 @@ export default function CreateDepartment() {
 							id="location"
 							placeholder="West Avenue"
 							required
-							maxlength="20"
+							maxLength="20"
 						/>
 					</div>
 				</div>

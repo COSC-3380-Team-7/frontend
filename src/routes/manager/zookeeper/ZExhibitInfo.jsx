@@ -15,7 +15,7 @@ import Loading from "@/components/Loading";
 export default function ZExhibitInfo() {
 	const navigate = useNavigate();
 	const { exhibit_id } = useParams();
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -134,7 +134,7 @@ export default function ZExhibitInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= habitatData.length - 1}
+					disabled={rightIndex > habitatData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

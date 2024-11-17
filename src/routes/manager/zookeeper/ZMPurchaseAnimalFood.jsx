@@ -15,6 +15,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import Datepicker from "react-tailwindcss-datepicker";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
 
 export default function ZMPurchaseAnimalFood() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +27,26 @@ export default function ZMPurchaseAnimalFood() {
 		quantity: "",
 		animal_food_id: "",
 	});
+	const [datePurchased, setDatePurchased] = useState({
+		startDate: null,
+		endDate: null,
+	});
 
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
+
+		if (
+			vendorInfo.vendor_name === "" ||
+			vendorInfo.purchased_price === "" ||
+			vendorInfo.quantity === "" ||
+			vendorInfo.animal_food_id === "" ||
+			vendorInfo.animal_food_id === ""
+		) {
+			toast.error("Please fill out all fields");
+			return;
+		}
 
 		if (vendorInfo.vendor_name.length > 100) {
 			toast.error("Food name cannot be more than 100 characters");
@@ -48,6 +65,7 @@ export default function ZMPurchaseAnimalFood() {
 					vendor_name: vendorInfo.vendor_name,
 					purchased_price: parseFloat(vendorInfo.purchased_price),
 					quantity: parseInt(vendorInfo.quantity),
+					date_purchased: sqlDateConverter(datePurchased.startDate),
 					animal_food_id: vendorInfo.animal_food_id,
 				}),
 			}
@@ -69,6 +87,11 @@ export default function ZMPurchaseAnimalFood() {
 			purchased_price: "",
 			quantity: "",
 			animal_food_id: "",
+		});
+
+		setDatePurchased({
+			startDate: null,
+			endDate: null,
 		});
 	}
 
@@ -194,6 +217,19 @@ export default function ZMPurchaseAnimalFood() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
+					</div>
+
+					<div className="mt-4 flex flex-col gap-1 max-w-52">
+						<Label>Purchase Date</Label>
+						<Datepicker
+							inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+							primaryColor="lime"
+							useRange={false}
+							asSingle={true}
+							value={datePurchased}
+							onChange={(newValue) => setDatePurchased(newValue)}
+							required
+						/>
 					</div>
 
 					<div className="flex w-full justify-end max-w-2xl">
