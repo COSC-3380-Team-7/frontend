@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Apple, ShoppingCart, Ticket } from "lucide-react";
+import { Apple, HeartPulse, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function FinanceAdminView() {
@@ -26,8 +26,8 @@ export default function FinanceAdminView() {
 					asChild
 					className="flex items-center gap-3 font-semibold border-gray-500"
 				>
-					<Link to="merchandise_sales">
-						<ShoppingCart className="h-5 w-5" /> Merchandise Sales
+					<Link to="health_performance">
+						<HeartPulse className="h-5 w-5" /> Animal Health Performance
 					</Link>
 				</Button>
 				<Button

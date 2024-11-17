@@ -37,10 +37,19 @@ export default function CreateHabitat() {
 		);
 
 		if (!response.ok) {
-			console.error("Error creating habitat: ", response);
-			setIsLoading(false);
-			toast.error("Error creating habitat");
-			return;
+			const errRes = await response.json();
+
+			if (errRes.error_message) {
+				console.error("Error creating habitat: ", errRes.error_message);
+				setIsLoading(false);
+				toast.error(errRes.error_message);
+				return;
+			} else {
+				console.error("Error creating habitat: ", response);
+				setIsLoading(false);
+				toast.error("Error creating habitat");
+				return;
+			}
 		}
 
 		setIsLoading(false);
@@ -82,6 +91,7 @@ export default function CreateHabitat() {
 							id="name"
 							placeholder="Tiger Habitat"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -97,6 +107,7 @@ export default function CreateHabitat() {
 							id="description"
 							placeholder="This is a habitat for tigers."
 							required
+							maxLength="500"
 						></Textarea>
 					</div>
 				</div>

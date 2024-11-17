@@ -1,8 +1,8 @@
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, PencilIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/utils/dateCalcs";
 
 export default function VVetReportInfo() {
@@ -26,7 +26,6 @@ export default function VVetReportInfo() {
 
 	useEffect(() => {
 		async function fetchReportInfo() {
-			// Fetch report info from the API
 			const response = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/vet_report/:${vet_report_id}`
 			);
@@ -48,8 +47,6 @@ export default function VVetReportInfo() {
 				measured_weight: `${data.data.measured_weight} kg`,
 				veterinarian_name: `Dr. ${data.data.first_name} ${data.data.last_name}`,
 				checkup_date: formatDate(data.data.checkup_date),
-				created_at: formatDate(data.data.created_at),
-				updated_at: formatDate(data.data.updated_at),
 			});
 		}
 		fetchReportInfo();
@@ -65,13 +62,25 @@ export default function VVetReportInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/admin/vet_report`)}
+					onClick={() => navigate(`/manager/vet/vet_report`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
 					{reportInfo.animal_name} Veterinarian Report Details
 				</h1>
+			</div>
+
+			<div className="flex items-center gap-3">
+				<Button
+					asChild
+					variant="outline"
+					className="flex items-center gap-2 border-gray-500"
+				>
+					<Link to="edit">
+						<PencilIcon className="w-4 h-4" /> Edit Information
+					</Link>
+				</Button>
 			</div>
 
 			<div className="mt-5">
@@ -83,12 +92,14 @@ export default function VVetReportInfo() {
 
 						return (
 							<div key={key} className="flex flex-col gap-1">
-								<h3 className="text-base font-semibold text-gray-800">
+								<h3 className="text-lg font-semibold text-gray-800">
 									{key
 										.replace(/_/g, " ")
 										.replace(/\b\w/g, (char) => char.toUpperCase())}
 								</h3>
-								<span className="text-gray-700">{reportInfo[key]}</span>
+								<span className="text-gray-700 font-medium">
+									{reportInfo[key]}
+								</span>
 							</div>
 						);
 					})}

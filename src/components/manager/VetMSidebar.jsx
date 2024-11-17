@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { HeartPulseIcon, PawPrint, PillBottle, User } from "lucide-react";
+import { HeartPulseIcon, PawPrint, PillBottle } from "lucide-react";
 
 export default function VetMSidebar() {
 	const location = useLocation();
@@ -15,11 +15,6 @@ export default function VetMSidebar() {
 	}
 
 	const navLinks = [
-		{
-			href: "/manager/vet/employee",
-			icon: <User className="h-6 w-6 mr-1" />,
-			name: "Supervised Employees",
-		},
 		{
 			href: "/manager/vet/exhibit",
 			icon: <PawPrint className="h-6 w-6 mr-1" />,

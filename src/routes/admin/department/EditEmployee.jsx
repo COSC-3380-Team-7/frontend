@@ -57,8 +57,15 @@ export default function EditEmployee() {
 		setIsLoading(false);
 
 		if (!res.ok) {
-			toast.error("Error updating employee");
-			console.error("Error updating employee: ", res);
+			const errData = await res.json();
+
+			if (errData.error_message) {
+				toast.error(errData.error_message);
+			} else {
+				toast.error("Error updating employee");
+				console.error("Error updating employee: ", res);
+			}
+
 			return;
 		}
 
@@ -141,6 +148,7 @@ export default function EditEmployee() {
 							id="first_name"
 							placeholder="John"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -158,6 +166,7 @@ export default function EditEmployee() {
 							name="middle_initial"
 							id="middle_initial"
 							placeholder="D"
+							maxLength="1"
 						/>
 					</div>
 
@@ -176,6 +185,7 @@ export default function EditEmployee() {
 							id="last_name"
 							placeholder="Doe"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -207,6 +217,7 @@ export default function EditEmployee() {
 							id="address"
 							placeholder="1234 Main St"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -222,6 +233,7 @@ export default function EditEmployee() {
 							id="email"
 							placeholder="user@gmail.com"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -241,6 +253,7 @@ export default function EditEmployee() {
 							placeholder="1234567899"
 							pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
 							required
+							maxLength="10"
 						/>
 					</div>
 				</div>

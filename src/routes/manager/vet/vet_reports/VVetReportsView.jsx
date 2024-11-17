@@ -63,6 +63,11 @@ export default function VVetReportsView() {
 	async function handleSubmit(e) {
 		e.preventDefault();
 
+		if (startDate.startDate > endDate.startDate) {
+			toast.error("End date cannot be before start date");
+			return;
+		}
+
 		setIsLoading(true);
 
 		const response = await fetch(
@@ -226,7 +231,7 @@ export default function VVetReportsView() {
 								setRightIndex(rightIndex + paginationSize);
 								setCurrentPage(currentPage + 1);
 							}}
-							disabled={rightIndex >= data.length - 1}
+							disabled={rightIndex > data.length - 1}
 						>
 							Next
 							<ArrowRight className="h-5 w-5" />

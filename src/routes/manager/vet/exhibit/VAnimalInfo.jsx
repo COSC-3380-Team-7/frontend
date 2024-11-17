@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, PillBottle } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AdvancedImage } from "@cloudinary/react";
 import { cldClientSide } from "@/lib/cloudinary";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
@@ -12,6 +12,7 @@ export default function VAnimalInfo() {
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
 		scientific_name: "",
+		health_status: "",
 		nickname: "",
 		age: "",
 		height: "",
@@ -49,6 +50,7 @@ export default function VAnimalInfo() {
 			setAnimalInfo({
 				name: ad.data.name,
 				scientific_name: ad.data.scientific_name,
+				health_status: ad.data.health_status,
 				nickname: ad.data.nickname,
 				age: calculateAge(ad.data.date_of_birth),
 				weight: ad.data.weight,

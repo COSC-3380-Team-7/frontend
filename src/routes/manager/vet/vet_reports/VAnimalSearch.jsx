@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/Loading";
-import { formatDate } from "@/utils/dateCalcs";
+import { calculateAge } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
 export default function VAnimalSearch() {
@@ -120,6 +120,7 @@ export default function VAnimalSearch() {
 								<TableHead>Animal</TableHead>
 								<TableHead>Nickname</TableHead>
 								<TableHead>Age</TableHead>
+								<TableHead>Gender</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -135,7 +136,8 @@ export default function VAnimalSearch() {
 										<TableCell>{el.animal_id}</TableCell>
 										<TableCell>{el.name}</TableCell>
 										<TableCell>{el.nickname}</TableCell>
-										<TableCell>{formatDate(el.date_of_birth)}</TableCell>
+										<TableCell>{calculateAge(el.date_of_birth)}</TableCell>
+										<TableCell>{el.gender}</TableCell>
 									</TableRow>
 								);
 							})}
@@ -160,7 +162,7 @@ export default function VAnimalSearch() {
 								setRightIndex(rightIndex + paginationSize);
 								setCurrentPage(currentPage + 1);
 							}}
-							disabled={rightIndex >= data.length - 1}
+							disabled={rightIndex > data.length - 1}
 						>
 							Next
 							<ArrowRight className="h-5 w-5" />

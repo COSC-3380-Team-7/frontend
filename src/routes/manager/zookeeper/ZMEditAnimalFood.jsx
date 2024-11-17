@@ -135,6 +135,7 @@ export default function ZMEditAnimalFood() {
 							name="food_name"
 							id="name"
 							placeholder="Apple"
+							maxLength="100"
 							required
 						/>
 					</div>

@@ -115,6 +115,7 @@ export default function ZMCreateAnimalFood() {
 							name="food_name"
 							id="name"
 							placeholder="Apple"
+							maxLength="100"
 							required
 						/>
 					</div>
