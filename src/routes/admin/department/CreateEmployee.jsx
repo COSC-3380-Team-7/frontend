@@ -191,6 +191,7 @@ export default function CreateEmployee() {
 							id="first_name"
 							placeholder="John"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -208,6 +209,7 @@ export default function CreateEmployee() {
 							name="middle_initial"
 							id="middle_initial"
 							placeholder="D"
+							maxLength="1"
 						/>
 					</div>
 
@@ -226,6 +228,7 @@ export default function CreateEmployee() {
 							id="last_name"
 							placeholder="Doe"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -257,6 +260,7 @@ export default function CreateEmployee() {
 							id="address"
 							placeholder="1234 Main St"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -272,6 +276,7 @@ export default function CreateEmployee() {
 							id="email"
 							placeholder="user@gmail.com"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -291,6 +296,7 @@ export default function CreateEmployee() {
 							placeholder="1234567899"
 							pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
 							required
+							maxLength="10"
 						/>
 					</div>
 
@@ -369,10 +375,12 @@ export default function CreateEmployee() {
 									salary: e.target.value,
 								}))
 							}
-							type="text"
+							type="number"
 							name="salary"
 							id="salary"
 							placeholder="50000"
+							min="0"
+							max="2000000"
 							required
 						/>
 					</div>
@@ -405,6 +413,7 @@ export default function CreateEmployee() {
 							id="password"
 							placeholder="••••••••••"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -423,6 +432,7 @@ export default function CreateEmployee() {
 							id="confirm_password"
 							placeholder="••••••••••"
 							required
+							maxLength="50"
 						/>
 					</div>
 				</div>

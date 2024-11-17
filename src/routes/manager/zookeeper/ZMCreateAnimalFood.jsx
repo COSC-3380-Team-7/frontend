@@ -21,7 +21,7 @@ export default function ZMCreateAnimalFood() {
 	const [foodInfo, setFoodInfo] = useState({
 		food_name: "",
 		food_type: "",
-		stock: "",
+		stock: 0,
 	});
 
 	const navigate = useNavigate();
@@ -115,23 +115,6 @@ export default function ZMCreateAnimalFood() {
 							name="food_name"
 							id="name"
 							placeholder="Apple"
-							required
-						/>
-					</div>
-
-					<div className="mt-4">
-						<Label htmlFor="stock">Stock</Label>
-						<Input
-							value={foodInfo.stock}
-							onChange={(e) =>
-								setFoodInfo({ ...foodInfo, stock: e.target.value })
-							}
-							type="number"
-							name="stock"
-							id="name"
-							placeholder="0"
-							min="0"
-							max="100"
 							required
 						/>
 					</div>

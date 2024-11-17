@@ -231,7 +231,7 @@ export default function EditAnimal() {
 							id="name"
 							placeholder="African Lion"
 							required
-							maxlength="50"
+							maxLength="50"
 						/>
 					</div>
 
@@ -268,7 +268,7 @@ export default function EditAnimal() {
 							name="nickname"
 							id="nickname"
 							placeholder="Leo"
-							maxlength="50"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -396,7 +396,7 @@ export default function EditAnimal() {
 							id="origin"
 							placeholder="Africa"
 							required
-							maxlength="100"
+							maxLength="100"
 						/>
 					</div>
 
@@ -415,7 +415,7 @@ export default function EditAnimal() {
 							id="geographic_range"
 							placeholder="Geographic Range"
 							className="border-gray-500"
-							maxlength="1000"
+							maxLength="1000"
 							required
 						/>
 					</div>
@@ -432,7 +432,7 @@ export default function EditAnimal() {
 							id="animal_fact"
 							placeholder="This is an animal fact"
 							className="border-gray-500"
-							maxlength="1000"
+							maxLength="1000"
 							required
 						/>
 					</div>

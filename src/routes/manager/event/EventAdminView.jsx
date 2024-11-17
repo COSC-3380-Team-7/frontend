@@ -15,7 +15,7 @@ import Loading from "@/components/Loading";
 import { formatDate, convertTo12Hour } from "@/utils/dateCalcs";
 
 export default function EventAdminView() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

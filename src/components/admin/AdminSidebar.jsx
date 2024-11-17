@@ -39,7 +39,7 @@ export default function AdminSidebar() {
 		{
 			href: "/admin/finance",
 			icon: <ChartColumnIncreasing className="h-6 w-6 mr-1" />,
-			name: "Finances",
+			name: "Financial Reports",
 		},
 		{
 			href: "/admin/ticket",

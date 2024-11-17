@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import Datepicker from "react-tailwindcss-datepicker";
 
 export default function MerchandiseSales() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

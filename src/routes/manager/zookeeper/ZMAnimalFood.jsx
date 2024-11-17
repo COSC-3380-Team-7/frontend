@@ -19,7 +19,7 @@ import Loading from "@/components/Loading";
 
 export default function ZMAnimalFood() {
 	const navigate = useNavigate();
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -91,20 +91,22 @@ export default function ZMAnimalFood() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{foodData.map((el) => (
-						<TableRow
-							key={el.animal_food_id}
-							onClick={() => {
-								navigate(`${el.animal_food_id}`);
-							}}
-							className="cursor-pointer"
-						>
-							<TableCell className="font-medium">{el.animal_food_id}</TableCell>
-							<TableCell>{el.food_name}</TableCell>
-							<TableCell>{el.stock}</TableCell>
-							<TableCell>{el.food_type}</TableCell>
-						</TableRow>
-					))}
+					{foodData.slice(leftIndex, rightIndex).map((el) => {
+						return (
+							<TableRow
+								key={el.animal_food_id}
+								onClick={() => {
+									navigate(`${el.animal_food_id}`);
+								}}
+								className="cursor-pointer"
+							>
+								<TableCell>{el.animal_food_id}</TableCell>
+								<TableCell>{el.food_name}</TableCell>
+								<TableCell>{el.stock}</TableCell>
+								<TableCell>{el.food_type}</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 
@@ -127,7 +129,7 @@ export default function ZMAnimalFood() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= foodData.length - 1}
+					disabled={rightIndex > foodData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 
 export default function AssignExhibitEmployee() {
 	const { exhibit_id } = useParams();
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

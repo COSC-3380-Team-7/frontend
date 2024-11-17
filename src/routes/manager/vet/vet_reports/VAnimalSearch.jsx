@@ -17,7 +17,7 @@ import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
 export default function VAnimalSearch() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);

@@ -127,7 +127,7 @@ export default function EditDepartment() {
 							id="location"
 							placeholder="West Avenue"
 							required
-							maxlength="20"
+							maxLength="20"
 						/>
 					</div>
 				</div>
