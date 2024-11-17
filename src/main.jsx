@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./routes/App.jsx";
 import {
-	createBrowserRouter,
-	RouterProvider,
-	createRoutesFromElements,
-	Route,
-	Outlet,
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+  Route,
+  Outlet,
 } from "react-router-dom";
 import "./index.css";
 import EmployeeLogin from "./routes/employee/EmployeeLogin.jsx";
@@ -136,399 +136,395 @@ import ZMPurchaseAnimalFood from "./routes/manager/zookeeper/ZMPurchaseAnimalFoo
 import ZMFeedAnimals from "./routes/manager/zookeeper/ZMFeedAnimals.jsx";
 
 const router = createBrowserRouter(
-	createRoutesFromElements(
-		<>
-			<Route path="/" element={<Outlet />} errorElement={<NotFound />}>
-				<Route index element={<App />}></Route>
-				<Route path="events" element={<p>events</p>}></Route>
-				<Route path="exhibit" element={<Outlet />}>
-					<Route index element={<Exhibits />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route path="habitat" element={<Outlet />}>
-							<Route index element={<Habitat />}></Route>
-							<Route path=":habitat_id" element={<Outlet />}>
-								<Route path="animal" element={<p>animal</p>}>
-									<Route path=":animal_id" element={<p>animal id</p>}></Route>
-								</Route>
-							</Route>
-						</Route>
-					</Route>
-				</Route>
-			</Route>
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<Outlet />} errorElement={<NotFound />}>
+        <Route index element={<App />}></Route>
+        <Route path="events" element={<p>events</p>}></Route>
+        <Route path="exhibit" element={<Outlet />}>
+          <Route index element={<Exhibits />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route path="habitat" element={<Outlet />}>
+              <Route index element={<Habitat />}></Route>
+              <Route path=":habitat_id" element={<Outlet />}>
+                <Route path="animal" element={<p>animal</p>}>
+                  <Route path=":animal_id" element={<p>animal id</p>}></Route>
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+      </Route>
 
-			<Route>
-				<Route path="/animals" element={<Animals />} />
-				<Route path="/animalmore/:animalId" element={<AnimalMore />} />
-			</Route>
+      <Route>
+        <Route path="/animals" element={<Animals />} />
+        <Route path="/animalmore/:animalId" element={<AnimalMore />} />
+      </Route>
 
-			<Route path="/dolphin-show" element={<Outlet />}>
-				<Route index element={<Page1 />}></Route>
-			</Route>
+      <Route path="/dolphin-show" element={<Outlet />}>
+        <Route index element={<Page1 />}></Route>
+      </Route>
 
-			<Route path="/halloween-sales" element={<Outlet />}>
-				<Route index element={<Page2 />}></Route>
-			</Route>
+      <Route path="/halloween-sales" element={<Outlet />}>
+        <Route index element={<Page2 />}></Route>
+      </Route>
 
-			<Route path="/year-end-sale" element={<Outlet />}>
-				<Route index element={<Page3 />}></Route>
-			</Route>
+      <Route path="/year-end-sale" element={<Outlet />}>
+        <Route index element={<Page3 />}></Route>
+      </Route>
 
-			<Route path="/login" element={<Outlet />}>
-				<Route index element={<LoginPage />}></Route>
-			</Route>
+      <Route path="/login" element={<Outlet />}>
+        <Route index element={<LoginPage />}></Route>
+      </Route>
 
-			<Route path="/signup" element={<Outlet />}>
-				<Route index element={<SignInPage />}></Route>
-			</Route>
+      <Route path="/signup" element={<Outlet />}>
+        <Route index element={<SignInPage />}></Route>
+      </Route>
 
-			<Route path="/african-elephant" element={<Outlet />}>
-				<Route index element={<AfricanElephant />}></Route>
-			</Route>
+      <Route path="/african-elephant" element={<Outlet />}>
+        <Route index element={<AfricanElephant />}></Route>
+      </Route>
 
-			<Route path="/memberships" element={<Outlet />}>
-				<Route index element={<MembershipPage />}></Route>
-			</Route>
+      <Route path="/hours" element={<Outlet />}>
+        <Route index element={<Hours />}></Route>
+      </Route>
 
-			<Route path="/hours" element={<Outlet />}>
-				<Route index element={<Hours />}></Route>
-			</Route>
+      <Route path="/tickets" element={<Outlet />}>
+        <Route index element={<Ticket />}></Route>
+      </Route>
 
-			<Route path="/tickets" element={<Outlet />}>
-				<Route index element={<Ticket />}></Route>
-			</Route>
+      <Route path="/map" element={<Outlet />}>
+        <Route index element={<Map />}></Route>
+      </Route>
 
-			<Route path="/map" element={<Outlet />}>
-				<Route index element={<Map />}></Route>
-			</Route>
+      <Route path="/parking" element={<Outlet />}>
+        <Route index element={<Parking />}></Route>
+      </Route>
 
-			<Route path="/parking" element={<Outlet />}>
-				<Route index element={<Parking />}></Route>
-			</Route>
+      <Route path="/events" element={<Outlet />}>
+        <Route index element={<Events />}></Route>
+      </Route>
 
-			<Route path="/events" element={<Outlet />}>
-				<Route index element={<Events />}></Route>
-			</Route>
+      <Route path="/attractions" element={<Outlet />}>
+        <Route index element={<Attractions />}></Route>
+      </Route>
 
-			<Route path="/attractions" element={<Outlet />}>
-				<Route index element={<Attractions />}></Route>
-			</Route>
+      <Route path="/animals" element={<Outlet />}>
+        <Route index element={<Animals />}></Route>
+      </Route>
 
-			<Route path="/animals" element={<Outlet />}>
-				<Route index element={<Animals />}></Route>
-			</Route>
+      <Route path="/exhibits" element={<Outlet />}>
+        <Route index element={<Exhibits />}></Route>
+      </Route>
 
-			<Route path="/exhibits" element={<Outlet />}>
-				<Route index element={<Exhibits />}></Route>
-			</Route>
+      <Route path="/profile" element={<Outlet />}>
+        <Route index element={<UserProfile />}></Route>
+      </Route>
 
-			<Route path="/profile" element={<Outlet />}>
-				<Route index element={<UserProfile />}></Route>
-			</Route>
+      <Route path="/lions" element={<Outlet />}>
+        <Route index element={<Lions />}></Route>
+      </Route>
+      <Route path="/giraffe" element={<Outlet />}>
+        <Route index element={<Giraffe />}></Route>
+      </Route>
 
-			<Route path="/lions" element={<Outlet />}>
-				<Route index element={<Lions />}></Route>
-			</Route>
-			<Route path="/giraffe" element={<Outlet />}>
-				<Route index element={<Giraffe />}></Route>
-			</Route>
+      <Route path="/penguins" element={<Outlet />}>
+        <Route index element={<Penguins />}></Route>
+      </Route>
 
-			<Route path="/penguins" element={<Outlet />}>
-				<Route index element={<Penguins />}></Route>
-			</Route>
+      <Route path="/orangutans" element={<Outlet />}>
+        <Route index element={<Orangutans />}></Route>
+      </Route>
+      <Route path="/reptile-house" element={<Outlet />}>
+        <Route index element={<ReptileHouse />}></Route>
+      </Route>
 
-			<Route path="/orangutans" element={<Outlet />}>
-				<Route index element={<Orangutans />}></Route>
-			</Route>
-			<Route path="/reptile-house" element={<Outlet />}>
-				<Route index element={<ReptileHouse />}></Route>
-			</Route>
+      <Route path="/member/login" element={<MemberLogin />}></Route>
 
-			<Route path="/member/login" element={<MemberLogin />}></Route>
+      <Route path="/admin/login" element={<AdminLogin />}></Route>
 
-			<Route path="/admin/login" element={<AdminLogin />}></Route>
+      <Route path="/admin" element={<Admin />}>
+        <Route path="department" element={<OutletWrapper />}>
+          <Route index element={<DepartmentAdminView />}></Route>
+          <Route path="create" element={<CreateDepartment />}></Route>
+          <Route path=":department_id" element={<Outlet />}>
+            <Route index element={<DepartmentInfo />}></Route>
+            <Route path="edit" element={<EditDepartment />}></Route>
+            <Route
+              path="assignment"
+              element={<AssignDepartmentEmployee />}
+            ></Route>
+            <Route path="employee" element={<Outlet />}>
+              <Route path="create" element={<CreateEmployee />}></Route>
+              <Route path=":employee_id" element={<Outlet />}>
+                <Route index element={<EmployeeInfo />}></Route>
+                <Route path="edit_personal" element={<EditEmployee />}></Route>
+                <Route
+                  path="edit_employment"
+                  element={<EditEmployment />}
+                ></Route>
+                <Route path="promote" element={<PromoteEmployee />}></Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
 
-			<Route path="/admin" element={<Admin />}>
-				<Route path="department" element={<OutletWrapper />}>
-					<Route index element={<DepartmentAdminView />}></Route>
-					<Route path="create" element={<CreateDepartment />}></Route>
-					<Route path=":department_id" element={<Outlet />}>
-						<Route index element={<DepartmentInfo />}></Route>
-						<Route path="edit" element={<EditDepartment />}></Route>
-						<Route
-							path="assignment"
-							element={<AssignDepartmentEmployee />}
-						></Route>
-						<Route path="employee" element={<Outlet />}>
-							<Route path="create" element={<CreateEmployee />}></Route>
-							<Route path=":employee_id" element={<Outlet />}>
-								<Route index element={<EmployeeInfo />}></Route>
-								<Route path="edit_personal" element={<EditEmployee />}></Route>
-								<Route
-									path="edit_employment"
-									element={<EditEmployment />}
-								></Route>
-								<Route path="promote" element={<PromoteEmployee />}></Route>
-							</Route>
-						</Route>
-					</Route>
-				</Route>
+        <Route path="vet_report" element={<OutletWrapper />}>
+          <Route index element={<VetReportsView />}></Route>
+          <Route path=":vet_report_id" element={<Outlet />}>
+            <Route index element={<VetReportInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<VetReportsView />}></Route>
-					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<VetReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="maintenance_report" element={<OutletWrapper />}>
+          <Route index element={<MaintenanceReportsView />}></Route>
+          <Route path=":maintenance_report_id" element={<Outlet />}>
+            <Route index element={<MaintenanceReportInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="maintenance_report" element={<OutletWrapper />}>
-					<Route index element={<MaintenanceReportsView />}></Route>
-					<Route path=":maintenance_report_id" element={<Outlet />}>
-						<Route index element={<MaintenanceReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="finance" element={<OutletWrapper />}>
+          <Route index element={<FinanceAdminView />}></Route>
+          <Route path="ticket_sales" element={<Outlet />}>
+            <Route index element={<TicketSales />}></Route>
+          </Route>
+          <Route path="merchandise_sales" element={<Outlet />}>
+            <Route index element={<MerchandiseSales />}></Route>
+          </Route>
+          <Route path="animal_food_purchases" element={<Outlet />}>
+            <Route index element={<AnimalFoodCostAnalysis />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="finance" element={<OutletWrapper />}>
-					<Route index element={<FinanceAdminView />}></Route>
-					<Route path="ticket_sales" element={<Outlet />}>
-						<Route index element={<TicketSales />}></Route>
-					</Route>
-					<Route path="merchandise_sales" element={<Outlet />}>
-						<Route index element={<MerchandiseSales />}></Route>
-					</Route>
-					<Route path="animal_food_purchases" element={<Outlet />}>
-						<Route index element={<AnimalFoodCostAnalysis />}></Route>
-					</Route>
-				</Route>
+        <Route path="ticket" element={<OutletWrapper />}>
+          <Route index element={<TicketAdminView />}></Route>
+          <Route path="create" element={<CreatePricing />}></Route>
+          <Route path=":ticket_id" element={<Outlet />}>
+            <Route path="edit" element={<EditPricing />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="ticket" element={<OutletWrapper />}>
-					<Route index element={<TicketAdminView />}></Route>
-					<Route path="create" element={<CreatePricing />}></Route>
-					<Route path=":ticket_id" element={<Outlet />}>
-						<Route path="edit" element={<EditPricing />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<ExhibitAdminView />}></Route>
+          <Route path="create" element={<CreateExhibit />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<ExhibitInfo />}></Route>
+            <Route path="edit" element={<EditExhibit />}></Route>
+            <Route
+              path="assignment"
+              element={<AssignExhibitEmployee />}
+            ></Route>
+            <Route path="habitat/create" element={<CreateHabitat />}></Route>
+            <Route path="habitat/:habitat_id" element={<Outlet />}>
+              <Route index element={<HabitatInfo />}></Route>
+              <Route path="edit" element={<EditHabitat />}></Route>
+              <Route path="animal/:animal_id" element={<Outlet />}>
+                <Route index element={<AnimalInfo />}></Route>
+                <Route path="edit" element={<EditAnimal />}></Route>
+              </Route>
+              <Route path="animal/create" element={<CreateAnimal />}></Route>
+            </Route>
+          </Route>
+        </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<ExhibitAdminView />}></Route>
-					<Route path="create" element={<CreateExhibit />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<ExhibitInfo />}></Route>
-						<Route path="edit" element={<EditExhibit />}></Route>
-						<Route
-							path="assignment"
-							element={<AssignExhibitEmployee />}
-						></Route>
-						<Route path="habitat/create" element={<CreateHabitat />}></Route>
-						<Route path="habitat/:habitat_id" element={<Outlet />}>
-							<Route index element={<HabitatInfo />}></Route>
-							<Route path="edit" element={<EditHabitat />}></Route>
-							<Route path="animal/:animal_id" element={<Outlet />}>
-								<Route index element={<AnimalInfo />}></Route>
-								<Route path="edit" element={<EditAnimal />}></Route>
-							</Route>
-							<Route path="animal/create" element={<CreateAnimal />}></Route>
-						</Route>
-					</Route>
-				</Route>
+        <Route path="event" element={<OutletWrapper />}>
+          <Route index element={<EventAdminView />}></Route>
+          <Route path="create" element={<CreateEvent />}></Route>
+          <Route path=":event_id" element={<Outlet />}>
+            <Route path="edit" element={<EditEvent />}></Route>
+          </Route>
+        </Route>
+      </Route>
 
-				<Route path="event" element={<OutletWrapper />}>
-					<Route index element={<EventAdminView />}></Route>
-					<Route path="create" element={<CreateEvent />}></Route>
-					<Route path=":event_id" element={<Outlet />}>
-						<Route path="edit" element={<EditEvent />}></Route>
-					</Route>
-				</Route>
-			</Route>
+      <Route path="/manager/login" element={<ManagerLogin />}></Route>
 
-			<Route path="/manager/login" element={<ManagerLogin />}></Route>
+      <Route path="/manager/vet" element={<VetManager />}>
+        <Route path="vet_report" element={<OutletWrapper />}>
+          <Route index element={<VVetReportsView />}></Route>
+          <Route path=":vet_report_id" element={<Outlet />}>
+            <Route index element={<VVetReportInfo />}></Route>
+          </Route>
+        </Route>
 
-			<Route path="/manager/vet" element={<VetManager />}>
-				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<VVetReportsView />}></Route>
-					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<VVetReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="search" element={<OutletWrapper />}>
+          <Route index element={<VAnimalSearch />}></Route>
+          <Route path=":animal_id/create" element={<Outlet />}>
+            <Route index element={<VCreateVetReport />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<VAnimalSearch />}></Route>
-					<Route path=":animal_id/create" element={<Outlet />}>
-						<Route index element={<VCreateVetReport />}></Route>
-					</Route>
-				</Route>
+        <Route path="employee" element={<OutletWrapper />}>
+          <Route index element={<VSupervisedEmployees />}></Route>
+          <Route path=":employee_id" element={<Outlet />}>
+            <Route index element={<VEmployeeInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="employee" element={<OutletWrapper />}>
-					<Route index element={<VSupervisedEmployees />}></Route>
-					<Route path=":employee_id" element={<Outlet />}>
-						<Route index element={<VEmployeeInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<VExhibitAdminView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<VExhibitInfo />}></Route>
+            <Route path="habitat/:habitat_id" element={<Outlet />}>
+              <Route index element={<VHabitatInfo />}></Route>
+              <Route path="animal/:animal_id" element={<Outlet />}>
+                <Route index element={<VAnimalInfo />}></Route>
+                <Route path="create" element={<Outlet />}>
+                  <Route index element={<CreateVetReport />}></Route>
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+      </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<VExhibitAdminView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<VExhibitInfo />}></Route>
-						<Route path="habitat/:habitat_id" element={<Outlet />}>
-							<Route index element={<VHabitatInfo />}></Route>
-							<Route path="animal/:animal_id" element={<Outlet />}>
-								<Route index element={<VAnimalInfo />}></Route>
-								<Route path="create" element={<Outlet />}>
-									<Route index element={<CreateVetReport />}></Route>
-								</Route>
-							</Route>
-						</Route>
-					</Route>
-				</Route>
-			</Route>
+      <Route path="/manager/maintenance" element={<MaintenanceManager />}>
+        <Route path="maintenance_report" element={<OutletWrapper />}>
+          <Route index element={<MMaintenanceReportsView />}></Route>
+          <Route path=":maintenance_report_id" element={<Outlet />}>
+            <Route index element={<MMaintenanceReportInfo />}></Route>
+          </Route>
+        </Route>
 
-			<Route path="/manager/maintenance" element={<MaintenanceManager />}>
-				<Route path="maintenance_report" element={<OutletWrapper />}>
-					<Route index element={<MMaintenanceReportsView />}></Route>
-					<Route path=":maintenance_report_id" element={<Outlet />}>
-						<Route index element={<MMaintenanceReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="employee" element={<OutletWrapper />}>
+          <Route index element={<MSupervisedEmployees />}></Route>
+          <Route path=":employee_id" element={<Outlet />}>
+            <Route index element={<MEmployeeInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="employee" element={<OutletWrapper />}>
-					<Route index element={<MSupervisedEmployees />}></Route>
-					<Route path=":employee_id" element={<Outlet />}>
-						<Route index element={<MEmployeeInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<MExhibitView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<MExhibitInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<MExhibitView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<MExhibitInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="search" element={<OutletWrapper />}>
+          <Route index element={<HabitatSearch />}></Route>
+          <Route path=":habitat_id/create" element={<Outlet />}>
+            <Route index element={<CreateMaintReport />}></Route>
+          </Route>
+        </Route>
+      </Route>
 
-				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<HabitatSearch />}></Route>
-					<Route path=":habitat_id/create" element={<Outlet />}>
-						<Route index element={<CreateMaintReport />}></Route>
-					</Route>
-				</Route>
-			</Route>
+      <Route path="/manager/zookeeper" element={<ZookeeperManager />}>
+        <Route path="employee" element={<OutletWrapper />}>
+          <Route index element={<ZSupervisedEmployees />}></Route>
+          <Route path=":employee_id" element={<Outlet />}>
+            <Route index element={<ZEmployeeInfo />}></Route>
+          </Route>
+        </Route>
 
-			<Route path="/manager/zookeeper" element={<ZookeeperManager />}>
-				<Route path="employee" element={<OutletWrapper />}>
-					<Route index element={<ZSupervisedEmployees />}></Route>
-					<Route path=":employee_id" element={<Outlet />}>
-						<Route index element={<ZEmployeeInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<ZExhibitView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<ZExhibitInfo />}></Route>
+            <Route path="habitat/:habitat_id" element={<Outlet />}>
+              <Route index element={<ZHabitatInfo />}></Route>
+              <Route path="animal/:animal_id" element={<Outlet />}>
+                <Route index element={<ZAnimalInfo />}></Route>
+                <Route path="edit" element={<ZEditAnimal />}></Route>
+                <Route path="feed" element={<ZMFeedAnimals />}></Route>
+              </Route>
+              <Route path="animal/create" element={<ZCreateAnimal />}></Route>
+            </Route>
+          </Route>
+        </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<ZExhibitView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<ZExhibitInfo />}></Route>
-						<Route path="habitat/:habitat_id" element={<Outlet />}>
-							<Route index element={<ZHabitatInfo />}></Route>
-							<Route path="animal/:animal_id" element={<Outlet />}>
-								<Route index element={<ZAnimalInfo />}></Route>
-								<Route path="edit" element={<ZEditAnimal />}></Route>
-								<Route path="feed" element={<ZMFeedAnimals />}></Route>
-							</Route>
-							<Route path="animal/create" element={<ZCreateAnimal />}></Route>
-						</Route>
-					</Route>
-				</Route>
+        <Route path="vet_report" element={<OutletWrapper />}>
+          <Route index element={<ZVetReportsView />}></Route>
+          <Route path=":vet_report_id" element={<Outlet />}>
+            <Route index element={<ZVetReportInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<ZVetReportsView />}></Route>
-					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<ZVetReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="animal_food" element={<OutletWrapper />}>
+          <Route index element={<ZMAnimalFood />}></Route>
+          <Route path="purchase" element={<ZMPurchaseAnimalFood />}></Route>
+          <Route path="create" element={<ZMCreateAnimalFood />}></Route>
 
-				<Route path="animal_food" element={<OutletWrapper />}>
-					<Route index element={<ZMAnimalFood />}></Route>
-					<Route path="purchase" element={<ZMPurchaseAnimalFood />}></Route>
-					<Route path="create" element={<ZMCreateAnimalFood />}></Route>
+          <Route path=":animal_food_id" element={<Outlet />}>
+            <Route index element={<ZMEditAnimalFood />}></Route>
+          </Route>
+        </Route>
+      </Route>
 
-					<Route path=":animal_food_id" element={<Outlet />}>
-						<Route index element={<ZMEditAnimalFood />}></Route>
-					</Route>
-				</Route>
-			</Route>
+      <Route path="/employee/login" element={<EmployeeLogin />}></Route>
 
-			<Route path="/employee/login" element={<EmployeeLogin />}></Route>
+      <Route path="/employee/vet" element={<VetEmployee />}>
+        <Route path="vet_report" element={<OutletWrapper />}>
+          <Route index element={<EVVetReportsView />}></Route>
+          <Route path=":vet_report_id" element={<Outlet />}>
+            <Route index element={<EVVetReportInfo />}></Route>
+          </Route>
+        </Route>
 
-			<Route path="/employee/vet" element={<VetEmployee />}>
-				<Route path="vet_report" element={<OutletWrapper />}>
-					<Route index element={<EVVetReportsView />}></Route>
-					<Route path=":vet_report_id" element={<Outlet />}>
-						<Route index element={<EVVetReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="search" element={<OutletWrapper />}>
+          <Route index element={<EVAnimalSearch />}></Route>
+          <Route path=":animal_id/create" element={<Outlet />}>
+            <Route index element={<EVCreateVetReport />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<EVAnimalSearch />}></Route>
-					<Route path=":animal_id/create" element={<Outlet />}>
-						<Route index element={<EVCreateVetReport />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<EVExhibitView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<EVExhibitInfo />}></Route>
+            <Route path="habitat/:habitat_id" element={<Outlet />}>
+              <Route index element={<EVHabitatInfo />}></Route>
+              <Route path="animal/:animal_id" element={<Outlet />}>
+                <Route index element={<EVAnimalInfo />}></Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+      </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<EVExhibitView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<EVExhibitInfo />}></Route>
-						<Route path="habitat/:habitat_id" element={<Outlet />}>
-							<Route index element={<EVHabitatInfo />}></Route>
-							<Route path="animal/:animal_id" element={<Outlet />}>
-								<Route index element={<EVAnimalInfo />}></Route>
-							</Route>
-						</Route>
-					</Route>
-				</Route>
-			</Route>
+      <Route path="/employee/maintenance" element={<MaintenanceEmployee />}>
+        <Route path="maintenance_report" element={<OutletWrapper />}>
+          <Route index element={<EMaintenanceReportsView />}></Route>
+          <Route path=":maintenance_report_id" element={<Outlet />}>
+            <Route index element={<EMaintenanceReportInfo />}></Route>
+          </Route>
+        </Route>
 
-			<Route path="/employee/maintenance" element={<MaintenanceEmployee />}>
-				<Route path="maintenance_report" element={<OutletWrapper />}>
-					<Route index element={<EMaintenanceReportsView />}></Route>
-					<Route path=":maintenance_report_id" element={<Outlet />}>
-						<Route index element={<EMaintenanceReportInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<EExhibitView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<EExhibitInfo />}></Route>
+          </Route>
+        </Route>
 
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<EExhibitView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<EExhibitInfo />}></Route>
-					</Route>
-				</Route>
+        <Route path="search" element={<OutletWrapper />}>
+          <Route index element={<EHabitatSearch />}></Route>
+          <Route path=":habitat_id/create" element={<Outlet />}>
+            <Route index element={<ECreateMaintReport />}></Route>
+          </Route>
+        </Route>
+      </Route>
 
-				<Route path="search" element={<OutletWrapper />}>
-					<Route index element={<EHabitatSearch />}></Route>
-					<Route path=":habitat_id/create" element={<Outlet />}>
-						<Route index element={<ECreateMaintReport />}></Route>
-					</Route>
-				</Route>
-			</Route>
-
-			<Route path="/employee/zookeeper" element={<ZookeeperEmployee />}>
-				<Route path="exhibit" element={<OutletWrapper />}>
-					<Route index element={<EZExhibitView />}></Route>
-					<Route path=":exhibit_id" element={<Outlet />}>
-						<Route index element={<EZExhibitInfo />}></Route>
-						<Route path="habitat/:habitat_id" element={<Outlet />}>
-							<Route index element={<EZHabitatInfo />}></Route>
-							<Route path="animal/:animal_id" element={<Outlet />}>
-								<Route index element={<EZAnimalInfo />}></Route>
-								<Route path="edit" element={<EZEditAnimal />}></Route>
-							</Route>
-						</Route>
-					</Route>
-				</Route>
-			</Route>
-		</>
-	)
+      <Route path="/employee/zookeeper" element={<ZookeeperEmployee />}>
+        <Route path="exhibit" element={<OutletWrapper />}>
+          <Route index element={<EZExhibitView />}></Route>
+          <Route path=":exhibit_id" element={<Outlet />}>
+            <Route index element={<EZExhibitInfo />}></Route>
+            <Route path="habitat/:habitat_id" element={<Outlet />}>
+              <Route index element={<EZHabitatInfo />}></Route>
+              <Route path="animal/:animal_id" element={<Outlet />}>
+                <Route index element={<EZAnimalInfo />}></Route>
+                <Route path="edit" element={<EZEditAnimal />}></Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+      </Route>
+    </>
+  )
 );
 
 createRoot(document.getElementById("root")).render(
-	<StrictMode>
-		<RouterProvider router={router} />
-		<Toaster richColors position="top-right" />
-	</StrictMode>
+  <StrictMode>
+    <RouterProvider router={router} />
+    <Toaster richColors position="top-right" />
+  </StrictMode>
 );

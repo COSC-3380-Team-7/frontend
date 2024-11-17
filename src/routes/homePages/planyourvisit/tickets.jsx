@@ -5,32 +5,22 @@ export default function Ticket() {
   const ticketOptions = [
     {
       id: 1,
-      name: "General Admission",
-      description: "Access to all public exhibits and attractions.",
-      price: 20.0,
+      name: "Children Ticket (Ages 3-12)",
+      price: 10.0,
     },
     {
       id: 2,
-      name: "Children's Ticket (Ages 3-12)",
-      description: "Discounted ticket for children. Free for children under 3.",
+      name: "Adult Ticket (Ages 13-65)",
       price: 10.0,
     },
     {
       id: 3,
       name: "Senior Ticket (Ages 65+)",
-      description: "Discounted ticket for seniors.",
       price: 15.0,
     },
     {
       id: 4,
-      name: "Membership Pass",
-      description: "Annual access with member-only perks and discounts.",
-      price: 100.0,
-    },
-    {
-      id: 5,
-      name: "Family Pass",
-      description: "Annual access for two adults and up to three children.",
+      name: "Veteran Ticket",
       price: 180.0,
     },
   ];
@@ -71,7 +61,7 @@ export default function Ticket() {
   return (
     <div className="relative flex flex-col items-center justify-center bg-gray-100 p-6">
       {/* Go Back to Home Button */}
-      // Trigger navigation on click
+
       {/* Left arrow symbol */}
       <button
         onClick={goBackToHome} // Trigger navigation on click
@@ -137,7 +127,7 @@ export default function Ticket() {
               : "bg-green-700 hover:bg-green-900"
           } text-white px-6 py-2 rounded-lg transition`}
         >
-          Checkout
+          Confirm Purchase
         </button>
       </div>
     </div>
