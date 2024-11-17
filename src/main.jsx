@@ -117,6 +117,7 @@ import ZMPurchaseAnimalFood from "./routes/manager/zookeeper/ZMPurchaseAnimalFoo
 import ZMFeedAnimals from "./routes/manager/zookeeper/ZMFeedAnimals.jsx";
 import VVEditVetReport from "./routes/manager/vet/vet_reports/VVEditVetReport.jsx";
 import AnimalHealthPerformance from "./routes/admin/finance/AnimalHealthPerformance.jsx";
+import EditProfile from "./routes/homePages/userProfile/editprofile.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -206,6 +207,10 @@ const router = createBrowserRouter(
 
 			<Route path="/profile" element={<Outlet />}>
 				<Route index element={<UserProfile />}></Route>
+			</Route>
+
+			<Route path="/editprofile" element={<Outlet />}>
+				<Route index element={<EditProfile />}></Route>
 			</Route>
 
 			<Route path="/lions" element={<Outlet />}>

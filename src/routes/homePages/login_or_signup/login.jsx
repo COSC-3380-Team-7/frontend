@@ -10,11 +10,50 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_URL}/member/login`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ email, password }),
+  //       }
+  //     );
+
+  //     setIsLoading(false);
+
+  //     if (!response.ok) {
+  //       toast.error("Invalid email or password");
+  //       setError("Invalid email or password. Please try again.");
+  //       return;
+  //     }
+
+  //     const data = await response.json();
+  //     console.log(data.data);
+
+  //     toast.success("Login successful");
+  //     // Pass user data to the profile page (similar to the original approach)
+  //     navigate("/profile", { state: data });
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     toast.error("An error occurred. Please try again.");
+  //     setError("An error occurred. Please try again.");
+  //     console.error(error);
+  //   }
+  // };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-
+  
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/member/login`,
@@ -26,21 +65,25 @@ export default function LoginPage() {
           body: JSON.stringify({ email, password }),
         }
       );
-
+  
       setIsLoading(false);
-
+  
       if (!response.ok) {
         toast.error("Invalid email or password");
         setError("Invalid email or password. Please try again.");
         return;
       }
-
+  
       const data = await response.json();
       console.log(data.data);
-
+  
+      // Save user data to localStorage
+      localStorage.setItem("user", JSON.stringify(data));
+  
       toast.success("Login successful");
-      // Pass user data to the profile page (similar to the original approach)
-      navigate("/profile", { state: data });
+  
+      // Redirect to profile
+      navigate("/profile");
     } catch (error) {
       setIsLoading(false);
       toast.error("An error occurred. Please try again.");
@@ -48,6 +91,7 @@ export default function LoginPage() {
       console.error(error);
     }
   };
+  
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-b from-green-200 to-green-100">
