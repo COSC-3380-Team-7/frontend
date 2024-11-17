@@ -49,6 +49,15 @@ export default function EditExhibit() {
 		);
 
 		if (!response.ok) {
+			const errRes = await response.json();
+
+			if (errRes.error_message) {
+				console.error("Error updating exhibit: ", errRes.error_message);
+				setIsLoading(false);
+				toast.error(errRes.error_message);
+				return;
+			}
+
 			console.error("Error updating exhibit: ", response);
 			setIsLoading(false);
 			toast.error("Error updating exhibit");
@@ -129,6 +138,7 @@ export default function EditExhibit() {
 							id="name"
 							placeholder="African Forest"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -145,6 +155,7 @@ export default function EditExhibit() {
 							placeholder="Enter exhibit description"
 							className="border-gray-500"
 							required
+							maxLength="500"
 						/>
 					</div>
 

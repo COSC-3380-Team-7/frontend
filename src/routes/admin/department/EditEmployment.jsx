@@ -272,6 +272,32 @@ export default function EditEmployment() {
 				</div>
 
 				<div className="mt-4">
+					<Label htmlFor="auth_level_id">Position</Label>
+
+					<Select
+						value={employeeInfo.auth_level_id}
+						onValueChange={(value) =>
+							setEmployeeInfo((prev) => ({ ...prev, auth_level_id: value }))
+						}
+						name="auth_level_id"
+						id="auth_level_id"
+						required
+					>
+						<SelectTrigger className="max-w-52 border-gray-500">
+							<SelectValue placeholder="Select Position" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>Position</SelectLabel>
+								<SelectItem value="2">Employee</SelectItem>
+								<SelectItem value="3">Manager</SelectItem>
+								<SelectItem value="4">Admin</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+
+				<div className="mt-4">
 					<Label htmlFor="employment_status">Employment Status</Label>
 
 					<Select
@@ -340,8 +366,11 @@ export default function EditEmployment() {
 								salary: e.target.value,
 							}))
 						}
-						type="text"
+						type="number"
 						name="salary"
+						step="1"
+						min="1"
+						max="500000"
 						id="salary"
 						placeholder="50000"
 						required

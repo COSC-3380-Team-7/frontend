@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Apple, PawPrint, User } from "lucide-react";
+import { Apple, PawPrint } from "lucide-react";
 
 export default function ZookeeperMSidebar() {
 	const location = useLocation();
@@ -15,11 +15,6 @@ export default function ZookeeperMSidebar() {
 	}
 
 	const navLinks = [
-		{
-			href: "/manager/zookeeper/employee",
-			icon: <User className="h-6 w-6 mr-1" />,
-			name: "Supervised Employees",
-		},
 		{
 			href: "/manager/zookeeper/exhibit",
 			icon: <PawPrint className="h-6 w-6 mr-1" />,

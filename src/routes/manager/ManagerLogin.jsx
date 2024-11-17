@@ -42,14 +42,18 @@ export default function ManagerLogin() {
 		console.log(employee_id, occupation);
 		setManagerState(employee_id);
 
-		toast.success("Logged in successfully");
 		if (occupation === "Maintenance Worker") {
 			navigate("/manager/maintenance");
 		} else if (occupation === "Zookeeper") {
-			navigate("/manager/zookeeper");
+			navigate("/manager/zookeeper/exhibit");
 		} else if (occupation === "Veterinarian") {
-			navigate("/manager/vet");
+			navigate("/manager/vet/exhibit");
+		} else {
+			toast.error("Invalid credentials");
+			return;
 		}
+
+		toast.success("Logged in successfully");
 	}
 
 	return (

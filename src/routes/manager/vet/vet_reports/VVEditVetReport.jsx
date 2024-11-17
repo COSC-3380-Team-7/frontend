@@ -21,11 +21,12 @@ import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { useManagerStore } from "@/state_management/managerStore";
 import { calculateAge, formatDate } from "@/utils/dateCalcs";
 
-export default function VCreateVetReport() {
+export default function VVEditVetReport() {
 	const { employee_id } = useManagerStore();
 	console.log(employee_id);
-	const { animal_id } = useParams();
+	const { vet_report_id } = useParams();
 	const [animalInfo, setAnimalInfo] = useState({
+		animal_id: "",
 		name: "",
 		scientific_name: "",
 		nickname: "",
@@ -58,23 +59,25 @@ export default function VCreateVetReport() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
-	console.log(reportInfo);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 		setIsLoading(true);
 
+		console.log(animalInfo.animal_id);
+
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/vet_report`,
 			{
-				method: "POST",
+				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					animal_id,
-					veterinarian_id: employee_id,
 					...reportInfo,
+					animal_id: animalInfo.animal_id,
+					veterinarian_id: employee_id,
+					vet_report_id: vet_report_id,
 					checkup_date: sqlDateConverter(checkupDate.startDate),
 					created_at: sqlDateConverter(new Date()),
 					updated_at: sqlDateConverter(new Date()),
@@ -84,8 +87,8 @@ export default function VCreateVetReport() {
 		setIsLoading(false);
 
 		if (!response.ok) {
-			console.error("Error creating report: ", response);
-			toast.error("Error creating report");
+			console.error("Error updating report: ", response);
+			toast.error("Error updating report");
 			return;
 		}
 
@@ -99,11 +102,40 @@ export default function VCreateVetReport() {
 			health_status: "",
 		});
 		setCheckupDate({ startDate: null, endDate: null });
-		toast.success("Report created successfully");
+		toast.success("Report updated successfully");
 	}
 
 	useEffect(() => {
 		async function fetchData() {
+			const repRes = await fetch(
+				`${import.meta.env.VITE_API_URL}/admin/vet_report/:${vet_report_id}`
+			);
+
+			if (!repRes.ok) {
+				console.error("Error fetching reportData: ", repRes);
+				setIsLoading(false);
+				return;
+			}
+
+			const rd = await repRes.json();
+			console.log(rd.data);
+			setReportInfo({
+				title: rd.data.title,
+				measured_weight: rd.data.measured_weight,
+				measured_height: rd.data.measured_height,
+				diagnosis: rd.data.diagnosis,
+				symptoms: rd.data.symptoms,
+				treatment: rd.data.treatment,
+				health_status: rd.data.health_status,
+			});
+
+			setCheckupDate({
+				startDate: new Date(rd.data.checkup_date),
+				endDate: new Date(rd.data.checkup_date),
+			});
+
+			const animal_id = rd.data.animal_id;
+
 			const animalResponse = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/animal/:${animal_id}`
 			);
@@ -118,6 +150,7 @@ export default function VCreateVetReport() {
 
 			console.log(ad.data);
 			setAnimalInfo({
+				animal_id: ad.data.animal_id,
 				name: ad.data.name,
 				scientific_name: ad.data.scientific_name,
 				nickname: ad.data.nickname,
@@ -137,7 +170,7 @@ export default function VCreateVetReport() {
 			setIsLoading(false);
 		}
 		fetchData();
-	}, [animal_id]);
+	}, [vet_report_id]);
 
 	if (isLoading) {
 		return <Loading />;
@@ -149,13 +182,12 @@ export default function VCreateVetReport() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate("/manager/vet/search")}
+					onClick={() => navigate(`/manager/vet/vet_report/${vet_report_id}`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Create Veterinary Report for {animalInfo.nickname} the{" "}
-					{animalInfo.name}
+					Edit Veterinary Report for {animalInfo.nickname} the {animalInfo.name}
 				</h1>
 			</div>
 
@@ -179,6 +211,16 @@ export default function VCreateVetReport() {
 				<div className="flex flex-col gap-1">
 					<h3 className="text-base font-semibold text-gray-800">Nickname</h3>
 					<span className="text-gray-700">{animalInfo.nickname}</span>
+				</div>
+
+				<div className="flex flex-col gap-1">
+					<h3 className="text-base font-semibold text-gray-800">Height (ft)</h3>
+					<span className="text-gray-700">{animalInfo.height}</span>
+				</div>
+
+				<div className="flex flex-col gap-1">
+					<h3 className="text-base font-semibold text-gray-800">Weight (kg)</h3>
+					<span className="text-gray-700">{animalInfo.weight}</span>
 				</div>
 
 				<div className="flex flex-col gap-1">
@@ -226,13 +268,13 @@ export default function VCreateVetReport() {
 									measured_weight: e.target.value,
 								})
 							}
-							type="text"
+							type="number"
+							step="0.1"
+							min="0"
+							max="1000"
 							name="measured_weight"
 							id="measured_weight"
 							placeholder="23.5"
-							step="0.1"
-							min="0.01"
-							max="1000"
 							required
 						/>
 					</div>
@@ -247,13 +289,13 @@ export default function VCreateVetReport() {
 									measured_height: e.target.value,
 								})
 							}
-							type="text"
+							type="number"
+							step="0.1"
+							min="0"
+							max="100"
 							name="measured_height"
 							id="measured_height"
 							placeholder="13.5"
-							step="0.1"
-							min="0.01"
-							max="1000"
 							required
 						/>
 					</div>
@@ -360,7 +402,7 @@ export default function VCreateVetReport() {
 						className="w-24 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
 						 transition-colorstext-white font-semibold disabled:cursor-not-allowed"
 					>
-						Create
+						Save
 					</Button>
 				</div>
 			</form>

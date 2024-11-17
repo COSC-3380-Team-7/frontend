@@ -38,10 +38,18 @@ export default function EditHabitat() {
 		);
 
 		if (!response.ok) {
+			const errRes = await response.json();
+
+			if (errRes.error_message) {
+				console.error("Error updating habitat: ", errRes.error_message);
+				setIsLoading(false);
+				toast.error(errRes.error_message);
+				return;
+			}
+
 			console.error("Error updating habitat: ", response);
 			setIsLoading(false);
 			toast.error("Error updating habitat");
-			return;
 		}
 
 		setIsLoading(false);
@@ -102,6 +110,7 @@ export default function EditHabitat() {
 							id="name"
 							placeholder="African Forest"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -118,6 +127,7 @@ export default function EditHabitat() {
 							placeholder="Enter exhibit description"
 							className="border-gray-500"
 							required
+							maxLength="500"
 						/>
 					</div>
 				</div>

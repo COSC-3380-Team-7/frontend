@@ -18,7 +18,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { sqlDateConverter } from "@/utils/convertToDateSQL";
 import { Input } from "@/components/ui/input";
 
-export default function AnimalFoodCostAnalysis() {
+export default function AnimalHealthPerformance() {
 	const [paginationSize] = useState(10);
 	const [rawLeftIndex, setRawLeftIndex] = useState(0);
 	const [rawRightIndex, setRawRightIndex] = useState(paginationSize);
@@ -31,7 +31,7 @@ export default function AnimalFoodCostAnalysis() {
 	const navigate = useNavigate();
 
 	const [rawCostData, setRawCostData] = useState([]);
-	const [costAnalysisData, setCostAnalysisData] = useState([]);
+	const [healthAnalysisData, setHealthAnalysisData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const [animalName, setAnimalName] = useState("");
@@ -82,10 +82,10 @@ export default function AnimalFoodCostAnalysis() {
 			return;
 		}
 
-		const costAnalysisData = await analysisRes.json();
+		const healthAnalysisData = await analysisRes.json();
 		const rawCostData = await rawRes.json();
 
-		if (costAnalysisData.data.length === 0 || rawCostData.data.length === 0) {
+		if (healthAnalysisData.data.length === 0 || rawCostData.data.length === 0) {
 			toast.error("No data found for the selected date range");
 			setIsLoading(false);
 			return;
@@ -94,8 +94,8 @@ export default function AnimalFoodCostAnalysis() {
 		console.log(rawCostData.data);
 		setRawCostData(rawCostData.data);
 
-		console.log(costAnalysisData.data);
-		setCostAnalysisData(costAnalysisData.data);
+		console.log(healthAnalysisData.data);
+		setHealthAnalysisData(healthAnalysisData.data);
 
 		setIsLoading(false);
 	}
@@ -117,7 +117,7 @@ export default function AnimalFoodCostAnalysis() {
 			setRawCostData(rawCostData.data);
 
 			const analysisRes = await fetch(
-				`${import.meta.env.VITE_API_URL}/admin/cost_analysis_animal_food`
+				`${import.meta.env.VITE_API_URL}/admin/health_perfomance`
 			);
 
 			if (!analysisRes.ok) {
@@ -126,10 +126,10 @@ export default function AnimalFoodCostAnalysis() {
 				return;
 			}
 
-			const costAnalysisData = await analysisRes.json();
+			const healthAnalysisData = await analysisRes.json();
 
-			console.log(costAnalysisData.data);
-			setCostAnalysisData(costAnalysisData.data);
+			console.log(healthAnalysisData.data);
+			setHealthAnalysisData(healthAnalysisData.data);
 
 			setIsLoading(false);
 		}
@@ -151,7 +151,7 @@ export default function AnimalFoodCostAnalysis() {
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<h1 className="text-3xl font-semibold text-gray-800">
-					Animal Food Cost Analysis Report
+					Animal Health Performance Report
 				</h1>
 			</div>
 
@@ -274,35 +274,33 @@ export default function AnimalFoodCostAnalysis() {
 				<TableHeader>
 					<TableRow>
 						<TableHead>Animal Name</TableHead>
-						<TableHead>Food Name</TableHead>
-						<TableHead>Food Type</TableHead>
-						<TableHead>Amount of Food Eaten</TableHead>
-						<TableHead>Amount Food Eaten Cost</TableHead>
-						<TableHead>Cumulative Purchase Cost</TableHead>
-						<TableHead>Cost Utilization Percentage</TableHead>
+						<TableHead>Total Amount Food Eaten</TableHead>
+						<TableHead>Food Types</TableHead>
+						<TableHead>Min Weight</TableHead>
+						<TableHead>Max Weight</TableHead>
+						<TableHead>Net Weight Change</TableHead>
+						<TableHead>Sick Count</TableHead>
+						<TableHead>Injured Count</TableHead>
+						<TableHead>Total Checkups</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{costAnalysisData
+					{healthAnalysisData
 						.slice(costLeftIndex, costRightIndex)
 						.map((el, indx) => {
 							return (
 								<TableRow key={indx}>
-									<TableCell>{el.name}</TableCell>
-									<TableCell>{el.food_name}</TableCell>
-									<TableCell>{el.food_type}</TableCell>
-									<TableCell>{el.food_eaten}</TableCell>
-									<TableCell>$ {el.food_eaten_cost.toFixed(2)}</TableCell>
+									<TableCell>{el.animal_name}</TableCell>
+									<TableCell>{el.total_food_quantity}</TableCell>
+									<TableCell>{el.food_types}</TableCell>
+									<TableCell>{el.min_weight.toFixed(2)}</TableCell>
+									<TableCell>{el.max_weight.toFixed(2)}</TableCell>
 									<TableCell>
-										$ {el.cumulative_purchase_cost.toFixed(2)}
+										{(el.max_weight - el.min_weight).toFixed(2)}
 									</TableCell>
-									<TableCell>
-										{(
-											(el.food_eaten_cost / el.cumulative_purchase_cost) *
-											100
-										).toFixed(2)}
-										%
-									</TableCell>
+									<TableCell>{el.sick_count}</TableCell>
+									<TableCell>{el.injured_count}</TableCell>
+									<TableCell>{el.total_checkups}</TableCell>
 								</TableRow>
 							);
 						})}
@@ -327,7 +325,7 @@ export default function AnimalFoodCostAnalysis() {
 						setCostRightIndex(costRightIndex + paginationSize);
 						setCostCurrentPage(costCurrentPage + 1);
 					}}
-					disabled={costRightIndex > costAnalysisData.length - 1}
+					disabled={costRightIndex > healthAnalysisData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

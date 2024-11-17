@@ -41,15 +41,6 @@ export default function ZMFeedAnimals() {
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		const food = foodInfo.find(
-			(f) => parseInt(f.animal_food_id) === parseInt(foodEaten.animal_food_id)
-		);
-
-		if (foodEaten.quantity > food.stock) {
-			toast.error("Not enough food in stock");
-			return;
-		}
-
 		setIsLoading(true);
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/manager/feed_animal`,
@@ -175,8 +166,8 @@ export default function ZMFeedAnimals() {
 							type="number"
 							name="quantity"
 							id="quantity"
-							placeholder="0"
-							min="0"
+							placeholder="1"
+							min="1"
 							max="100"
 							required
 						/>

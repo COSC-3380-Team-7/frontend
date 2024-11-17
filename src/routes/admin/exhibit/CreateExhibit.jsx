@@ -48,10 +48,19 @@ export default function CreateExhibit() {
 		);
 
 		if (!response.ok) {
-			console.error("Error creating department: ", response);
-			setIsLoading(false);
-			toast.error("Error creating exhibit");
-			return;
+			const errRes = await response.json();
+
+			if (errRes.error_message) {
+				console.error("Error creating exhibit: ", errRes.error_message);
+				setIsLoading(false);
+				toast.error(errRes.error_message);
+				return;
+			} else {
+				console.error("Error creating exhibit: ", response);
+				setIsLoading(false);
+				toast.error("Error creating exhibit");
+				return;
+			}
 		}
 
 		setIsLoading(false);
@@ -115,6 +124,7 @@ export default function CreateExhibit() {
 							id="name"
 							placeholder="African Forest"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -131,6 +141,7 @@ export default function CreateExhibit() {
 							placeholder="Enter exhibit description"
 							className="border-gray-500"
 							required
+							maxLength="500"
 						/>
 					</div>
 

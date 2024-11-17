@@ -149,6 +149,7 @@ export default function ZMPurchaseAnimalFood() {
 							name="vendor_name"
 							id="vendor_name"
 							placeholder="Animal Food Vendor"
+							maxLength="100"
 							required
 						/>
 					</div>
@@ -167,8 +168,8 @@ export default function ZMPurchaseAnimalFood() {
 							step="0.01"
 							name="purchased_price"
 							id="purchased_price"
-							placeholder="0.00"
-							min="0"
+							placeholder="0.01"
+							min=".01"
 							max="100"
 							required
 						/>
@@ -184,8 +185,8 @@ export default function ZMPurchaseAnimalFood() {
 							type="number"
 							name="quantity"
 							id="quantity"
-							placeholder="0"
-							min="0"
+							placeholder="1"
+							min="1"
 							max="100"
 							required
 						/>
