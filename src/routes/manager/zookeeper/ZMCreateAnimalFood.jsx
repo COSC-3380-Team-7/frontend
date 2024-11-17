@@ -136,11 +136,12 @@ export default function ZMCreateAnimalFood() {
 								<SelectGroup>
 									<SelectLabel>Category</SelectLabel>
 									<SelectItem value="Meat">Meat</SelectItem>
-									<SelectItem value="Vegetable">Vegetable</SelectItem>
-									<SelectItem value="Fruit">Fruit</SelectItem>
 									<SelectItem value="Fish">Fish</SelectItem>
+									<SelectItem value="Fruit">Fruit</SelectItem>
 									<SelectItem value="Insects">Insects</SelectItem>
 									<SelectItem value="Nuts">Nuts</SelectItem>
+									<SelectItem value="Vegetable">Vegetable</SelectItem>
+									<SelectItem value="Seafood">Seafood</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>

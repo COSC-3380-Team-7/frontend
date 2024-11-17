@@ -267,7 +267,7 @@ export default function AnimalFoodCostAnalysis() {
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-				Cost Analysis of Animal Food Data
+				Cost Analysis of Animal Food Data Report
 			</h1>
 
 			<Table>
