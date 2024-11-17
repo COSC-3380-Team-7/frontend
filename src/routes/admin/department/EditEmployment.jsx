@@ -323,7 +323,7 @@ export default function EditEmployment() {
 					</Select>
 				</div>
 
-				{employeePosition.position === "Employee" && (
+				{/* {employeePosition.position === "Employee" && (
 					<div className="mt-4">
 						<Label htmlFor="manager_id">Assign Manager</Label>
 
@@ -354,7 +354,7 @@ export default function EditEmployment() {
 							</SelectContent>
 						</Select>
 					</div>
-				)}
+				)} */}
 
 				<div className="mt-4">
 					<Label htmlFor="salary">Salary</Label>

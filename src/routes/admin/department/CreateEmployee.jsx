@@ -89,6 +89,8 @@ export default function CreateEmployee() {
 			console.error("Error creating employee: ", res);
 			if (data.error_message) {
 				toast.error(data.error_message);
+			} else {
+				toast.error("Error creating employee");
 			}
 
 			return;

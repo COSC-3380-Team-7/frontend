@@ -17,6 +17,7 @@ export default function CreatePricing() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		setIsLoading(true);
 		const res = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/ticket_type`,
@@ -34,6 +35,13 @@ export default function CreatePricing() {
 
 		setIsLoading(false);
 		if (!res.ok) {
+			const errRes = await res.json();
+			if (errRes.error_message) {
+				console.error(errRes.error_message);
+				toast.error(errRes.error_message);
+				return;
+			}
+
 			console.error("Failed to create ticket pricing.");
 			toast.error("Failed to create ticket pricing");
 			return;
@@ -75,27 +83,34 @@ export default function CreatePricing() {
 						<Input
 							value={pricingInfo.category}
 							onChange={(e) =>
-								setPricingInfo({ ...pricingInfo, category: e.target.value })
+								setPricingInfo((prev) => ({
+									...prev,
+									category: e.target.value,
+								}))
 							}
 							type="text"
 							category="category"
 							id="category"
 							placeholder="Adult"
 							required
+							maxLength="20"
 						/>
 					</div>
 
 					<div className="mt-4">
 						<Label htmlFor="pricing">Pricing</Label>
 						<Input
-							value={pricingInfo.pricing}
+							value={pricingInfo.price}
 							onChange={(e) =>
-								setPricingInfo({ ...pricingInfo, pricing: e.target.value })
+								setPricingInfo((prev) => ({ ...prev, price: e.target.value }))
 							}
-							type="text"
+							type="number"
 							name="pricing"
 							id="pricing"
 							placeholder="3.50"
+							step="0.01"
+							min="0.01"
+							max="100.00"
 							required
 						/>
 					</div>
