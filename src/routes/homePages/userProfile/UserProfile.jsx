@@ -1,17 +1,60 @@
-import { useLocation, useNavigate } from "react-router-dom";
+// import { useLocation, useNavigate } from "react-router-dom";
+
+// export default function UserProfile() {
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const userData = location.state; // Access user data passed from LoginPage
+
+//   // Redirect or display an error if userData is not available
+//   console.log(userData)
+//   if (!userData) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center">
+//         <p>User data not found. Please log in again.</p>
+//         <button
+//           onClick={() => navigate("/login")}
+//           className="ml-4 bg-blue-500 text-white px-4 py-2 rounded"
+//         >
+//           Go to Login
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   // Destructure userData with default values
+//   const {
+//     name,
+//     email,
+//     membership,
+//     memberSince,
+//     currentTickets = 0,
+//     balance = 0,
+//     favoriteAnimal = "Unknown",
+//     visits = [],
+//     pastPurchases = [],
+//   } = userData;
+
+
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function UserProfile() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const userData = location.state; // Access user data passed from LoginPage
+  const [userData, setUserData] = useState(null);
 
-  // Redirect or display an error if userData is not available
+  useEffect(() => {
+    // Retrieve user data from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUserData(storedUser);
+  }, []);
+
+  // Redirect if no user data
   if (!userData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>User data not found. Please log in again.</p>
         <button
-          onClick={() => navigate("/member/login")}
+          onClick={() => navigate("/login")}
           className="ml-4 bg-blue-500 text-white px-4 py-2 rounded"
         >
           Go to Login
@@ -20,7 +63,6 @@ export default function UserProfile() {
     );
   }
 
-  // Destructure userData with default values
   const {
     name,
     email,
@@ -105,8 +147,31 @@ export default function UserProfile() {
         </div>
 
         <div className="flex justify-center mt-10 space-x-4">
-          <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+          {/* <button onClick={() => navigate("/editprofile")} className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
             Edit Profile
+          </button> */}
+
+        {/* <button
+          onClick={() => navigate("/editprofile", { state: userData })}
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+        >
+          Edit Profile
+        </button> */}
+        <button
+          onClick={() =>
+            navigate("/editprofile", {
+              state: { ...userData, id: userData.id }, // Ensure visitor_id is included
+            })
+          }
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+        > 
+         Edit Profile
+        </button>
+        <button
+            onClick={() => navigate("/")}
+            className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition"
+          >
+            back to home screen
           </button>
           <button
             onClick={() => navigate("/login")}
@@ -119,42 +184,3 @@ export default function UserProfile() {
     </div>
   );
 }
-
-// import { useLocation, useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-
-// export default function UserProfile() {
-// 	const navigate = useNavigate();
-// 	const location = useLocation();
-// 	const userData = location.state; // Access user data passed from LoginPage
-
-// 	// Log user data to the console
-// 	useEffect(() => {
-// 		if (userData) {
-// 			console.log("User Data:", userData);
-// 		} else {
-// 			console.log("User data not found.");
-// 		}
-// 	}, [userData]);
-
-// 	// Redirect or display an error if userData is not available
-// 	if (!userData) {
-// 		return (
-// 			<div className="min-h-screen flex items-center justify-center">
-// 				<p>User data not found. Please log in again.</p>
-// 				<button
-// 					onClick={() => navigate("/member/login")}
-// 					className="ml-4 bg-blue-500 text-white px-4 py-2 rounded"
-// 				>
-// 					Go to Login
-// 				</button>
-// 			</div>
-// 		);
-// 	}
-
-// 	return (
-// 		<div className="min-h-screen flex items-center justify-center">
-// 			<p>Check the console for user data.</p>
-// 		</div>
-// 	);
-// }
