@@ -251,12 +251,18 @@ const handleLogout = () => {
                 <a href="/profile" className="hover:underline">
                   View Profile
                 </a>
+				<a href="/complaint" className="hover:underline ml-4 ">
+                  Make a complaint 
+                </a>
                 <button
                   onClick={handleLogout}
-                  className="ml-4 text-red-600 hover:underline"
+                  className="ml-4 mr-4 text-red-600 hover:underline"
                 >
                   Logout
                 </button>
+				<a href="/memberships" className="hover:underline ml-4">
+				Membership
+               </a>
               </>
             ) : (
               <a href="/login" className="hover:underline">
@@ -264,11 +270,11 @@ const handleLogout = () => {
               </a>
             )}
           </li>
-          <li>
+          {/* <li>
             <a href="/memberships" className="hover:underline">
               {user ? "View Membership" : "Memberships"}
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
 
@@ -301,11 +307,11 @@ const handleLogout = () => {
         </button>
       </div>
 
-      <div className="fixed bottom-4 right-4 z-10">
+      {/* <div className="fixed bottom-4 right-4 z-10">
         <button className="bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700">
           Chat with Us
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
