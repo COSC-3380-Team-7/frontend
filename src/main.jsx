@@ -169,6 +169,10 @@ const router = createBrowserRouter(
         <Route index element={<AfricanElephant />}></Route>
       </Route>
 
+      <Route path="/memberships" element={<Outlet />}>
+        <Route index element={<MembershipPage />}></Route>
+      </Route>
+
       <Route path="/hours" element={<Outlet />}>
         <Route index element={<Hours />}></Route>
       </Route>
@@ -203,6 +207,10 @@ const router = createBrowserRouter(
 
       <Route path="/profile" element={<Outlet />}>
         <Route index element={<UserProfile />}></Route>
+      </Route>
+
+      <Route path="/editprofile" element={<Outlet />}>
+        <Route index element={<EditProfile />}></Route>
       </Route>
 
       <Route path="/lions" element={<Outlet />}>
@@ -260,20 +268,13 @@ const router = createBrowserRouter(
           </Route>
         </Route>
 
-        <Route path="maintenance_report" element={<OutletWrapper />}>
-          <Route index element={<MaintenanceReportsView />}></Route>
-          <Route path=":maintenance_report_id" element={<Outlet />}>
-            <Route index element={<MaintenanceReportInfo />}></Route>
-          </Route>
-        </Route>
-
         <Route path="finance" element={<OutletWrapper />}>
           <Route index element={<FinanceAdminView />}></Route>
           <Route path="ticket_sales" element={<Outlet />}>
             <Route index element={<TicketSales />}></Route>
           </Route>
-          <Route path="merchandise_sales" element={<Outlet />}>
-            <Route index element={<MerchandiseSales />}></Route>
+          <Route path="health_performance" element={<Outlet />}>
+            <Route index element={<AnimalHealthPerformance />}></Route>
           </Route>
           <Route path="animal_food_purchases" element={<Outlet />}>
             <Route index element={<AnimalFoodCostAnalysis />}></Route>
@@ -327,6 +328,7 @@ const router = createBrowserRouter(
           <Route index element={<VVetReportsView />}></Route>
           <Route path=":vet_report_id" element={<Outlet />}>
             <Route index element={<VVetReportInfo />}></Route>
+            <Route path="edit" element={<VVEditVetReport />}></Route>
           </Route>
         </Route>
 
@@ -419,6 +421,7 @@ const router = createBrowserRouter(
           <Route index element={<ZVetReportsView />}></Route>
           <Route path=":vet_report_id" element={<Outlet />}>
             <Route index element={<ZVetReportInfo />}></Route>
+            <Route path="edit" element={<ZVetReportInfo />}></Route>
           </Route>
         </Route>
 
@@ -434,58 +437,6 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="/employee/login" element={<EmployeeLogin />}></Route>
-
-      <Route path="/employee/vet" element={<VetEmployee />}>
-        <Route path="vet_report" element={<OutletWrapper />}>
-          <Route index element={<EVVetReportsView />}></Route>
-          <Route path=":vet_report_id" element={<Outlet />}>
-            <Route index element={<EVVetReportInfo />}></Route>
-          </Route>
-        </Route>
-
-        <Route path="search" element={<OutletWrapper />}>
-          <Route index element={<EVAnimalSearch />}></Route>
-          <Route path=":animal_id/create" element={<Outlet />}>
-            <Route index element={<EVCreateVetReport />}></Route>
-          </Route>
-        </Route>
-
-        <Route path="exhibit" element={<OutletWrapper />}>
-          <Route index element={<EVExhibitView />}></Route>
-          <Route path=":exhibit_id" element={<Outlet />}>
-            <Route index element={<EVExhibitInfo />}></Route>
-            <Route path="habitat/:habitat_id" element={<Outlet />}>
-              <Route index element={<EVHabitatInfo />}></Route>
-              <Route path="animal/:animal_id" element={<Outlet />}>
-                <Route index element={<EVAnimalInfo />}></Route>
-              </Route>
-            </Route>
-          </Route>
-        </Route>
-      </Route>
-
-      <Route path="/employee/maintenance" element={<MaintenanceEmployee />}>
-        <Route path="maintenance_report" element={<OutletWrapper />}>
-          <Route index element={<EMaintenanceReportsView />}></Route>
-          <Route path=":maintenance_report_id" element={<Outlet />}>
-            <Route index element={<EMaintenanceReportInfo />}></Route>
-          </Route>
-        </Route>
-
-        <Route path="exhibit" element={<OutletWrapper />}>
-          <Route index element={<EExhibitView />}></Route>
-          <Route path=":exhibit_id" element={<Outlet />}>
-            <Route index element={<EExhibitInfo />}></Route>
-          </Route>
-        </Route>
-
-        <Route path="search" element={<OutletWrapper />}>
-          <Route index element={<EHabitatSearch />}></Route>
-          <Route path=":habitat_id/create" element={<Outlet />}>
-            <Route index element={<ECreateMaintReport />}></Route>
-          </Route>
-        </Route>
-      </Route>
 
       <Route path="/employee/zookeeper" element={<ZookeeperEmployee />}>
         <Route path="exhibit" element={<OutletWrapper />}>
