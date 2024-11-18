@@ -292,7 +292,7 @@ const handleLogout = () => {
         </button>
       </div>
 
-      <div className="absolute inset-0 flex justify-between items-center px-6">
+      {/* <div className="absolute inset-0 flex justify-between items-center px-6">
         <button
           onClick={goToPreviousSlide}
           className="bg-black bg-opacity-50 text-white p-2 rounded-full"
@@ -305,7 +305,7 @@ const handleLogout = () => {
         >
           &gt;
         </button>
-      </div>
+      </div> */}
 
       {/* <div className="fixed bottom-4 right-4 z-10">
         <button className="bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700">
