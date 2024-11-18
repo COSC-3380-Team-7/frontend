@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, PencilIcon } from "lucide-react";
+import { ArrowLeftIcon, Drumstick, PencilIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AdvancedImage, lazyload } from "@cloudinary/react";
@@ -92,6 +92,15 @@ export default function EZAnimalInfo() {
 			</div>
 
 			<div className="flex items-center gap-3">
+				<Button
+					asChild
+					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
+				>
+					<Link to="feed">
+						<Drumstick className="h-5 w-5" /> Feed Animal
+					</Link>
+				</Button>
+
 				<Button
 					asChild
 					variant="outline"

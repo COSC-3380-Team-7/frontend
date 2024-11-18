@@ -119,6 +119,8 @@ import VVEditVetReport from "./routes/manager/vet/vet_reports/VVEditVetReport.js
 import AnimalHealthPerformance from "./routes/admin/finance/AnimalHealthPerformance.jsx";
 import EditProfile from "./routes/homePages/userProfile/editprofile.jsx";
 import Complaint from "./routes/complaint.jsx";
+import EZAnimalFood from "./routes/employee/zookeeper/EZAnimalFood.jsx";
+import EZFeedAnimals from "./routes/employee/zookeeper/EZFeedAnimals.jsx";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -453,9 +455,14 @@ const router = createBrowserRouter(
 							<Route path="animal/:animal_id" element={<Outlet />}>
 								<Route index element={<EZAnimalInfo />}></Route>
 								<Route path="edit" element={<EZEditAnimal />}></Route>
+								<Route path="feed" element={<EZFeedAnimals />}></Route>
 							</Route>
 						</Route>
 					</Route>
+				</Route>
+
+				<Route path="animal_food" element={<OutletWrapper />}>
+					<Route index element={<EZAnimalFood />}></Route>
 				</Route>
 			</Route>
 		</>
