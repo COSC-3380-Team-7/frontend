@@ -71,6 +71,10 @@ This database system enables efficient tracking of zoo activities, financial tra
 **Version Control**:
 ![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)
 
+# Link to Backend
+![Backend](https://github.com/COSC-3380-Team-7/backend)
+
+
 # Hosting Locally
 
 - Install git on your machine if you haven't already.
