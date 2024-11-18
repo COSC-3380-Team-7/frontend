@@ -264,8 +264,7 @@ We have 3 queries that go with the 3 reports we go more into detail later: one f
 
 ### Health Analysis Report Query:
 
-- 
-This query combines data about animals by calculating their total food consumption, distinct food types, minimum and maximum weight/height (with net changes), health statuses (sick/injured counts), and total vet checkups, grouped by each animal's ID, name, and nickname, and ordered alphabetically by the animal's name.
+- This query combines data about animals by calculating their total food consumption, distinct food types, minimum and maximum weight/height (with net changes), health statuses (sick/injured counts), and total vet checkups, grouped by each animal's ID, name, and nickname, and ordered alphabetically by the animal's name.
 
 ```sql
 SELECT 
