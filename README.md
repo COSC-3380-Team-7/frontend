@@ -79,29 +79,21 @@ This database system enables efficient tracking of zoo activities, financial tra
 ### Cloning The Repository
 
 ```bash
-git clone https://github.com/COSC-3380-Team-7/backend.git
-cd backend
-npm install
-touch .env
-(in a new terminal)
-cd backend #if have not already
-npm start
-
-git clone https://github.com/COSC-3380-Team-7/frontend.git
-cd frontenc
-npm install
+mkdir frontend
+cd frontend
+git init
+git remote add origin https://github.com/COSC-3380-Team-7/frontend.git
+git pull origin main
+npm i
+(create .env file)
 npm run dev
 ```
 
 > [!IMPORTANT]
 > Ensure that `.env` and is properly implemented so it could function.
 ```env
-PORT = 8081
-CLOUDINARY_CLOUD_NAME = drphuekm9
-CLOUDINARY_API_KEY = 498997766468518
-CLOUDINARY_API_SECRET = n8y-_Mi48Fr-Qnu3hB5nHQuvTbw
-DB_PASSWORD = @Dbbvchung
-DB_DATABASE = zoo
+VITE_CLOUDINARY_CLOUD_NAME = drphuekm9
+VITE_API_URL = http://localhost:8081
 ```
 
 > [!NOTE]
