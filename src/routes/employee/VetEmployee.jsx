@@ -10,11 +10,11 @@ export default function VetEmployee() {
 	const navigate = useNavigate();
 	const { loggedIn, clearState } = useEmployeeStore();
 
-	// useEffect(() => {
-	// 	if (!loggedIn) {
-	// 		navigate("/employee/login");
-	// 	}
-	// }, [loggedIn, navigate]);
+	useEffect(() => {
+		if (!loggedIn) {
+			navigate("/employee/login");
+		}
+	}, [loggedIn, navigate]);
 
 	return (
 		<div className="h-screen">

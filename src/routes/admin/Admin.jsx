@@ -10,11 +10,11 @@ export default function Admin() {
 	const { isLoggedIn, employee_id, clearState } = useAdminStore();
 	const navigate = useNavigate();
 
-	// useEffect(() => {
-	// 	if (!isLoggedIn && !employee_id) {
-	// 		navigate("/admin/login");
-	// 	}
-	// }, [isLoggedIn, employee_id, navigate]);
+	useEffect(() => {
+		if (!isLoggedIn && !employee_id) {
+			navigate("/admin/login");
+		}
+	}, [isLoggedIn, employee_id, navigate]);
 
 	return (
 		<div className="h-screen">

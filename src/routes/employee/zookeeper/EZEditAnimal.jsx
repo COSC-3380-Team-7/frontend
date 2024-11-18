@@ -102,24 +102,12 @@ export default function EZEditAnimal() {
 
 		const data = await response.json();
 		console.log(data);
-		toast.success("Animal added successfully");
-		setAnimalInfo({
-			name: "",
-			scientific_name: "",
-			nickname: "",
-			height: "",
-			weight: "",
-			animal_fact: "",
-			conservation_status: "",
-			availability_status: "Present",
-			gender: "",
-			origin: "",
-			geographic_range: "",
-		});
-		setDateOfBirth({ startDate: null, endDate: null });
-		setArrivalDate({ startDate: null, endDate: null });
-		setImage(null);
-		setImageFileName("");
+		toast.success("Animal updated successfully");
+
+		if (image) {
+			setImage(null);
+			setImageFileName("");
+		}
 	}
 
 	useEffect(() => {
@@ -201,6 +189,7 @@ export default function EZEditAnimal() {
 							id="name"
 							placeholder="African Lion"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -218,6 +207,7 @@ export default function EZEditAnimal() {
 							name="scientific_name"
 							id="scientific_name"
 							placeholder="Lion"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -236,6 +226,7 @@ export default function EZEditAnimal() {
 							name="nickname"
 							id="nickname"
 							placeholder="Leo"
+							maxLength="50"
 							required
 						/>
 					</div>
@@ -275,8 +266,9 @@ export default function EZEditAnimal() {
 								setAnimalInfo({ ...animalInfo, weight: value });
 							}}
 							type="number"
-							min="0"
-							max="100000"
+							step="0.01"
+							min="0.01"
+							max="5000"
 							name="weight"
 							id="weight"
 							placeholder="100"
@@ -291,8 +283,9 @@ export default function EZEditAnimal() {
 							onChange={(e) =>
 								setAnimalInfo({ ...animalInfo, height: e.target.value })
 							}
-							min="0"
-							max="100000"
+							min="0.01"
+							max="20"
+							step="0.01"
 							type="number"
 							name="height"
 							id="height"
@@ -361,6 +354,7 @@ export default function EZEditAnimal() {
 							id="origin"
 							placeholder="Africa"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -379,6 +373,7 @@ export default function EZEditAnimal() {
 							id="geographic_range"
 							placeholder="Geographic Range"
 							className="border-gray-500"
+							maxLength="1000"
 							required
 						/>
 					</div>
@@ -395,6 +390,7 @@ export default function EZEditAnimal() {
 							id="animal_fact"
 							placeholder="This is an animal fact"
 							className="border-gray-500"
+							maxLength="1000"
 							required
 						/>
 					</div>
@@ -427,7 +423,7 @@ export default function EZEditAnimal() {
 						className="w-28 bg-buttonBg mt-8 rounded-md border border-primaryBorder hover:bg-primaryBorder py-5
                          transition-colorstext-white font-bold disabled:cursor-not-allowed"
 					>
-						Add
+						Save
 					</Button>
 				</div>
 			</form>

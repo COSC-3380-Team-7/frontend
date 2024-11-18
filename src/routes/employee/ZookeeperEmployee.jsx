@@ -10,11 +10,11 @@ export default function ZookeeperEmployee() {
 	const navigate = useNavigate();
 	const { loggedIn, clearState } = useEmployeeStore();
 
-	// useEffect(() => {
-	// 	if (!loggedIn) {
-	// 		navigate("/manager/login");
-	// 	}
-	// }, [loggedIn, navigate]);
+	useEffect(() => {
+		if (!loggedIn) {
+			navigate("/employee/login");
+		}
+	}, [loggedIn, navigate]);
 
 	return (
 		<div className="h-screen">
@@ -22,7 +22,7 @@ export default function ZookeeperEmployee() {
 				<Button
 					onClick={() => {
 						clearState();
-						navigate("/manager/login");
+						navigate("/employee/login");
 						toast.success("You have been logged out");
 					}}
 					variant="outline"
