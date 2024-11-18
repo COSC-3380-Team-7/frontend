@@ -29,7 +29,7 @@ Welcome to the Houston Zoo database and our full-stack website project! We aimed
 #### Mini-World Description:
 Our mini-world revolves around two main sections:
 - **Users**: Customers, employees, and branch directors interact with the zoo's services and activities. We manage and store information associated with each user, implementing features like memberships and employee roles.
-- **Artistic Entities and Operations**: The museum's collections, art pieces, exhibits, tickets, and gift shop inventory are managed through the system. Customers can purchase tickets and items, employees curate exhibits, the restaurant, or the giftshop, and branch directors oversee their branch and implement additions, updates, and deletions to be made.
+- **Animalistic Entities and Operations**: The zoo's collection of exhibits, events, tickets, and animal food inventory are managed through the system. Customers can purchase tickets and view the zoo's hours, employees watch over the exhibits and stock on food, and managers can oversee their branch, such as the vet corner or the overall exhibits, and implement additions, updates, and deletions to be made.
 
 #### Key Relationships:
 - **Admin**: Manage employees, organize exhibits, and oversee zoo operations.
@@ -37,7 +37,7 @@ Our mini-world revolves around two main sections:
 - **Customers**: Purchase tickets, become a member, and view certian details about the zoo.
 - **Manager**: Manage animal food and animal food purchases.
 
-This database system enables efficient tracking of zoo activities, financial transactions, and user interactions, empowering the Houston Zoo to generate joy across the all demographics and making sure our animals have a long life and prosper.
+This database system enables efficient tracking of zoo activities, financial transactions, and user interactions, empowering the Houston Zoo to generate joy across all demographics and making sure our animals have a long life and prosper.
 
 # Project Requirements
 <h6>Each bullet will route to the specific instance in which we have implemented them</h6>
@@ -208,6 +208,7 @@ BEGIN
 END $$
 
 DELIMITER ;
+```
 
 ### Restock Animal Food Trigger:
 This trigger ensures that when food for animals runs out, managers that are responsible for restocking are immediately notified. It helps prevent delays in replenishment and supports the animals by ensuring timely restocking of supplies.
@@ -259,11 +260,12 @@ DELIMITER ;
 
 <a name="queries"></a>
 ## Queries
-We have 3 queries that go with the 3 reports we go more into detail later: one for a Health Analysis Report, an  Cost Analysis of Animal Food Data Report,
+We have 3 queries that go with the 3 reports we go more into detail later: one for a Health Analysis Report, an  Cost Analysis of Animal Food Data Report, and Exhibit Performance Report.
 
 ### Health Analysis Report Query:
 
-- This query combines data about animals in a zoo, calculating stats like total food consumed, types of food eaten, weight and height changes of the animal, and health statuses based on veterinary reports. It joins data from multiple tables (animalfoodeaten, animals, animalfood, veterinaryreports), groups by animal identifiers, and organizes the results by the animal's name.
+- 
+This query combines data about animals by calculating their total food consumption, distinct food types, minimum and maximum weight/height (with net changes), health statuses (sick/injured counts), and total vet checkups, grouped by each animal's ID, name, and nickname, and ordered alphabetically by the animal's name.
 
 ```sql
 SELECT 
@@ -297,7 +299,7 @@ SELECT
 
 ###  Cost Analysis of Animal Food Data Report Query:
 
-- This query calculates the stats on food consumption and cost per animal, including the total food eaten, the food type, and the food cost relative to purchase price. It combines data by joining multiple tables (animals, animalfoodeaten, animalfood, animalfoodpurchases), filtering for valid food quantities, grouping by animal name and food details, and ordering the results by animal name and food name.
+- This query calculates the total quantity and cost of food consumed by each animal, broken down by food name and type, while also determining the cumulative purchase cost for each type of food consumed.
 
 ```sql
 SELECT
@@ -317,35 +319,40 @@ SELECT
         ORDER BY a.name, af.food_name
 ```
 
-### Complaints Report Query:
+### Exhibit Performance Report Query:
 
-- This query was built to get a report from the `complaints` and `customers` tables so that the admin would be able to see all the complaints logged by visitors/users regarding each specific exhibit.
+- This query retrieves a list of exhibits, showing their name, total tickets sold, total profit from ticket sales, and the number of complaints received, grouped by each exhibit and ordered by profit in descending order, with zero used for any missing data.
 
 ```sql
 SELECT 
-complaints.complaint_id,
-customers.first_name,
-customers.last_name,
-complaints.branch,
-complaints.description,
-complaints.date_and_time
-    FROM 
-    complaints
-INNER JOIN 
-customers ON complaints.customer_id = customers.customer_id;
+    e.name AS exhibit_name,
+    COALESCE(SUM(tp.quantity_purchased), 0) AS tickets_sold,
+    COALESCE(SUM(tp.purchase_price * tp.quantity_purchased), 0) AS total_profit,
+    COALESCE(COUNT(c.id), 0) AS number_of_complaints
+FROM 
+    exhibits e
+LEFT JOIN 
+    ticketpurchases tp ON e.exhibit_id = tp.exhibit_id
+LEFT JOIN 
+    complaints c ON e.exhibit_id = c.exhibit_id
+GROUP BY 
+    e.exhibit_id, e.name
+ORDER BY 
+    total_profit DESC;
 ```
 
 <a name="reports"></a>
 ## Reports
-We have 3 data reports: Sales, Exhibits, and Complaints.
+We have 3 data reports: Health Analysis, Cost Analysis of Animal Food Data, and Exhibit Performance.
 
 ### Health Analysis Report:
 In this report, it combines data about animals in a zoo, calculating the statistics akin to total food consumed, types of food eaten, weight and height changes of the animal, and health statuses based on veterinary reports. It joins data from multiple tables such as animalfoodeaten, animals, animalfood, veterinaryreports.This allows it to be grouped by animal identifiers, and organizes the results by the animal's name.
 
 
-### Complaints Report:
+### Cost Analysis of Animal Food Data Report:
 In this report, it calculates the statistics on food consumption and cost per animal, including the total food eaten, the food type, and the food cost relative to purchase price. It combines data by joining multiple tables (animals, animalfoodeaten, animalfood, animalfoodpurchases), filtering for valid food quantities, grouping by animal name and food details, and ordering the results by animal name and food name.
 
 
-### Complaints:
-In this report, we have the Branch/Exhibit that the complaint is directed to, the Date and Time it was logged, the Complaint Message, and the User that logged the complaint as our identifiers to give a clear report on all the complaints that have been logged at our museum, so that they can be taken care of. We also have a search feature where the user can search by branch to find specific complaints concerning a branch/exhibit as well as a time filter, to look for certain times such as All Time, Last Week, Last Month, Last Year, or Between Dates where the user can select a start and stop time.
+### Exhibit Performance Report:
+
+This query generates a performance report for exhibits, detailing their ticket sales, revenue, and customer complaints. It uses LEFT JOIN to include all exhibits, even those without ticket purchases or complaints, ensuring no exhibit is left out. The results are grouped by exhibit and sorted by total profit in descending order, providing a clear ranking of exhibit performance. It uses tables like (exhibits, ticketpurchases, and complaints) to make the data that its produced.
