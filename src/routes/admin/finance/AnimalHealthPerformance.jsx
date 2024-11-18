@@ -277,7 +277,7 @@ export default function AnimalHealthPerformance() {
 			</form>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-				Raw Animal Food Eaten Data
+				Animal Food Eaten Data
 			</h1>
 
 			<Table>
@@ -338,7 +338,7 @@ export default function AnimalHealthPerformance() {
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-				Raw Animal Health Checkup Metrics Data
+				Animal Health Checkup Metrics Data
 			</h1>
 
 			<Table>

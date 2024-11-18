@@ -52,14 +52,14 @@ export default function TicketAdminView() {
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
 				<h1 className="text-3xl font-semibold text-gray-800">Ticket Pricing</h1>
-				<Button
+				{/* <Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
 				>
 					<Link to="create">
 						<PlusIcon className="h-5 w-5" /> Create Pricing
 					</Link>
-				</Button>
+				</Button> */}
 			</div>
 
 			<Table>

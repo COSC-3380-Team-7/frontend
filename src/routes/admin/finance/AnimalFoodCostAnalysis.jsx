@@ -206,7 +206,7 @@ export default function AnimalFoodCostAnalysis() {
 			</form>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
-				Raw Cost Animal Food Data
+				Animal Food Cost Data
 			</h1>
 
 			<Table>

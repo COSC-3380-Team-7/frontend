@@ -187,7 +187,6 @@ const router = createBrowserRouter(
 				<Route index element={<Complaint />}></Route>
 			</Route>
 
-
 			<Route path="/map" element={<Outlet />}>
 				<Route index element={<Map />}></Route>
 			</Route>
@@ -277,7 +276,7 @@ const router = createBrowserRouter(
 
 				<Route path="finance" element={<OutletWrapper />}>
 					<Route index element={<FinanceAdminView />}></Route>
-					<Route path="ticket_sales" element={<Outlet />}>
+					<Route path="exhibit_performance" element={<Outlet />}>
 						<Route index element={<TicketSales />}></Route>
 					</Route>
 					<Route path="health_performance" element={<Outlet />}>
