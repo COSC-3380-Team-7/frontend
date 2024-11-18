@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, HeartPulseIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdvancedImage } from "@cloudinary/react";
@@ -7,6 +7,7 @@ import { cldClientSide } from "@/lib/cloudinary";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { formatDate, calculateAge } from "@/utils/dateCalcs";
 import Loading from "@/components/Loading";
+import { toast } from "sonner";
 
 export default function VAnimalInfo() {
 	const [animalInfo, setAnimalInfo] = useState({
@@ -31,6 +32,40 @@ export default function VAnimalInfo() {
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
+
+	async function handleAnimalStatusUpdate(e) {
+		e.preventDefault();
+
+		setIsLoading(true);
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/manager/update_animal_health`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					animal_id: animal_id,
+					health_status: "Healthy",
+				}),
+			}
+		);
+
+		if (!res.ok) {
+			console.error("Error updating animal status: ", res);
+			toast.error("Error updating animal status");
+			setIsLoading(false);
+			return;
+		}
+
+		toast.success("Animal is now healthy");
+
+		setAnimalInfo((prev) => ({
+			...prev,
+			health_status: "Healthy",
+		}));
+		setIsLoading(false);
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -90,6 +125,18 @@ export default function VAnimalInfo() {
 					{animalInfo.nickname} the {animalInfo.name}
 				</h1>
 			</div>
+
+			{animalInfo.health_status !== "Healthy" && (
+				<div className="flex items-center gap-3">
+					<Button
+						onClick={handleAnimalStatusUpdate}
+						className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
+					>
+						<HeartPulseIcon className="h-5 w-5" /> Set Animal Health Status to
+						Healthy
+					</Button>
+				</div>
+			)}
 
 			<div className="mt-5 flex w-full">
 				<div className="rounded-lg mr-10">
