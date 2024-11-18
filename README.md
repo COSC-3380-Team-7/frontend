@@ -28,16 +28,16 @@ Welcome to the Houston Zoo database and our full-stack website project! We aimed
 
 #### Mini-World Description:
 Our mini-world revolves around two main sections:
-- **Users**: Customers, employees, and branch directors interact with the museum's services and activities. We manage and store information associated with each user, implementing features like memberships and employee roles.
+- **Users**: Customers, employees, and branch directors interact with the zoo's services and activities. We manage and store information associated with each user, implementing features like memberships and employee roles.
 - **Artistic Entities and Operations**: The museum's collections, art pieces, exhibits, tickets, and gift shop inventory are managed through the system. Customers can purchase tickets and items, employees curate exhibits, the restaurant, or the giftshop, and branch directors oversee their branch and implement additions, updates, and deletions to be made.
 
 #### Key Relationships:
-- **Directors**: Manage employees, organize exhibits, and oversee museum operations.
-- **Exhibits**: Contain art pieces curated under specific themes.
-- **Customers**: Make donations, purchase tickets, and report complaints.
-- **Employees**: Manage gift shop items and ticket sales.
+- **Admin**: Manage employees, organize exhibits, and oversee zoo operations.
+- **Exhibits**: Contain certian animals in their perfect enviorment.
+- **Customers**: Purchase tickets, become a member, and view certian details about the zoo.
+- **Manager**: Manage animal food and animal food purchases.
 
-This database system enables efficient tracking of museum activities, financial transactions, and user interactions, empowering the Museum of Fine Arts to generate insightful reports for assessing its success and improving visitor experiences.
+This database system enables efficient tracking of zoo activities, financial transactions, and user interactions, empowering the Houston Zoo to generate joy across the all demographics and making sure our animals have a long life and prosper.
 
 # Project Requirements
 <h6>Each bullet will route to the specific instance in which we have implemented them</h6>
@@ -104,9 +104,6 @@ DB_PASSWORD = @Dbbvchung
 DB_DATABASE = zoo
 ```
 
-### Starting The Client
-
-
 > [!NOTE]
 > A new window will automatically open in your default browser on `http://localhost:8081`.
 
@@ -139,19 +136,21 @@ We have 5 different user roles implemented for this: Admin, Zookeeper Manager, Z
 <a name="data-entry-forms"></a>
 ## Data entry forms to add new data, modify existing data, and 'delete' data
 We have plenty of pages through which the admin or employee of that branch can access and add/edit/delete to/from.
-### Admin/Employee/User:
+### User:
 - [Sign Up](https://zooteam7.netlify.app/signup): This page is a data entry form where you can add your information to get into the system to be able to log in.
 - [Edit Profile](https://zooteam7.netlify.app/editprofile): This page is an editable data form where you can edit the data you entered from the Sign Up page.
 - [Membership](https://zooteam7.netlify.app/memberships): This entry allows to enable a membership or cancel one at the click of a button.
 
-### Admin/Employee:
+### Manager:
 - [Manage Animal Food](https://zooteam7.netlify.app/manager/zookeeper/animal_food/): This data entry form allows the management of food and the addition of new food.
 - [Manage Animal Food Purchase](https://zooteam7.netlify.app/manager/zookeeper/animal_food/purchase): This data entry form allows for a form to go in for the purchase of more animal food. This works in correlation to our trigger.
 
 
 ### Admin-Only:
-- [Manage Employees](https://www.bakermuseum.art/admin/manage-employees): This data entry form is for admins to be able to add, delete (fire/terminate), and edit employees; however, firing only makes the employee "inactive" and there is a button at the top where the admin can view all inactive employees, and rehire them if desired.
-- [Manage Exhibits](https://www.bakermuseum.art/admin/manage-exhibits): This data entry form is for admins to be able to add, delete (make inactive), and edit the exhibits at the museum. Similar to the rehiring for the employees, admins can also reactivate exhibits if they are to become open again.
+- [Manage Deparments](https://zooteam7.netlify.app/admin/department): This data entry form is for admins to be able to add, delete (fire/terminate), and edit employees; however, firing only makes the employee "inactive" and beside there name is labeled "Fired". There is a selection on the edit form where the admin can select if they choose to reactive or keep the employees inactive.
+- [Manage Exhibits](https://zooteam7.netlify.app/admin/department): This data entry form allows admin to create, edit, or close down exhibits. Similar to events we need to make one of these inactive in case one of the animals get sick, or gets too big for that specific exhibit. 
+- [Manage Events](https://zooteam7.netlify.app/admin/event): This data entry form is for admin to create or edit these events. This allows us to "remove" events until the next year where we can reuse the events.
+- [Manage Tickets](https://zooteam7.netlify.app/admin/ticket): This data entry form allows admin to create or edit ticket pricing. As inflation is a serious topic in our society we may need to change the price in order to keep up with the ever growing inflation. With the down comes an up where we can provide many discounts by creating new tickets. 
 
 <a name="triggers"></a>
 ## Triggers
@@ -344,15 +343,9 @@ We have 3 data reports: Sales, Exhibits, and Complaints.
 In this report, it combines data about animals in a zoo, calculating the statistics akin to total food consumed, types of food eaten, weight and height changes of the animal, and health statuses based on veterinary reports. It joins data from multiple tables such as animalfoodeaten, animals, animalfood, veterinaryreports.This allows it to be grouped by animal identifiers, and organizes the results by the animal's name.
 
 
-![image](https://github.com/Ashishjob/museuma/assets/114624617/abbd8d2c-39d6-4838-9bf4-b004eda308bf)
-
-### Exhibit:
+### Complaints Report:
 In this report, it calculates the statistics on food consumption and cost per animal, including the total food eaten, the food type, and the food cost relative to purchase price. It combines data by joining multiple tables (animals, animalfoodeaten, animalfood, animalfoodpurchases), filtering for valid food quantities, grouping by animal name and food details, and ordering the results by animal name and food name.
 
 
-![image](https://github.com/Ashishjob/museuma/assets/114624617/e4dd57bf-2240-497e-8805-56d3f0a4823b)
-
 ### Complaints:
 In this report, we have the Branch/Exhibit that the complaint is directed to, the Date and Time it was logged, the Complaint Message, and the User that logged the complaint as our identifiers to give a clear report on all the complaints that have been logged at our museum, so that they can be taken care of. We also have a search feature where the user can search by branch to find specific complaints concerning a branch/exhibit as well as a time filter, to look for certain times such as All Time, Last Week, Last Month, Last Year, or Between Dates where the user can select a start and stop time.
-
-![image](https://github.com/Ashishjob/museuma/assets/114624617/020f463c-2a40-4eb2-9b4f-1f7849120243)
