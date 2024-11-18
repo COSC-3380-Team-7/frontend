@@ -118,6 +118,7 @@ import ZMFeedAnimals from "./routes/manager/zookeeper/ZMFeedAnimals.jsx";
 import VVEditVetReport from "./routes/manager/vet/vet_reports/VVEditVetReport.jsx";
 import AnimalHealthPerformance from "./routes/admin/finance/AnimalHealthPerformance.jsx";
 import EditProfile from "./routes/homePages/userProfile/editprofile.jsx";
+import Complaint from "./routes/complaint.jsx";
 import EZAnimalFood from "./routes/employee/zookeeper/EZAnimalFood.jsx";
 import EZFeedAnimals from "./routes/employee/zookeeper/EZFeedAnimals.jsx";
 
@@ -182,6 +183,10 @@ const router = createBrowserRouter(
 			<Route path="/tickets" element={<Outlet />}>
 				<Route index element={<Ticket />}></Route>
 			</Route>
+			<Route path="/complaint" element={<Outlet />}>
+				<Route index element={<Complaint />}></Route>
+			</Route>
+
 
 			<Route path="/map" element={<Outlet />}>
 				<Route index element={<Map />}></Route>
