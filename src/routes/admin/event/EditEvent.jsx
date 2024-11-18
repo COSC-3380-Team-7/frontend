@@ -57,7 +57,6 @@ export default function EditEvent() {
 					event_date: sqlDateConverter(eventDate.startDate),
 					description: eventInfo.description,
 					event_category_id: +eventInfo.event_category_id,
-					member_exclusive: +eventInfo.member_exclusive,
 				}),
 			}
 		);
@@ -154,6 +153,7 @@ export default function EditEvent() {
 							id="name"
 							placeholder="Elementary School Field Trip"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -258,10 +258,11 @@ export default function EditEvent() {
 							placeholder="School field trip to the zoo"
 							className="border-gray-500"
 							required
+							maxLength="500"
 						/>
 					</div>
 
-					<div className="mt-4">
+					{/* <div className="mt-4">
 						<Label htmlFor="member_exclusive">Member Exclusive</Label>
 
 						<Select
@@ -283,7 +284,7 @@ export default function EditEvent() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-					</div>
+					</div> */}
 				</div>
 
 				<div className="flex w-full justify-end max-w-2xl">

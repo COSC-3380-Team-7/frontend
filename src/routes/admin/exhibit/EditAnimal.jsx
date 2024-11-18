@@ -309,7 +309,7 @@ export default function EditAnimal() {
 							}}
 							type="number"
 							step="0.01"
-							min="0"
+							min="0.01"
 							max="5000"
 							name="weight"
 							id="weight"
@@ -325,7 +325,7 @@ export default function EditAnimal() {
 							onChange={(e) =>
 								setAnimalInfo({ ...animalInfo, height: e.target.value })
 							}
-							min="0"
+							min="0.01"
 							max="20"
 							step="0.01"
 							type="number"

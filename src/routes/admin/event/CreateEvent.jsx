@@ -38,6 +38,11 @@ export default function CreateEvent() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		if (eventInfo.start_time >= eventInfo.end_time) {
+			toast.error("Event start time must be before end time");
+			return;
+		}
+
 		setIsLoading(true);
 
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/event`, {
@@ -52,7 +57,6 @@ export default function CreateEvent() {
 				event_date: sqlDateConverter(eventDate.startDate),
 				description: eventInfo.description,
 				event_category_id: +eventInfo.event_category_id,
-				member_exclusive: +eventInfo.member_exclusive,
 			}),
 		});
 
@@ -69,7 +73,6 @@ export default function CreateEvent() {
 			end_time: "",
 			description: "",
 			event_category_id: "",
-			member_exclusive: "",
 		});
 		setEventDate({
 			startDate: null,
@@ -135,6 +138,7 @@ export default function CreateEvent() {
 							id="name"
 							placeholder="Elementary School Field Trip"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -239,10 +243,11 @@ export default function CreateEvent() {
 							placeholder="School field trip to the zoo"
 							className="border-gray-500"
 							required
+							maxLength="500"
 						/>
 					</div>
 
-					<div className="mt-4">
+					{/* <div className="mt-4">
 						<Label htmlFor="member_exclusive">Member Exclusive</Label>
 
 						<Select
@@ -264,7 +269,7 @@ export default function CreateEvent() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-					</div>
+					</div> */}
 				</div>
 
 				<div className="flex w-full justify-end max-w-2xl">

@@ -37,19 +37,22 @@ export default function EditPricing() {
 			}
 		);
 
+		setIsLoading(false);
+
 		if (!res.ok) {
+			const errRes = await res.json();
+			if (errRes.error_message) {
+				console.error(errRes.error_message);
+				toast.error(errRes.error_message);
+				return;
+			}
+
+			console.error("Failed to create ticket pricing.");
 			toast.error("Failed to update ticket pricing");
-			setIsLoading(false);
 			return;
 		}
 
-		setPricingInfo({
-			category: "",
-			price: "",
-		});
 		toast.success("Ticket pricing updated successfully");
-
-		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -106,6 +109,7 @@ export default function EditPricing() {
 							id="category"
 							placeholder="Adult"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -116,10 +120,13 @@ export default function EditPricing() {
 							onChange={(e) =>
 								setPricingInfo((prev) => ({ ...prev, price: e.target.value }))
 							}
-							type="text"
+							type="number"
 							name="price"
 							id="price"
 							placeholder="3.50"
+							step="0.01"
+							min="0.01"
+							max="100.00"
 							required
 						/>
 					</div>
