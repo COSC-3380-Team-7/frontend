@@ -40,13 +40,11 @@ export default function EmployeeLogin() {
 		console.log(employee_id, occupation);
 		setEmployeeState(employee_id);
 
-		toast.success("Logged in successfully");
-		if (occupation === "Maintenance Worker") {
-			navigate("/employee/maintenance");
-		} else if (occupation === "Zookeeper") {
+		if (occupation === "Zookeeper") {
+			toast.success("Logged in successfully");
 			navigate("/employee/zookeeper/exhibit");
-		} else if (occupation === "Veterinarian") {
-			navigate("/employee/vet");
+		} else {
+			toast.error("Invalid credentials");
 		}
 	}
 

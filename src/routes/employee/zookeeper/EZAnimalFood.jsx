@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-	ArrowLeftIcon,
-	ArrowRight,
-	PlusIcon,
-	ShoppingBasket,
-} from "lucide-react";
+import { ArrowLeftIcon, ArrowRight } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -14,11 +9,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Link, useNavigate } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function EZAnimalFood() {
-	const navigate = useNavigate();
 	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
@@ -57,26 +50,6 @@ export default function EZAnimalFood() {
 				</div>
 			</div>
 
-			<div className="flex items-center gap-4 mb-6">
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="purchase">
-						<ShoppingBasket className="h-5 w-5" /> Purchase Animal Food
-					</Link>
-				</Button>
-
-				<Button
-					asChild
-					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
-				>
-					<Link to="create">
-						<PlusIcon className="h-5 w-5" /> Add Animal Food
-					</Link>
-				</Button>
-			</div>
-
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2 mt-4">
 				Food Stock
 			</h1>
@@ -93,16 +66,8 @@ export default function EZAnimalFood() {
 				<TableBody>
 					{foodData.slice(leftIndex, rightIndex).map((el) => {
 						return (
-							<TableRow
-								key={el.animal_food_id}
-								onClick={() => {
-									navigate(`animal_food/${el.animal_food_id}`);
-								}}
-								className="cursor-pointer"
-							>
-								<TableCell className="font-medium">
-									{el.animal_food_id}
-								</TableCell>
+							<TableRow key={el.animal_food_id}>
+								<TableCell>{el.animal_food_id}</TableCell>
 								<TableCell>{el.food_name}</TableCell>
 								<TableCell>{el.stock}</TableCell>
 								<TableCell>{el.food_type}</TableCell>
@@ -131,7 +96,7 @@ export default function EZAnimalFood() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex > foodData.length}
+					disabled={rightIndex > foodData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

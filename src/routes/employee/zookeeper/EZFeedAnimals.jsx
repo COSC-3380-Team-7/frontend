@@ -15,6 +15,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import Datepicker from "react-tailwindcss-datepicker";
+import { sqlDateConverter } from "@/utils/convertToDateSQL";
 
 export default function EZFeedAnimals() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,21 +29,17 @@ export default function EZFeedAnimals() {
 		quantity: "",
 		animal_food_id: "",
 	});
+	const [feedingDate, setFeedingDate] = useState({
+		startDate: null,
+		endDate: null,
+	});
+
 	const { exhibit_id, habitat_id, animal_id } = useParams();
 
 	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-
-		const food = foodInfo.find(
-			(f) => parseInt(f.animal_food_id) === parseInt(foodEaten.animal_food_id)
-		);
-
-		if (foodEaten.quantity > food.stock) {
-			toast.error("Not enough food in stock");
-			return;
-		}
 
 		setIsLoading(true);
 		const response = await fetch(
@@ -55,6 +53,7 @@ export default function EZFeedAnimals() {
 					animal_id: animal_id,
 					quantity: parseInt(foodEaten.quantity),
 					animal_food_id: foodEaten.animal_food_id,
+					feeding_date: sqlDateConverter(feedingDate.startDate),
 				}),
 			}
 		);
@@ -81,6 +80,11 @@ export default function EZFeedAnimals() {
 		setFoodEaten({
 			quantity: "",
 			animal_food_id: "",
+		});
+
+		setFeedingDate({
+			startDate: null,
+			endDate: null,
 		});
 	}
 
@@ -135,7 +139,7 @@ export default function EZFeedAnimals() {
 					variant="outline"
 					onClick={() =>
 						navigate(
-							`/manager/zookeeper/exhibit/${exhibit_id}/habitat/${habitat_id}/animal/${animal_id}`
+							`/employee/zookeeper/exhibit/${exhibit_id}/habitat/${habitat_id}/animal/${animal_id}`
 						)
 					}
 				>
@@ -162,8 +166,8 @@ export default function EZFeedAnimals() {
 							type="number"
 							name="quantity"
 							id="quantity"
-							placeholder="0"
-							min="0"
+							placeholder="1"
+							min="1"
 							max="100"
 							required
 						/>
@@ -195,6 +199,19 @@ export default function EZFeedAnimals() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
+					</div>
+
+					<div className="mt-4 flex flex-col gap-1 max-w-52">
+						<Label>Feeding Date</Label>
+						<Datepicker
+							inputClassName="w-full rounded-md border border-gray-500 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+							primaryColor="lime"
+							useRange={false}
+							asSingle={true}
+							value={feedingDate}
+							onChange={(newValue) => setFeedingDate(newValue)}
+							required
+						/>
 					</div>
 
 					<div className="flex w-full justify-end max-w-2xl">
