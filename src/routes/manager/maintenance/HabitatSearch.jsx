@@ -13,11 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/Loading";
-import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
 export default function HabitatSearch() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -107,7 +106,13 @@ export default function HabitatSearch() {
 						</TableHeader>
 						<TableBody>
 							{data.map((el) => (
-								<TableRow key={el.habitat_id}>
+								<TableRow
+									onClick={() => {
+										navigate(`${el.habitat_id}/create`);
+									}}
+									key={el.habitat_id}
+									className="cursor-pointer"
+								>
 									<TableCell className="font-medium">{el.habitat_id}</TableCell>
 									<TableCell>{el.name}</TableCell>
 									<TableCell className="max-w-xs text-ellipsis">
@@ -136,7 +141,7 @@ export default function HabitatSearch() {
 								setRightIndex(rightIndex + paginationSize);
 								setCurrentPage(currentPage + 1);
 							}}
-							disabled={rightIndex >= data.length - 1}
+							disabled={rightIndex > data.length - 1}
 						>
 							Next
 							<ArrowRight className="h-5 w-5" />

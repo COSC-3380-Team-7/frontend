@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import {
 	ArrowLeftIcon,
 	ArrowRight,
+	DoorOpen,
 	PencilIcon,
 	PlusIcon,
-	UserIcon,
 } from "lucide-react";
 import {
 	Table,
@@ -17,17 +17,82 @@ import {
 } from "@/components/ui/table";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 export default function ExhibitInfo() {
 	const navigate = useNavigate();
 	const { exhibit_id } = useParams();
-	const paginationSize = 10;
+	const [paginationSize] = useState(5);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [habitatData, setHabitatData] = useState([]);
-	const [exhibitData, setExhibitData] = useState({});
+	const [exhibitData, setExhibitData] = useState({
+		exhibit_id: "",
+		name: "",
+		description: "",
+		department_id: "",
+		status_flag: "",
+	});
 	const [isLoading, setIsLoading] = useState(true);
+	const [open, setOpen] = useState(false);
+	const [availabilityInfo, setAvailabilityInfo] = useState({
+		availability_status: "",
+	});
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+		console.log(availabilityInfo);
+
+		setIsLoading(true);
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/exhibit_availability`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					exhibit_id,
+					status_flag: availabilityInfo.availability_status,
+				}),
+			}
+		);
+
+		setIsLoading(false);
+
+		if (!response.ok) {
+			console.error("Error updating exhibit availability: ", response);
+			toast.error("Error updating exhibit availability");
+			return;
+		}
+
+		toast.success("Exhibit availability updated successfully");
+		setExhibitData((prev) => ({
+			...prev,
+			status_flag: availabilityInfo.availability_status,
+		}));
+		setOpen(false);
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -58,9 +123,11 @@ export default function ExhibitInfo() {
 					return;
 				}
 				const data = await response.json();
-
 				console.log(data.data);
 				setHabitatData(data.data);
+				setAvailabilityInfo({
+					availability_status: data1.data.status_flag,
+				});
 				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching data: ", error);
@@ -89,6 +156,19 @@ export default function ExhibitInfo() {
 					</h1>
 				</div>
 
+				<Badge
+					variant={exhibitData.status_flag === "Closed" ? "destructive" : ""}
+					className={`text-base px-4 py-1 text-white  ${
+						exhibitData.status_flag === "Closed"
+							? "bg-red-800"
+							: "bg-green-800 "
+					}`}
+				>
+					{exhibitData.status_flag}
+				</Badge>
+			</div>
+
+			<div className="flex items-center gap-4 mb-6">
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
@@ -97,9 +177,7 @@ export default function ExhibitInfo() {
 						<PlusIcon className="h-5 w-5" /> Create Habitat
 					</Link>
 				</Button>
-			</div>
 
-			<div className="flex items-center gap-4 mb-6">
 				<Button
 					asChild
 					variant="outline"
@@ -110,15 +188,72 @@ export default function ExhibitInfo() {
 					</Link>
 				</Button>
 
-				<Button
-					asChild
-					variant="outline"
-					className="flex items-center gap-2 border-gray-500 w-42"
+				<Dialog
+					open={open}
+					onOpenChange={(open) => {
+						setOpen(open);
+						if (!open) {
+							setAvailabilityInfo({
+								availability_status: exhibitData.status_flag,
+							});
+						}
+					}}
 				>
-					<Link to="assignment">
-						<UserIcon className="w-4 h-4" /> Assign Employees
-					</Link>
-				</Button>
+					<DialogTrigger asChild>
+						<Button
+							variant="outline"
+							className="flex items-center gap-2 border-gray-500"
+						>
+							<DoorOpen className="w-4 h-4" /> Update Exhibit Availability
+						</Button>
+					</DialogTrigger>
+					<DialogContent className="max-w-lg">
+						<DialogHeader>
+							<DialogTitle className="text-xl">
+								Update Exhibit Availability
+							</DialogTitle>
+							<DialogDescription></DialogDescription>
+						</DialogHeader>
+
+						<form onSubmit={handleSubmit}>
+							<div className="mb-2">
+								<Label htmlFor="status">Availability</Label>
+								<Select
+									value={availabilityInfo.availability_status}
+									onValueChange={(value) => {
+										setAvailabilityInfo((prev) => ({
+											...prev,
+											availability_status: value,
+										}));
+									}}
+									required
+								>
+									<SelectTrigger className="max-w-52 border-gray-500">
+										<SelectValue placeholder="Select availability" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup>
+											<SelectLabel>Availability</SelectLabel>
+											<SelectItem value="Open">Open</SelectItem>
+											<SelectItem value="Closed">Closed</SelectItem>
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div>
+
+							<div className="flex w-full justify-end">
+								<Button
+									disabled={
+										availabilityInfo.availability_status ===
+										exhibitData.status_flag
+									}
+								>
+									Update
+								</Button>
+							</div>
+						</form>
+					</DialogContent>
+				</Dialog>
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
@@ -134,21 +269,23 @@ export default function ExhibitInfo() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{habitatData.map((el) => (
-						<TableRow
-							key={el.habitat_id}
-							onClick={() => {
-								navigate(`habitat/${el.habitat_id}`);
-							}}
-							className="cursor-pointer"
-						>
-							<TableCell className="font-medium">{el.habitat_id}</TableCell>
-							<TableCell>{el.name}</TableCell>
-							<TableCell className="max-w-xs text-ellipsis">
-								{el.description}
-							</TableCell>
-						</TableRow>
-					))}
+					{habitatData.slice(leftIndex, rightIndex).map((el) => {
+						return (
+							<TableRow
+								key={el.habitat_id}
+								onClick={() => {
+									navigate(`habitat/${el.habitat_id}`);
+								}}
+								className="cursor-pointer"
+							>
+								<TableCell className="font-medium">{el.habitat_id}</TableCell>
+								<TableCell>{el.name}</TableCell>
+								<TableCell className="max-w-xs text-ellipsis">
+									{el.description}
+								</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 
@@ -171,7 +308,7 @@ export default function ExhibitInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= habitatData.length - 1}
+					disabled={rightIndex > habitatData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

@@ -65,7 +65,7 @@ export default function VetReportInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/manager/vet/vet_report`)}
+					onClick={() => navigate(`/admin/vet_report`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>

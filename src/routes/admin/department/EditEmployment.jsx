@@ -34,7 +34,7 @@ export default function EditEmployment() {
 
 	const [departments, setDepartments] = useState([]);
 	const [occupations, setOccupations] = useState([]);
-	const [positions, setPositions] = useState([]);
+
 	const [departmentManagers, setDepartmentManagers] = useState([]);
 	const [employeePosition, setEmployeePosition] = useState({
 		position: "",
@@ -73,7 +73,7 @@ export default function EditEmployment() {
 					department_id: employeeInfo.department_id,
 					occupation_id: employeeInfo.occupation_id,
 					auth_level_id: employeeInfo.auth_level_id,
-					employment_status: "Employed",
+					employment_status: employeeInfo.employment_status,
 					hire_date: sqlDateConverter(hireDate.startDate),
 					date_of_birth: sqlDateConverter(dateOfBirth.startDate),
 					manager_id: employeeInfo.manager_id ? employeeInfo.manager_id : null,
@@ -138,20 +138,6 @@ export default function EditEmployment() {
 			const depData = await depRes.json();
 			console.log(depData.data);
 			setDepartments(depData.data);
-
-			const posRes = await fetch(
-				`${import.meta.env.VITE_API_URL}/admin/auth_levels`
-			);
-
-			if (!posRes.ok) {
-				console.error("Error fetching data: ", posRes);
-				setIsLoading(false);
-				return;
-			}
-
-			const posData = await posRes.json();
-			console.log(posData.data);
-			setPositions(posData.data);
 
 			const empRes = await fetch(
 				`${import.meta.env.VITE_API_URL}/admin/employee/:${employee_id}`
@@ -303,14 +289,9 @@ export default function EditEmployment() {
 						<SelectContent>
 							<SelectGroup>
 								<SelectLabel>Position</SelectLabel>
-								{positions.map((p) => (
-									<SelectItem
-										key={p.auth_level_id}
-										value={p.auth_level_id.toString()}
-									>
-										{p.title}
-									</SelectItem>
-								))}
+								<SelectItem value="2">Employee</SelectItem>
+								<SelectItem value="3">Manager</SelectItem>
+								<SelectItem value="4">Admin</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>
@@ -342,7 +323,7 @@ export default function EditEmployment() {
 					</Select>
 				</div>
 
-				{employeePosition.position === "Employee" && (
+				{/* {employeePosition.position === "Employee" && (
 					<div className="mt-4">
 						<Label htmlFor="manager_id">Assign Manager</Label>
 
@@ -356,11 +337,11 @@ export default function EditEmployment() {
 							required
 						>
 							<SelectTrigger className="max-w-52 border-gray-500">
-								<SelectValue placeholder="Select Position" />
+								<SelectValue placeholder="Select manager" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectLabel>Position</SelectLabel>
+									<SelectLabel>Manager</SelectLabel>
 									{departmentManagers.map((el) => (
 										<SelectItem
 											key={el.employee_id}
@@ -373,7 +354,7 @@ export default function EditEmployment() {
 							</SelectContent>
 						</Select>
 					</div>
-				)}
+				)} */}
 
 				<div className="mt-4">
 					<Label htmlFor="salary">Salary</Label>
@@ -385,8 +366,11 @@ export default function EditEmployment() {
 								salary: e.target.value,
 							}))
 						}
-						type="text"
+						type="number"
 						name="salary"
+						step="1"
+						min="1"
+						max="500000"
 						id="salary"
 						placeholder="50000"
 						required

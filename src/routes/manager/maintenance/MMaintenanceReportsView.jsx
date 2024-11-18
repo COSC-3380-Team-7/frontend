@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 
 export default function MMaintenanceReportsView() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -175,6 +175,7 @@ export default function MMaintenanceReportsView() {
 						<TableHeader>
 							<TableRow>
 								<TableHead>Report Id</TableHead>
+								<TableHead>Title</TableHead>
 								<TableHead>Habitat</TableHead>
 								<TableHead>Working Status</TableHead>
 								<TableHead>Created By</TableHead>
@@ -192,6 +193,7 @@ export default function MMaintenanceReportsView() {
 										className="cursor-pointer"
 									>
 										<TableCell>{el.maintenance_report_id}</TableCell>
+										<TableCell>{el.title}</TableCell>
 										<TableCell>{el.habitat_name}</TableCell>
 										<TableCell>{el.working_status}</TableCell>
 										<TableCell>
@@ -223,7 +225,7 @@ export default function MMaintenanceReportsView() {
 								setRightIndex(rightIndex + paginationSize);
 								setCurrentPage(currentPage + 1);
 							}}
-							disabled={rightIndex >= data.length - 1}
+							disabled={rightIndex > data.length - 1}
 						>
 							Next
 							<ArrowRight className="h-5 w-5" />

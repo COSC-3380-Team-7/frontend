@@ -10,7 +10,7 @@ import { useAdminStore } from "@/state_management/adminStore";
 export default function AdminLogin() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
-	const { setEmployeeState } = useAdminStore();
+	const { setAdminState } = useAdminStore();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -38,7 +38,7 @@ export default function AdminLogin() {
 
 		const data = await response.json();
 		console.log(data);
-		setEmployeeState(data.employee_id);
+		setAdminState(data.employee_id);
 
 		toast.success("Login successful");
 		navigate("/admin/department");

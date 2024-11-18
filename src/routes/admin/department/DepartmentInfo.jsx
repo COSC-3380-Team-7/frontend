@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-	ArrowLeftIcon,
-	ArrowRight,
-	PencilIcon,
-	PlusIcon,
-	User,
-} from "lucide-react";
+import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
 	Table,
@@ -20,7 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
 
 export default function DepartmentInfo() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -108,16 +102,6 @@ export default function DepartmentInfo() {
 				>
 					<Link to="edit">
 						<PencilIcon className="w-4 h-4" /> Edit Information
-					</Link>
-				</Button>
-
-				<Button
-					asChild
-					variant="outline"
-					className="flex items-center gap-2 border-gray-500 w-42"
-				>
-					<Link to="assignment">
-						<User className="w-4 h-4" /> Assign Employees
 					</Link>
 				</Button>
 			</div>

@@ -85,12 +85,33 @@ export default function CreateEmployee() {
 		setIsLoading(false);
 
 		if (!res.ok) {
-			toast.error("Error creating employee");
+			const data = await res.json();
 			console.error("Error creating employee: ", res);
+			if (data.error_message) {
+				toast.error(data.error_message);
+			} else {
+				toast.error("Error creating employee");
+			}
+
 			return;
 		}
 
-		toast.success("Employee created successfully.");
+		toast.success("Employee created successfully");
+		setEmployeeInfo({
+			first_name: "",
+			middle_initial: "",
+			last_name: "",
+			email: "",
+			phone_number: "",
+			address: "",
+			salary: "",
+			password: "",
+			confirm_password: "",
+			department_id: "",
+			occupation_id: "",
+		});
+		setHireDate({ startDate: null, endDate: null });
+		setDateOfBirth({ startDate: null, endDate: null });
 	}
 
 	useEffect(() => {
@@ -172,6 +193,7 @@ export default function CreateEmployee() {
 							id="first_name"
 							placeholder="John"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -189,6 +211,7 @@ export default function CreateEmployee() {
 							name="middle_initial"
 							id="middle_initial"
 							placeholder="D"
+							maxLength="1"
 						/>
 					</div>
 
@@ -207,6 +230,7 @@ export default function CreateEmployee() {
 							id="last_name"
 							placeholder="Doe"
 							required
+							maxLength="20"
 						/>
 					</div>
 
@@ -238,6 +262,7 @@ export default function CreateEmployee() {
 							id="address"
 							placeholder="1234 Main St"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -253,6 +278,7 @@ export default function CreateEmployee() {
 							id="email"
 							placeholder="user@gmail.com"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -272,6 +298,7 @@ export default function CreateEmployee() {
 							placeholder="1234567899"
 							pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
 							required
+							maxLength="10"
 						/>
 					</div>
 
@@ -350,10 +377,12 @@ export default function CreateEmployee() {
 									salary: e.target.value,
 								}))
 							}
-							type="text"
+							type="number"
 							name="salary"
 							id="salary"
 							placeholder="50000"
+							min="0"
+							max="2000000"
 							required
 						/>
 					</div>
@@ -386,6 +415,7 @@ export default function CreateEmployee() {
 							id="password"
 							placeholder="••••••••••"
 							required
+							maxLength="50"
 						/>
 					</div>
 
@@ -404,6 +434,7 @@ export default function CreateEmployee() {
 							id="confirm_password"
 							placeholder="••••••••••"
 							required
+							maxLength="50"
 						/>
 					</div>
 				</div>

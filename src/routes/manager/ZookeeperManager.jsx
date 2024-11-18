@@ -10,11 +10,11 @@ export default function ZookeeperManager() {
 	const navigate = useNavigate();
 	const { loggedIn, clearState } = useManagerStore();
 
-	useEffect(() => {
-		if (!loggedIn) {
-			navigate("/manager/login");
-		}
-	}, [loggedIn, navigate]);
+	// useEffect(() => {
+	// 	if (!loggedIn) {
+	// 		navigate("/manager/login");
+	// 	}
+	// }, [loggedIn, navigate]);
 
 	return (
 		<div className="h-screen">

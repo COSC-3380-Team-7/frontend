@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ArrowRight, PencilIcon, PlusIcon } from "lucide-react";
+import {
+	ArrowLeftIcon,
+	ArrowRight,
+	DoorOpen,
+	PencilIcon,
+	PlusIcon,
+} from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -12,9 +18,29 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "@/components/Loading";
 import { calculateAge } from "@/utils/dateCalcs";
+import { Badge } from "@/components/ui/badge";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@radix-ui/react-label";
+import { toast } from "sonner";
 
 export default function HabitatInfo() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -22,8 +48,54 @@ export default function HabitatInfo() {
 	const navigate = useNavigate();
 	const { exhibit_id, habitat_id } = useParams();
 
-	const [habitatData, setHabitatData] = useState({});
+	const [habitatData, setHabitatData] = useState({
+		name: "",
+		description: "",
+		status_flag: "",
+		exhibit_id: "",
+		habitat_id: "",
+	});
 	const [animalData, setAnimalData] = useState([]);
+
+	const [open, setOpen] = useState(false);
+	const [availabilityInfo, setAvailabilityInfo] = useState({
+		availability_status: "",
+	});
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+		console.log(availabilityInfo);
+
+		setIsLoading(true);
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/admin/habitat_availability`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					habitat_id,
+					status_flag: availabilityInfo.availability_status,
+				}),
+			}
+		);
+
+		setIsLoading(false);
+
+		if (!response.ok) {
+			console.error("Error updating exhibit availability: ", response);
+			toast.error("Error updating exhibit availability");
+			return;
+		}
+
+		toast.success("Exhibit availability updated successfully");
+		setHabitatData((prev) => ({
+			...prev,
+			status_flag: availabilityInfo.availability_status,
+		}));
+		setOpen(false);
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -56,6 +128,10 @@ export default function HabitatInfo() {
 				const ad = await animalResponse.json();
 				console.log(ad.data);
 				setAnimalData(ad.data);
+
+				setAvailabilityInfo({
+					availability_status: hd.data.status_flag,
+				});
 				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching animalData: ", error);
@@ -84,6 +160,19 @@ export default function HabitatInfo() {
 					</h1>
 				</div>
 
+				<Badge
+					variant={habitatData.status_flag === "Closed" ? "destructive" : ""}
+					className={`text-base px-4 py-1 text-white  ${
+						habitatData.status_flag === "Closed"
+							? "bg-red-800"
+							: "bg-green-800 "
+					}`}
+				>
+					{habitatData.status_flag}
+				</Badge>
+			</div>
+
+			<div className="flex items-center gap-4 mb-6">
 				<Button
 					asChild
 					className="flex items-center gap-2 font-semibold bg-secondaryBg hover:bg-secondaryBg"
@@ -92,9 +181,7 @@ export default function HabitatInfo() {
 						<PlusIcon className="h-5 w-5" /> Add Animal
 					</Link>
 				</Button>
-			</div>
 
-			<div className="mb-6">
 				<Button
 					asChild
 					variant="outline"
@@ -104,6 +191,73 @@ export default function HabitatInfo() {
 						<PencilIcon className="w-4 h-4" /> Edit Information
 					</Link>
 				</Button>
+
+				<Dialog
+					open={open}
+					onOpenChange={(open) => {
+						setOpen(open);
+						if (!open) {
+							setAvailabilityInfo({
+								availability_status: habitatData.status_flag,
+							});
+						}
+					}}
+				>
+					<DialogTrigger asChild>
+						<Button
+							variant="outline"
+							className="flex items-center gap-2 border-gray-500"
+						>
+							<DoorOpen className="w-4 h-4" /> Update Habitat Availability
+						</Button>
+					</DialogTrigger>
+					<DialogContent className="max-w-lg">
+						<DialogHeader>
+							<DialogTitle className="text-xl">
+								Update Habitat Availability
+							</DialogTitle>
+							<DialogDescription></DialogDescription>
+						</DialogHeader>
+
+						<form onSubmit={handleSubmit}>
+							<div className="mb-2">
+								<Label htmlFor="status">Availability</Label>
+								<Select
+									value={availabilityInfo.availability_status}
+									onValueChange={(value) => {
+										setAvailabilityInfo((prev) => ({
+											...prev,
+											availability_status: value,
+										}));
+									}}
+									required
+								>
+									<SelectTrigger className="max-w-52 border-gray-500">
+										<SelectValue placeholder="Select availability" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup>
+											<SelectLabel>Availability</SelectLabel>
+											<SelectItem value="Open">Open</SelectItem>
+											<SelectItem value="Closed">Closed</SelectItem>
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</div>
+
+							<div className="flex w-full justify-end">
+								<Button
+									disabled={
+										availabilityInfo.availability_status ===
+										habitatData.status_flag
+									}
+								>
+									Update
+								</Button>
+							</div>
+						</form>
+					</DialogContent>
+				</Dialog>
 			</div>
 
 			<h1 className="text-gray-800 text-xl font-semibold w-full border-b border-b-gray-400 pb-2">
@@ -160,7 +314,7 @@ export default function HabitatInfo() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= animalData.length - 1}
+					disabled={rightIndex > animalData.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

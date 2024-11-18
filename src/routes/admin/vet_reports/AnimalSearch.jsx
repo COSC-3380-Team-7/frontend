@@ -17,7 +17,7 @@ import { formatDate } from "@/utils/dateCalcs";
 import { toast } from "sonner";
 
 export default function AnimalSearch() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +27,7 @@ export default function AnimalSearch() {
 
 	const [animalInfo, setAnimalInfo] = useState({
 		name: "",
+		nickname: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +39,7 @@ export default function AnimalSearch() {
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/admin/query_animal_name?name=${
 				animalInfo.name
-			}`
+			}&nickname=${animalInfo.nickname}`
 		);
 
 		setIsLoading(false);
@@ -82,6 +83,21 @@ export default function AnimalSearch() {
 						name="name"
 						id="name"
 						placeholder="African Lion"
+						required
+					/>
+				</div>
+
+				<div className="flex flex-col gap-1 max-w-52">
+					<Label htmlFor="nickname">Animal Nickname</Label>
+					<Input
+						value={animalInfo.nickname}
+						onChange={(e) =>
+							setAnimalInfo({ ...animalInfo, nickname: e.target.value })
+						}
+						type="text"
+						name="nickname"
+						id="nickname"
+						placeholder="Larry"
 						required
 					/>
 				</div>
@@ -144,7 +160,7 @@ export default function AnimalSearch() {
 								setRightIndex(rightIndex + paginationSize);
 								setCurrentPage(currentPage + 1);
 							}}
-							disabled={rightIndex >= data.length - 1}
+							disabled={rightIndex > data.length - 1}
 						>
 							Next
 							<ArrowRight className="h-5 w-5" />

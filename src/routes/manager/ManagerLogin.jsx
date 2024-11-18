@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useManagerStore } from "@/state_management/managerStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { toast } from "sonner";
 export default function ManagerLogin() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
+	const { setManagerState } = useManagerStore();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -17,29 +19,48 @@ export default function ManagerLogin() {
 		console.log(email);
 		console.log(password);
 
-		toast.success("Login successful");
-		navigate("/manager");
-		// try {
-		// 	const response = await fetch("http://localhost:4000/api/auth/login", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify({ email, password }),
-		// 	});
+		setIsLoading(true);
+		const res = await fetch(`${import.meta.env.VITE_API_URL}/manager/login`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ email, password }),
+		});
 
-		// 	const data = await response.json();
-		// 	console.log(data);
-		// } catch (error) {
-		// 	console.error(error);
-		// }
+		setIsLoading(false);
+
+		if (!res.ok) {
+			toast.error("Invalid email or password");
+			return;
+		}
+
+		const data = await res.json();
+		console.log(data.data);
+
+		const { employee_id, occupation } = data.data;
+		console.log(employee_id, occupation);
+		setManagerState(employee_id);
+
+		if (occupation === "Maintenance Worker") {
+			navigate("/manager/maintenance");
+		} else if (occupation === "Zookeeper") {
+			navigate("/manager/zookeeper/exhibit");
+		} else if (occupation === "Veterinarian") {
+			navigate("/manager/vet/exhibit");
+		} else {
+			toast.error("Invalid credentials");
+			return;
+		}
+
+		toast.success("Logged in successfully");
 	}
 
 	return (
 		<div className="flex items-center justify-center py-60">
 			<div className="w-full max-w-96">
 				<div className="mb-7">
-					<p className="text-2xl font-semibold mb-2">Employee Portal</p>
+					<p className="text-2xl font-semibold mb-2">Manager Portal</p>
 					<p className="text-base font-semibold text-gray-800">
 						Sign in to your account
 					</p>

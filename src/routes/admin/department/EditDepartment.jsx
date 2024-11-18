@@ -108,6 +108,7 @@ export default function EditDepartment() {
 							id="name"
 							placeholder="Zookeeper Department"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -126,6 +127,7 @@ export default function EditDepartment() {
 							id="location"
 							placeholder="West Avenue"
 							required
+							maxLength="20"
 						/>
 					</div>
 				</div>

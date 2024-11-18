@@ -71,7 +71,7 @@ export default function VEmployeeInfo() {
 				<Button
 					size="icon"
 					variant="outline"
-					onClick={() => navigate(`/manager/vet/department`)}
+					onClick={() => navigate(`/manager/vet/employee`)}
 				>
 					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
@@ -114,10 +114,7 @@ export default function VEmployeeInfo() {
 							{employeeInfo.phone_number}
 						</p>
 					</div>
-					<div>
-						<h3 className="text-lg text-gray-700 font-semibold">Address</h3>
-						<p className="text-gray-800 font-medium">{employeeInfo.address}</p>
-					</div>
+
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Hire Date</h3>
 						<p className="text-gray-800 font-medium">

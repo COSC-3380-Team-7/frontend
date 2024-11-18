@@ -42,7 +42,7 @@ export default function CreateDepartment() {
 			name: "",
 			location: "",
 		});
-		toast.success("Deparment created successfully");
+		toast.success("Department created successfully");
 	}
 
 	if (isLoading) {
@@ -78,6 +78,7 @@ export default function CreateDepartment() {
 							id="name"
 							placeholder="Zookeeper Department"
 							required
+							maxLength="100"
 						/>
 					</div>
 
@@ -96,6 +97,7 @@ export default function CreateDepartment() {
 							id="location"
 							placeholder="West Avenue"
 							required
+							maxLength="20"
 						/>
 					</div>
 				</div>

@@ -15,11 +15,12 @@ import Loading from "@/components/Loading";
 import { formatDate, convertTo12Hour } from "@/utils/dateCalcs";
 
 export default function EventAdminView() {
-	const paginationSize = 10;
+	const [paginationSize] = useState(10);
 	const [leftIndex, setLeftIndex] = useState(0);
 	const [rightIndex, setRightIndex] = useState(paginationSize);
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
+	// look here
 	const [data, setData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -46,7 +47,7 @@ export default function EventAdminView() {
 	if (isLoading) {
 		return <Loading />;
 	}
-
+	// until here
 	return (
 		<>
 			<div className="flex items-center justify-between w-full mb-10">
@@ -113,7 +114,7 @@ export default function EventAdminView() {
 						setRightIndex(rightIndex + paginationSize);
 						setCurrentPage(currentPage + 1);
 					}}
-					disabled={rightIndex >= data.length - 1}
+					disabled={rightIndex > data.length - 1}
 				>
 					Next
 					<ArrowRight className="h-5 w-5" />

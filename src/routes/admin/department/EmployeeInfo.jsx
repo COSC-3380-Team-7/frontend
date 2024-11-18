@@ -21,6 +21,7 @@ export default function EmployeeInfo() {
 		salary: "",
 		department: "",
 		occupation: "",
+		position: "",
 		// manager: "",
 	});
 	const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function EmployeeInfo() {
 				department: data.data.department_name,
 				occupation: data.data.occupation_name,
 				// manager: data.data.manager,
+				position: data.data.position,
 				department_name: data.data.department_name,
 			});
 
@@ -155,6 +157,11 @@ export default function EmployeeInfo() {
 							{employeeInfo.occupation}
 						</p>
 					</div>
+					<div>
+						<h3 className="text-lg text-gray-700 font-semibold">Position</h3>
+						<p className="text-gray-800 font-medium">{employeeInfo.position}</p>
+					</div>
+
 					<div>
 						<h3 className="text-lg text-gray-700 font-semibold">Salary</h3>
 						<p className="text-gray-800 font-medium">${employeeInfo.salary}</p>
