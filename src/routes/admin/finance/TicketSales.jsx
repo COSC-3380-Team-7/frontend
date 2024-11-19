@@ -256,6 +256,7 @@ export default function TicketSales() {
 					<TableRow>
 						<TableHead>Exhibit Name</TableHead>
 						<TableHead>Ticket Type</TableHead>
+						<TableHead>Ticket Price</TableHead>
 						<TableHead>Amount Sold</TableHead>
 						<TableHead>Revenue Generated</TableHead>
 					</TableRow>
@@ -270,6 +271,7 @@ export default function TicketSales() {
 										{el.ExhibitName}
 									</TableCell>
 									<TableCell>{el.TicketCategory}</TableCell>
+									<TableCell>$ {el.TicketPrice.toFixed(2)}</TableCell>
 									<TableCell>{el.TicketsSoldByType}</TableCell>
 									<TableCell>$ {el.TotalProfit.toFixed(2)}</TableCell>
 								</TableRow>
