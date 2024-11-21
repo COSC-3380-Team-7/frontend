@@ -105,7 +105,6 @@ export default function EditEvent() {
 				end_time: eventData.data.end_time,
 				description: eventData.data.description,
 				event_category_id: eventData.data.event_category_id.toString(),
-				member_exclusive: eventData.data.member_exclusive.toString(),
 			});
 			setEventDate({
 				startDate: new Date(eventData.data.event_date),
